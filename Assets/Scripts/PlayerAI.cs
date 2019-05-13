@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerAI : MonoBehaviour
 {
-    public SoldierClass Specialities;
+    public SoldierType OwnClass;
     TargetSelector selector;
     public Transform trans;
     public PCBehavior PCTarget;
@@ -49,16 +49,20 @@ public class PlayerAI : MonoBehaviour
         this.enabled = false;
     }
 
-    public void Init(Team team)
+    public void Init(Team team, SoldierType specialtie)
     {
+        agent = GetComponent<NavMeshAgent>();
+        selector = GetComponent<TargetSelector>();
+
+        OwnClass = specialtie;
         selfTeam = team;
         trans = transform;
         IsAlive = true;
 
+        selector.Init();
+
         // setup it's own color
         GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
-        agent = GetComponent<NavMeshAgent>();
-        selector = GetComponent<TargetSelector>();
     }
 
     public void DispatchPlayer(PCBehavior pc)

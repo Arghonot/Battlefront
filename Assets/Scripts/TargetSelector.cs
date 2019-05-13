@@ -10,13 +10,23 @@ public class TargetSelector : MonoBehaviour
     public float VisionDistance;
     public Transform target;
     public Transform head;
-    public Weapon gun;
+    //    public Weapon gun;
+    public GenericGun gun;
     public float damping;
     public LayerMask mask;
 
     private void Start()
     {
         ai = GetComponent<PlayerAI>();
+    }
+
+    public void Init()
+    {
+        ai = gameObject.GetComponent<PlayerAI>();
+
+        // Instantiate gun
+        gun = Instantiate(AssetManager.Instance.getGunForClass(SoldierClassManager.Instance.GetRightWeaponForClass(ai.OwnClass)));
+        gun.transform.SetParent(transform);
     }
 
     void Update()

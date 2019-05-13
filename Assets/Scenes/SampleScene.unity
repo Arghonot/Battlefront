@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9f37a93341bc5468720193e23ec744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 2883173499597033464, guid: 895ad4ea03c00ef4d9f4ccdf682b43ec,
+  PlayerPrefab: {fileID: 3539157719637507578, guid: 2b592beb82b15be46a77a5b8e07b1b70,
     type: 3}
   PlayerContainer: {fileID: 2045734440}
   PlayerPerTeam: 16
@@ -2433,7 +2433,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh12004
+  m_Name: pb_Mesh12232
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -24651,9 +24651,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33a7333e457c6d442890a1942b761451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 0}
-  Bullets: []
-  AmountOfBulletPreload: 0
+  Guns:
+  - type: 0
+    gunPrefab: {fileID: 2025846183, guid: a577e450356abf7458caf103c659f103, type: 3}
 --- !u!1 &815326162
 GameObject:
   m_ObjectHideFlags: 0
@@ -40173,9 +40173,14 @@ MonoBehaviour:
   SoldierHealthPoints: 100
   Classes:
   - Name: GenericSoldier
+    type: 0
     MainWeapon: 0
   - Name: Grenadier
+    type: 1
     MainWeapon: 1
+  - Name: Sniper
+    type: 2
+    MainWeapon: 2
 --- !u!1 &1857386748
 GameObject:
   m_ObjectHideFlags: 0

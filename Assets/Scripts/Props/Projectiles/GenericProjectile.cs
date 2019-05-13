@@ -15,9 +15,9 @@ public class GenericProjectile : MonoBehaviour
     public Rigidbody body;
     public float damage;
 
-
-    private void Start()
+    public void Init()
     {
         trans = transform;
+        body = GetComponent<Rigidbody>();
     }
 }

@@ -30,8 +30,6 @@ public class PointsManager : MonoBehaviour
         if (pointsPerPlayer == null)
             pointsPerPlayer = new Dictionary<string, float>();
 
-        print("Register name : " + name);
-
         pointsPerPlayer.Add(name, 0f);
     }
 
