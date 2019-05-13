@@ -99,11 +99,11 @@ public class Spawner : MonoBehaviour
         {
             Teams[(int)team].Add(Instantiate(PlayerPrefab).GetComponent<PlayerAI>());
 
-            Teams[(int)team].Last().Init(team, SoldierType.Assault);/*
+            Teams[(int)team].Last().Init(team,
                 (SoldierType)UnityEngine.Random.Range(
                     0,
                     Convert.ToInt32(
-                        Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max())));*/
+                        Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max())));
 
             Teams[(int)team].Last().trans.SetParent(PlayerContainer);
             Teams[(int)team].Last().gameObject.name = string.Join("_", new string[]

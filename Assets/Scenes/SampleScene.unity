@@ -319,7 +319,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 3539157719637507578, guid: 2b592beb82b15be46a77a5b8e07b1b70,
     type: 3}
   PlayerContainer: {fileID: 2045734440}
-  PlayerPerTeam: 16
+  PlayerPerTeam: 4
   ticketsPerTeam: 1000
   DeadStorage: {fileID: 288170951}
 --- !u!1 &17769966
@@ -24654,6 +24654,9 @@ MonoBehaviour:
   Guns:
   - type: 0
     gunPrefab: {fileID: 2025846183, guid: a577e450356abf7458caf103c659f103, type: 3}
+  - type: 1
+    gunPrefab: {fileID: 4855581853739178732, guid: a93521f4dce28a14586b4bda184f16c1,
+      type: 3}
 --- !u!1 &815326162
 GameObject:
   m_ObjectHideFlags: 0
@@ -40138,7 +40141,7 @@ GameObject:
   - component: {fileID: 1800752046}
   - component: {fileID: 1800752047}
   m_Layer: 0
-  m_Name: SoldierClassManager
+  m_Name: ClassManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

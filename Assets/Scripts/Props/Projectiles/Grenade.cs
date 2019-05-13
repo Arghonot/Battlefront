@@ -10,6 +10,7 @@ public class Grenade : GenericProjectile
     public float ExplosionDamage;
 
     public GameObject explosion;
+    public LayerMask mask;
 
     private void Update()
     {
@@ -37,11 +38,6 @@ public class Grenade : GenericProjectile
                             trans.position,
                             colliders[i].transform.position);
 
-                print(colliders[i].name + "     " + distance + "    " + Mathf.Lerp(
-                        0,
-                        ExplosionForce,
-                        distance));
-
                 // we set it's explosion effect
                 colliders[i].GetComponent<Rigidbody>().AddForce(
                     (colliders[i].transform.position - trans.position) *
@@ -50,19 +46,16 @@ public class Grenade : GenericProjectile
                         ExplosionForce,
                         distance), ForceMode.Impulse);
 
-                // if this collider belong to somebody of the same team while TK is illegal
-                // we don't apply damage on this player
-                /*if (!GameManager.Instance.IsTeamKillAllowed && colliders[i].tag == team.ToString())
-                {
-                    break;
-                }*/
-
                 // we set the damages
-                /*colliders[i].gameObject.GetComponent<PlayerAI>().TakeDamage(
-                    Mathf.Lerp(
-                        ExplosionDamage,
-                        0,
-                        distance));*/
+                if (!colliders[i].name.Contains("Grenade") && !colliders[i].name.Contains("Bullet"))
+                {
+                    colliders[i].gameObject.GetComponent<PlayerAI>().TakeDamage(
+                        Mathf.Lerp(
+                            ExplosionDamage,
+                            0,
+                            distance),
+                        owner);
+                }
             }
         }
 
