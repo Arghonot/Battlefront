@@ -21,14 +21,14 @@ public enum SoldierType
 public class SoldierClass
 {
     public string Name;
-    public SoldierType type;
-    public WeaponType MainWeapon;
+    /// <summary>
+    /// This will define all this class features.
+    /// </summary>
+    public SoldierClassEditor specs;
 }
 
 public class SoldierClassManager : MonoBehaviour
 {
-    public float SoldierHealthPoints;
-
     public List<SoldierClass> Classes;
 
     private static SoldierClassManager instance = null;
@@ -43,12 +43,52 @@ public class SoldierClassManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Return the weapon the the class must have.
+    /// Return the weapon the class must have.
     /// </summary>
     /// <param name="soldierclass">The requested class.</param>
     /// <returns>The main weapon that this class should be equiped with.</returns>
     public WeaponType   GetRightWeaponForClass(SoldierType soldierclass)
     {
-        return Classes.Where(x => x.type == soldierclass).First().MainWeapon;
+        return Classes.Where(x => x.specs.type == soldierclass).First().specs.MainWeapon;
+    }
+
+    /// <summary>
+    /// Return the speed the class must have.
+    /// </summary>
+    /// <param name="soldierclass">The requested class.</param>
+    /// <returns>The speed that this class should be equiped with.</returns>
+    public float GetRightSpeed(SoldierType soldierclass)
+    {
+        return Classes.Where(x => x.specs.type == soldierclass).First().specs.Speed;
+    }
+
+    /// <summary>
+    /// Return the amount of health the class must have.
+    /// </summary>
+    /// <param name="soldierclass">The requested class.</param>
+    /// <returns>The amount of health that this class should be equiped with.</returns>
+    public float GetRightHealth(SoldierType soldierclass)
+    {
+        return Classes.Where(x => x.specs.type == soldierclass).First().specs.HealthPoints;
+    }
+
+    /// <summary>
+    /// Return the angle of vision the class must have.
+    /// </summary>
+    /// <param name="soldierclass">The requested class.</param>
+    /// <returns>The vision angle that this class should be equiped with.</returns>
+    public float GetRightVisionAngle(SoldierType soldierclass)
+    {
+        return Classes.Where(x => x.specs.type == soldierclass).First().specs.VisionAngle;
+    }
+
+    /// <summary>
+    /// Return the vision distance the class must have.
+    /// </summary>
+    /// <param name="soldierclass">The requested class.</param>
+    /// <returns>The vision distance that this class should be equiped with.</returns>
+    public float GetRightVisionDistance(SoldierType soldierclass)
+    {
+        return Classes.Where(x => x.specs.type == soldierclass).First().specs.VisionDistance;
     }
 }

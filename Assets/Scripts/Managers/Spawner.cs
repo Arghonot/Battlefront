@@ -141,6 +141,7 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    // NOTE for now the spawner get to choose the spawn pc, perhaps this should change ?
     void ReassignPlayerFromTeam(Team team)
     {
         if (tickets[(int)team] > 0)

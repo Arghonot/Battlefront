@@ -320,7 +320,7 @@ MonoBehaviour:
     type: 3}
   PlayerContainer: {fileID: 2045734440}
   PlayerPerTeam: 80
-  ticketsPerTeam: 100
+  ticketsPerTeam: 1000
   DeadStorage: {fileID: 288170951}
 --- !u!1 &17769966
 GameObject:
@@ -40178,15 +40178,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SoldierHealthPoints: 100
   Classes:
-  - Name: GenericSoldier
-    type: 0
-    MainWeapon: 0
+  - Name: Assault
+    specs: {fileID: 11400000, guid: e33ed4efe403f19478bd248f64426311, type: 2}
   - Name: Grenadier
-    type: 1
-    MainWeapon: 0
-  - Name: GenericSoldier
-    type: 2
-    MainWeapon: 0
+    specs: {fileID: 11400000, guid: 030de374fe2c2cc43a353c7c0d0afd44, type: 2}
+  - Name: Sniper
+    specs: {fileID: 11400000, guid: 6476877c886d8414b92caeadbe1165ea, type: 2}
 --- !u!1 &1857386748
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,7 +24,8 @@ public class PlayerAI : MonoBehaviour
     }
 
     /// <summary>
-    /// This function check if we are trying to capture is already on our team.
+    /// This function check if the pc we are trying to capture is already on our team.
+    /// it also check if the game should go on.
     /// </summary>
     void CheckPCRules()
     {
@@ -50,6 +51,12 @@ public class PlayerAI : MonoBehaviour
         this.enabled = false;
     }
 
+    /// <summary>
+    /// This is the function called when the player is first instantiated.
+    /// It is supposed to init all the component this player need in order to play.
+    /// </summary>
+    /// <param name="team"></param>
+    /// <param name="specialtie"></param>
     public void Init(Team team, SoldierType specialtie)
     {
         agent = GetComponent<NavMeshAgent>();
@@ -94,25 +101,16 @@ public class PlayerAI : MonoBehaviour
 
     void ResetOwnStat()
     {
-        healthpoint = SoldierClassManager.Instance.SoldierHealthPoints;
+        healthpoint = SoldierClassManager.Instance.GetRightHealth(OwnClass);
+        agent.speed = SoldierClassManager.Instance.GetRightSpeed(OwnClass);
         selector.target = null;
     }
 
     void SetupSpawnPosition(PCBehavior pc)
     {
-        body.isKinematic = true;
-        /*agent.isStopped = true;
-        agent.updatePosition = false;
-        agent.updateRotation = false;
-        agent.enabled = false;*/
-
         Vector2 randV2 = Random.insideUnitCircle * pc.PCRange;
-        //trans.position = pc.trans.position + new Vector3(randV2.x, 1f, randV2.y);
-        SetNewPosition(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
 
-        /*agent.updatePosition = true;
-        agent.updateRotation = true;
-        agent.enabled = true;*/
+        SetNewPosition(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
     }
 
     public void NotifyPCCaptured(PCBehavior behavior)
@@ -123,6 +121,9 @@ public class PlayerAI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// This function decide which enemy PC this AI want to attach.
+    /// </summary>
     public void ChoosePCTarget()
     {
         PCTarget = PCManager.Instance.GetClosestNextPC(trans.position, selfTeam);

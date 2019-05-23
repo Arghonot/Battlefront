@@ -30,6 +30,10 @@ public class TargetSelector : MonoBehaviour
         // Instantiate gun
         gun = Instantiate(AssetManager.Instance.getGunForClass(SoldierClassManager.Instance.GetRightWeaponForClass(ai.OwnClass)));
         gun.transform.SetParent(transform);
+
+        // We just set it's stats at init
+        visionAngle = SoldierClassManager.Instance.GetRightVisionAngle(ai.OwnClass);
+        VisionDistance = SoldierClassManager.Instance.GetRightVisionDistance(ai.OwnClass);
     }
 
     void Update()
