@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2097129402237995433
+--- !u!1 &4218321748007427782
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6643205694053284529}
+  - component: {fileID: 2542094641497649309}
   m_Layer: 0
   m_Name: Mussle
   m_TagString: Untagged
@@ -16,21 +16,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6643205694053284529
+--- !u!4 &2542094641497649309
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097129402237995433}
+  m_GameObject: {fileID: 4218321748007427782}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.541}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3446178910345898739}
+  m_Father: {fileID: 6568644062789820767}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &4755882312928591458
+--- !u!1 &7139158252350423498
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -38,47 +38,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3446178910345898739}
-  - component: {fileID: 1662417245442843587}
-  - component: {fileID: 8266307312743523747}
-  - component: {fileID: 4855581853739178732}
+  - component: {fileID: 6568644062789820767}
+  - component: {fileID: 4937503204988099371}
+  - component: {fileID: 5438256293923835608}
+  - component: {fileID: 7139158252350423493}
   m_Layer: 0
-  m_Name: GrenadeRifle
+  m_Name: SniperRifle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3446178910345898739
+--- !u!4 &6568644062789820767
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4755882312928591458}
+  m_GameObject: {fileID: 7139158252350423498}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.137, z: 1.101}
   m_LocalScale: {x: 0.3, y: 0.27543807, z: 1.473945}
   m_Children:
-  - {fileID: 6643205694053284529}
+  - {fileID: 2542094641497649309}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1662417245442843587
+--- !u!33 &4937503204988099371
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4755882312928591458}
+  m_GameObject: {fileID: 7139158252350423498}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8266307312743523747
+--- !u!23 &5438256293923835608
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4755882312928591458}
+  m_GameObject: {fileID: 7139158252350423498}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -89,7 +89,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6f67ef69ae3f5854eb0340b3d7074439, type: 2}
+  - {fileID: 2100000, guid: ba147459290c43c448641ddd677b5e0a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -109,22 +109,22 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &4855581853739178732
+--- !u!114 &7139158252350423493
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4755882312928591458}
+  m_GameObject: {fileID: 7139158252350423498}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c40c2a8225ef0443a87ad6175e154a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 51441e5fd58730e4084fa2c2953f6eb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 3098627185896751342, guid: 40144761386b84f45b8d022b24a6de10,
+  projectile: {fileID: 9010122775947878641, guid: a7bfcd8d8cd733b45845520af6c09aae,
     type: 3}
-  mussle: {fileID: 6643205694053284529}
+  mussle: {fileID: 2542094641497649309}
   canShoot: 0
-  loadingTime: 3
-  bulletVelocity: 20
+  loadingTime: 4
+  bulletVelocity: 50
   rotationSpeed: 4

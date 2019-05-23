@@ -8,6 +8,7 @@ public class Grenade : GenericProjectile
     public float ExplosionRadius;
     public float ExplosionForce;
     public float ExplosionDamage;
+    public float DisabilityTime;
 
     public GameObject explosion;
     public LayerMask mask;
@@ -38,24 +39,27 @@ public class Grenade : GenericProjectile
                             trans.position,
                             colliders[i].transform.position);
 
-                // we set it's explosion effect
-                colliders[i].GetComponent<Rigidbody>().AddForce(
-                    (colliders[i].transform.position - trans.position) *
-                    Mathf.Lerp(
-                        0,
-                        ExplosionForce,
-                        distance), ForceMode.Impulse);
-
                 // we set the damages
                 if (!colliders[i].name.Contains("Grenade") && !colliders[i].name.Contains("Bullet"))
                 {
-                    colliders[i].gameObject.GetComponent<PlayerAI>().TakeDamage(
+                    colliders[i].gameObject.GetComponent<PlayerAI>().TakeExplosiveDamage(
                         Mathf.Lerp(
                             ExplosionDamage,
-                            0,
+                            ExplosionDamage / 4,
                             distance),
-                        owner);
+                        owner,
+                        DisabilityTime);
                 }
+                /*Vector3 direction = (colliders[i].transform.position - trans.position) *
+                    Mathf.Lerp(
+                        0,
+                        ExplosionForce,
+                        distance);
+
+                // we set it's explosion effect
+                colliders[i].GetComponent<Rigidbody>().AddForce(
+                    new Vector3(direction.x, 0, direction.z),
+                    ForceMode.Impulse);*/
             }
         }
 

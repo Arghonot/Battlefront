@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 733181305563979653}
   - component: {fileID: 7755891319371809404}
   - component: {fileID: 1384265183095043341}
-  - component: {fileID: 6658572557856298565}
+  - component: {fileID: 2937478344750082534}
   m_Layer: 0
   m_Name: GenericPlayer
   m_TagString: Untagged
@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visionAngle: 0.4
-  VisionDistance: 17
+  VisionDistance: 5
   target: {fileID: 0}
   head: {fileID: 2326113288304369903}
   gun: {fileID: 0}
@@ -160,7 +160,8 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 2359
---- !u!54 &6658572557856298565
+  shouldHandleEnemies: 1
+--- !u!54 &2937478344750082534
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +173,7 @@ Rigidbody:
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0

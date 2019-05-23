@@ -16,6 +16,7 @@ public class PlayerAI : MonoBehaviour
     float healthpoint = 100f;
 
     public NavMeshAgent agent;
+    Rigidbody body;
 
     private void Update()
     {
@@ -53,6 +54,13 @@ public class PlayerAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         selector = GetComponent<TargetSelector>();
+        body = GetComponent<Rigidbody>();
+        body.isKinematic = true;
+
+        if (specialtie == SoldierType.Sniper)
+        {
+            selector.VisionDistance *= 5f;
+        }
 
         OwnClass = specialtie;
         selfTeam = team;
@@ -63,6 +71,18 @@ public class PlayerAI : MonoBehaviour
 
         // setup it's own color
         GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
+    }
+
+    public void SetNewPosition(Vector3 newpos)
+    {
+        NavMeshHit hit = new NavMeshHit();
+
+        if (NavMesh.SamplePosition(newpos, out hit, 4f, NavMesh.AllAreas))
+        {
+            agent.Warp(hit.position);
+        }
+        agent.Warp(newpos);
+
     }
 
     public void DispatchPlayer(PCBehavior pc)
@@ -80,17 +100,19 @@ public class PlayerAI : MonoBehaviour
 
     void SetupSpawnPosition(PCBehavior pc)
     {
-        agent.isStopped = true;
+        body.isKinematic = true;
+        /*agent.isStopped = true;
         agent.updatePosition = false;
         agent.updateRotation = false;
-        agent.enabled = false;
+        agent.enabled = false;*/
 
         Vector2 randV2 = Random.insideUnitCircle * pc.PCRange;
-        trans.position = pc.trans.position + new Vector3(randV2.x, 1f, randV2.y);
+        //trans.position = pc.trans.position + new Vector3(randV2.x, 1f, randV2.y);
+        SetNewPosition(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
 
-        agent.updatePosition = true;
+        /*agent.updatePosition = true;
         agent.updateRotation = true;
-        agent.enabled = true;
+        agent.enabled = true;*/
     }
 
     public void NotifyPCCaptured(PCBehavior behavior)
@@ -107,18 +129,72 @@ public class PlayerAI : MonoBehaviour
 
         Vector2 randV2 = Random.insideUnitCircle * PCTarget.PCRange;
 
+        // just in case the explosion animation is still running
+        StopAllExplosionAnimation();
+
         // We set target  to some place around the pc (but still inside)
         agent.SetDestination(PCTarget.trans.position + new Vector3(randV2.x, 1f, randV2.y));
+    }
+
+    void StopAllExplosionAnimation()
+    {
+        StopAllCoroutines();
+        // We enable it's agent back
+        body.isKinematic = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.enabled = true;
+        selector.shouldHandleEnemies = true;
+    }
+
+    IEnumerator DisablePlayerMovement(float disabilityTime)
+    {
+        // We disable it's agent
+        agent.isStopped = true;
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        agent.enabled = false;
+        body.isKinematic = false;
+        selector.shouldHandleEnemies = false;
+
+        yield return new WaitForSeconds(disabilityTime);
+
+        // We enable it's agent back
+        body.isKinematic = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.enabled = true;
+        selector.shouldHandleEnemies = true;
+
+        yield return null;
     }
 
     public void TakeDamage(float amount, string bulletowner)
     {
         healthpoint -= amount;
 
-        if (healthpoint < 0)
+        if (healthpoint <= 0)
         {
             Spawner.Instance.NotifyDeath(this);
             PointsManager.Instance.AddKillPoints(bulletowner);
+        }
+    }
+
+    public void TakeExplosiveDamage(float amount, string bulletowner, float disabilityTime)
+    {
+        print("TakeExplosiveDamage" + amount);
+        healthpoint -= amount;
+
+        StopAllExplosionAnimation();
+
+        if (healthpoint <= 0)
+        {
+            Spawner.Instance.NotifyDeath(this);
+            PointsManager.Instance.AddKillPoints(bulletowner);
+        }
+        else if (agent.enabled)
+        {
+            StartCoroutine(DisablePlayerMovement(disabilityTime));
         }
     }
 }

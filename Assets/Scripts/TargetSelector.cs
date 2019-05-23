@@ -15,6 +15,9 @@ public class TargetSelector : MonoBehaviour
     public float damping;
     public LayerMask mask;
 
+    // This bool is meant to be disabled when player is under an explosion for example
+    public bool shouldHandleEnemies = true;
+
     private void Start()
     {
         ai = GetComponent<PlayerAI>();
@@ -31,6 +34,9 @@ public class TargetSelector : MonoBehaviour
 
     void Update()
     {
+        if (!shouldHandleEnemies)
+            return;
+
         if (target == null)
         {
             EvaluateTargets();

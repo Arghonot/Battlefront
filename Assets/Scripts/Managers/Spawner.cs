@@ -147,7 +147,7 @@ public class Spawner : MonoBehaviour
         {
             if (TeamsDeads[(int)team].Count > 0)
             {                   
-                TeamsDeads[(int)team][0].trans.position = TeamsDeads[(int)team][0].PCTarget.trans.position;
+                TeamsDeads[(int)team][0].SetNewPosition(TeamsDeads[(int)team][0].PCTarget.trans.position);
                 TeamsDeads[(int)team][0].gameObject.SetActive(true);
                 TeamsDeads[(int)team][0].DispatchPlayer(PCManager.Instance.GetRandomPC(team));
                 tickets[(int)team] -= 1;

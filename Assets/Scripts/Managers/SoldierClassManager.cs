@@ -13,7 +13,8 @@ public enum SoldierType
 {
     Assault,
     Grenadier,
-    Sniper
+    Sniper,
+    Other
 }
 
 [System.Serializable]
