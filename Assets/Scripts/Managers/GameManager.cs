@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public float score;
     public bool IsGameRunning;
     public bool IsTeamKillAllowed;
+    public float TimeBeforeRespawn;
 
     private static GameManager instance = null;
     public static GameManager Instance

@@ -41,7 +41,9 @@ public class Spawner : MonoBehaviour
 
     private void Update()
     {
-        ReassignPlayer();
+        //ReassignPlayer();
+        CheckIfAnyTeamRanOutOfTickets();
+
     }
 
     void SetTeamObjective(Team team)
@@ -158,6 +160,16 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    public void ReassingSinglePlayer(PlayerAI player)
+    {
+        //player.SetNewPosition(PCManager.Instance.GetRandomPC(player.selfTeam).trans.position);
+        player.gameObject.SetActive(true);
+        player.DispatchPlayer(PCManager.Instance.GetRandomPC(player.selfTeam));
+        tickets[(int)player.selfTeam] -= 1;
+        Teams[(int)player.selfTeam].Add(player);
+        TeamsDeads[(int)player.selfTeam].Remove(player);
+    }
+
 
     public void NotifyPcCaptured(PCBehavior behavior)
     {
@@ -238,6 +250,7 @@ public class Spawner : MonoBehaviour
         deadplayer.trans.position = DeadStorage.position;
         TeamsDeads[(int)deadplayer.selfTeam].Add(deadplayer);
         Teams[(int)deadplayer.selfTeam].Remove(deadplayer);
+        StartCoroutine(deadplayer.WaitForRespawn());
     }
 
     public Team GetTeamWithMostTickets()

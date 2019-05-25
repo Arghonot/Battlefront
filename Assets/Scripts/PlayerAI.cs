@@ -170,6 +170,12 @@ public class PlayerAI : MonoBehaviour
         yield return null;
     }
 
+    public IEnumerator WaitForRespawn()
+    {
+        yield return new WaitForSeconds(GameManager.Instance.TimeBeforeRespawn);
+        Spawner.Instance.ReassingSinglePlayer(this);
+    }
+
     public void TakeDamage(float amount, string bulletowner)
     {
         healthpoint -= amount;

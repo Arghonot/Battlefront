@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Grenadier
   m_EditorClassIdentifier: 
   type: 1
-  MainWeapon: 0
-  Speed: 3.5
+  MainWeapon: 1
+  Speed: 5
   VisionAngle: 0.4
-  VisionDistance: 5
+  VisionDistance: 10
   HealthPoints: 100
