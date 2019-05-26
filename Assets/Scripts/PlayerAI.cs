@@ -3,12 +3,27 @@ using System.Collections.Generic;
 using UnityEngine.AI;
 using UnityEngine;
 
+public enum AIMode
+{
+    CapturingEnemiesPC,
+    Wandering
+}
+
 public class PlayerAI : MonoBehaviour
 {
     public SoldierType OwnClass;
     TargetSelector selector;
     public Transform trans;
+    /// <summary>
+    /// The PC the player want to capture.
+    /// </summary>
     public PCBehavior PCTarget;
+    /// <summary>
+    /// The pc the player would go to in order to investigate for when
+    /// all enemies PC are captured already.
+    /// </summary>
+    public PCBehavior WanderTarget;
+    public AIMode mode;
     public Team selfTeam;
     public bool IsAlive;
     public Transform canon;
@@ -37,11 +52,28 @@ public class PlayerAI : MonoBehaviour
             return;
         }
 
-        if (PCTarget.ControlledBy == selfTeam)
+        if (mode == AIMode.CapturingEnemiesPC)
         {
-            ChoosePCTarget();
+            if (PCTarget == null)
+            {
+                SetMode(AIMode.Wandering);
+                return;
+            }
+            if (PCTarget.ControlledBy == selfTeam)
+            {
+                ChoosePCTarget();
+            }
         }
+        else
+        {
+            float dist = agent.remainingDistance;
 
+            if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
+            {
+                //Arrived.
+                ChoosePCTarget();
+            }
+        }
     }
 
     void DisableSelf()
@@ -62,6 +94,8 @@ public class PlayerAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         selector = GetComponent<TargetSelector>();
         body = GetComponent<Rigidbody>();
+        // setup it's own color
+        GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
         body.isKinematic = true;
 
         if (specialtie == SoldierType.Sniper)
@@ -75,9 +109,8 @@ public class PlayerAI : MonoBehaviour
         IsAlive = true;
 
         selector.Init();
-
-        // setup it's own color
-        GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
+        // it's only the beginning of the game so we will capture.
+        SetMode(AIMode.CapturingEnemiesPC);
     }
 
     public void SetNewPosition(Vector3 newpos)
@@ -130,18 +163,45 @@ public class PlayerAI : MonoBehaviour
     public void ChoosePCTarget()
     {
         PCTarget = PCManager.Instance.GetClosestNextPC(trans.position, selfTeam);
-
         // if it is null all the pcs have been captured.
         if (PCTarget == null)
-            return;
-        
-        Vector2 randV2 = Random.insideUnitCircle * PCTarget.PCRange;
+        {
+            SetMode(AIMode.Wandering);
+        }
+        else
+        {
+            // if an enemy pc has been found we want to start going there
+            SetMode(AIMode.CapturingEnemiesPC);
+            SetDestinationTargetForPC(PCTarget);
+        }
+
+    }
+
+    void SetDestinationTargetForPC(PCBehavior pc)
+    {
+
+        Vector2 randV2 = Random.insideUnitCircle * pc.PCRange;
 
         // just in case the explosion animation is still running
         StopAllExplosionAnimation();
 
         // We set target  to some place around the pc (but still inside)
-        agent.SetDestination(PCTarget.trans.position + new Vector3(randV2.x, 1f, randV2.y));
+        agent.SetDestination(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
+
+    }
+
+    void SetMode(AIMode newmode)
+    {
+        if (newmode == AIMode.Wandering)
+        {
+            WanderTarget = PCManager.Instance.GetAlreadyControlledPC(selfTeam);
+            SetDestinationTargetForPC(WanderTarget);
+            mode = AIMode.Wandering;
+        }
+        else
+        {
+            mode = AIMode.CapturingEnemiesPC;
+        }
     }
 
     void StopAllExplosionAnimation()

@@ -83,8 +83,23 @@ public class PCManager : MonoBehaviour
 
         if (availablePC.Length == 0)
             return null;
-        print("toto");
+
         return availablePC[Random.Range(0, availablePC.Length)];
+    }
+
+    /// <summary>
+    /// This function return a random pc that is controlled by
+    /// the said team.
+    /// </summary>
+    /// <returns>The pc found, null if none.</returns>
+    public PCBehavior GetAlreadyControlledPC(Team team)
+    {
+        List<PCBehavior> PCsFound = PCs.Where(x => x.ControlledBy == team).ToList();
+
+        if (PCsFound.Count() == 0)
+            return null;
+
+        return PCsFound[Random.Range(0, PCsFound.Count())];
     }
 
     public void NotifyPCChanged(PCBehavior behavior)
