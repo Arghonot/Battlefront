@@ -88,8 +88,8 @@ public class PlayerAI : MonoBehaviour
         {
             agent.Warp(hit.position);
         }
-        agent.Warp(newpos);
 
+        agent.Warp(newpos);
     }
 
     public void DispatchPlayer(PCBehavior pc)

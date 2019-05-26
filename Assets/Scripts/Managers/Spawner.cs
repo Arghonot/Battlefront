@@ -60,6 +60,7 @@ public class Spawner : MonoBehaviour
         DispatchTeam(Team.Red);
     }
 
+    // deprecated
     void DispatchTeam(Team team)
     {
         PCBehavior mainPC = PCManager.Instance.GetTeamsPC(team);
@@ -162,9 +163,15 @@ public class Spawner : MonoBehaviour
 
     public void ReassingSinglePlayer(PlayerAI player)
     {
+        PCBehavior spawnPC = PCManager.Instance.GetRandomPC(player.selfTeam);
+
+        // if no other pc are available
+        if (spawnPC == null)
+            return;
+
         //player.SetNewPosition(PCManager.Instance.GetRandomPC(player.selfTeam).trans.position);
         player.gameObject.SetActive(true);
-        player.DispatchPlayer(PCManager.Instance.GetRandomPC(player.selfTeam));
+        player.DispatchPlayer(spawnPC);
         tickets[(int)player.selfTeam] -= 1;
         Teams[(int)player.selfTeam].Add(player);
         TeamsDeads[(int)player.selfTeam].Remove(player);
