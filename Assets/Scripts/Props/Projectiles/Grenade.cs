@@ -42,15 +42,18 @@ public class Grenade : GenericProjectile
                 // we set the damages
                 if (!colliders[i].name.Contains("Grenade") && !colliders[i].name.Contains("Bullet"))
                 {
-                    colliders[i].gameObject.GetComponent<PlayerAI>().TakeExplosiveDamage(
+                    if ((colliders[i].gameObject.tag != gameObject.tag) || (colliders[i].gameObject.tag == gameObject.tag && GameManager.Instance.IsTeamKillAllowed))
+                    {
+                        colliders[i].gameObject.GetComponent<PlayerAI>().TakeExplosiveDamage(
                         Mathf.Lerp(
                             ExplosionDamage,
                             ExplosionDamage / 4,
                             distance),
                         owner,
                         DisabilityTime);
+                    }
                 }
-                /*Vector3 direction = (colliders[i].transform.position - trans.position) *
+                Vector3 direction = (colliders[i].transform.position - trans.position) *
                     Mathf.Lerp(
                         0,
                         ExplosionForce,
@@ -59,7 +62,7 @@ public class Grenade : GenericProjectile
                 // we set it's explosion effect
                 colliders[i].GetComponent<Rigidbody>().AddForce(
                     new Vector3(direction.x, 0, direction.z),
-                    ForceMode.Impulse);*/
+                    ForceMode.Impulse);
             }
         }
 

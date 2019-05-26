@@ -21,9 +21,12 @@ public class GenericBullet : GenericProjectile
     // TODO don't use getcomponent but a dictionary of instanceID and player on spawner
     private void OnCollisionEnter(Collision collision)
     {
-        if ((collision.gameObject.tag == "Red" || collision.gameObject.tag == "Blue") && collision.gameObject.tag != gameObject.tag)
+        if ((collision.gameObject.tag == "Red" || collision.gameObject.tag == "Blue"))
         {
-            collision.gameObject.GetComponent<PlayerAI>().TakeDamage(damage, owner);
+            if ((collision.gameObject.tag != gameObject.tag) || (collision.gameObject.tag == gameObject.tag && GameManager.Instance.IsTeamKillAllowed))
+            {
+                collision.gameObject.GetComponent<PlayerAI>().TakeDamage(damage, owner);
+            }
         }
 
         Destroy(gameObject);

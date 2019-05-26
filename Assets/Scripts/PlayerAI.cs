@@ -121,6 +121,9 @@ public class PlayerAI : MonoBehaviour
         }
     }
 
+    // TODO figure out how to clear the use of StopAllExplosionAnimation
+    // because we need to stop the explosion animation but also we need to get
+    // a new target
     /// <summary>
     /// This function decide which enemy PC this AI want to attach.
     /// </summary>
@@ -128,6 +131,10 @@ public class PlayerAI : MonoBehaviour
     {
         PCTarget = PCManager.Instance.GetClosestNextPC(trans.position, selfTeam);
 
+        // if it is null all the pcs have been captured.
+        if (PCTarget == null)
+            return;
+        
         Vector2 randV2 = Random.insideUnitCircle * PCTarget.PCRange;
 
         // just in case the explosion animation is still running
@@ -189,6 +196,13 @@ public class PlayerAI : MonoBehaviour
 
     public void TakeExplosiveDamage(float amount, string bulletowner, float disabilityTime)
     {
+        print(selfTeam.ToString("d") + "    " + selfTeam.ToString());
+
+        if (bulletowner.Contains(selfTeam.ToString()))
+        {
+            print("Took TK");
+        }
+
         print("TakeExplosiveDamage" + amount);
         healthpoint -= amount;
 

@@ -51,6 +51,10 @@ public class PCManager : MonoBehaviour
             }
         }
 
+        // if none was found
+        if (currentpc == -1)
+            return null;
+
         return PCs[currentpc];
     }
 
@@ -79,7 +83,7 @@ public class PCManager : MonoBehaviour
 
         if (availablePC.Length == 0)
             return null;
-
+        print("toto");
         return availablePC[Random.Range(0, availablePC.Length)];
     }
 

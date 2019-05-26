@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Grenadier
   m_EditorClassIdentifier: 
   type: 1
-  MainWeapon: 1
+  MainWeapon: 0
   Speed: 5
   VisionAngle: 0.4
   VisionDistance: 10

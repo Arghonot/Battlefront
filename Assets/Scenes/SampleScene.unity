@@ -319,7 +319,7 @@ MonoBehaviour:
   PlayerPrefab: {fileID: 3539157719637507578, guid: 2b592beb82b15be46a77a5b8e07b1b70,
     type: 3}
   PlayerContainer: {fileID: 2045734440}
-  PlayerPerTeam: 80
+  PlayerPerTeam: 16
   ticketsPerTeam: 1000
   DeadStorage: {fileID: 288170951}
 --- !u!1 &17769966
@@ -24587,8 +24587,8 @@ MonoBehaviour:
   playerofthegame: 
   score: 0
   IsGameRunning: 0
-  IsTeamKillAllowed: 0
-  TimeBeforeRespawn: 5
+  IsTeamKillAllowed: 1
+  TimeBeforeRespawn: 50
 --- !u!4 &781233013
 Transform:
   m_ObjectHideFlags: 0
