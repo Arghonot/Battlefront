@@ -9,11 +9,11 @@ public class GenericGun : MonoBehaviour
     public Transform mussle;
     public bool canShoot;
     public float loadingTime;
-    float timeSinceLastShot;
+    protected float timeSinceLastShot;
     public float bulletVelocity;
     public float rotationSpeed;
 
-    void Update()
+    public virtual void Update()
     {
         timeSinceLastShot -= Time.deltaTime;
 
@@ -24,7 +24,7 @@ public class GenericGun : MonoBehaviour
         }
     }
 
-    public void CustomLookAt(Vector3 target)
+    public virtual  void CustomLookAt(Vector3 target)
     {
         var targetRotation = Quaternion.LookRotation(target - transform.position);
 
@@ -32,7 +32,7 @@ public class GenericGun : MonoBehaviour
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 
-    public void Shoot()
+    public  virtual void Shoot()
     {
         var body = Instantiate(projectile).GetComponent<GenericProjectile>();
         body.Init();
