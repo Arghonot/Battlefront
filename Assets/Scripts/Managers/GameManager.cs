@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public bool IsGameRunning;
     public bool IsTeamKillAllowed;
     public float TimeBeforeRespawn;
+    public int PlayerPerTeam;
+    public int ticketsPerTeam;
+    public int AmountOfRounds;
 
     private static GameManager instance = null;
     public static GameManager Instance
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
         IsGameRunning = false;
         playerofthegame = PointsManager.Instance.GetHighScorePlayer();
         score = PointsManager.Instance.getScoreForPlayer(playerofthegame);
+        Time.timeScale = 0;
     }
 
 }

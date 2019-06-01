@@ -256,14 +256,11 @@ public class PlayerAI : MonoBehaviour
 
     public void TakeExplosiveDamage(float amount, string bulletowner, float disabilityTime)
     {
-        print(selfTeam.ToString("d") + "    " + selfTeam.ToString());
-
         if (bulletowner.Contains(selfTeam.ToString()))
         {
             print("Took TK");
         }
 
-        print("TakeExplosiveDamage" + amount);
         healthpoint -= amount;
 
         StopAllExplosionAnimation();

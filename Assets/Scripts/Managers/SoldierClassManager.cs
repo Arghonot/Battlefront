@@ -7,7 +7,8 @@ public enum WeaponType
     AssaultRifle,
     GrenadeLauncher,
     SniperRifle,
-    Shotgun
+    Shotgun,
+    RocketLauncher
 }
 
 public enum SoldierType
@@ -16,6 +17,7 @@ public enum SoldierType
     Grenadier,
     Sniper,
     Melee,
+    RocketLauncher,
     Other
 }
 

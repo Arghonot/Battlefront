@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d67b618f722c6ec4dab5f6c8397ccef1, type: 3}
-  m_Name: Grenadier
+  m_Name: RocketLauncher
   m_EditorClassIdentifier: 
-  type: 1
-  MainWeapon: 1
-  Speed: 5
-  VisionAngle: 0.4
-  VisionDistance: 10
-  HealthPoints: 100
+  type: 4
+  MainWeapon: 4
+  Speed: 2
+  VisionAngle: 0.5
+  VisionDistance: 40
+  HealthPoints: 40

@@ -15,12 +15,11 @@ public class Spawner : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public Transform PlayerContainer;
-    public int PlayerPerTeam;
-    public int ticketsPerTeam;
     public Transform DeadStorage;
     public List<List<PlayerAI>> Teams;
     public List<List<PlayerAI>> TeamsDeads;
     List<int> tickets;
+    Action<Team, int> TicketUpdate;
 
     private static Spawner instance = null;
     public static Spawner Instance
@@ -71,7 +70,7 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < PlayerPerTeam; i++)
+        for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
         {
             Teams[(int)team][i].DispatchPlayer(mainPC);
         }
@@ -80,8 +79,8 @@ public class Spawner : MonoBehaviour
     void InitGame()
     {
         tickets = new List<int>();
-        tickets.Add(ticketsPerTeam);
-        tickets.Add(ticketsPerTeam);
+        tickets.Add(GameManager.Instance.ticketsPerTeam);
+        tickets.Add(GameManager.Instance.ticketsPerTeam);
 
         Teams = new List<List<PlayerAI>>();
         TeamsDeads = new List<List<PlayerAI>>();
@@ -98,7 +97,7 @@ public class Spawner : MonoBehaviour
 
     void CreateTeam(Team team)
     {
-        for (int i = 0; i < PlayerPerTeam; i++)
+        for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
         {
             Teams[(int)team].Add(Instantiate(PlayerPrefab).GetComponent<PlayerAI>());
 
@@ -108,7 +107,7 @@ public class Spawner : MonoBehaviour
                     Convert.ToInt32(
                         Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max())));
 
-            //Teams[(int)team].Last().Init(team, SoldierType.Melee);
+            //Teams[(int)team].Last().Init(team, SoldierType.RocketLauncher);
 
             Teams[(int)team].Last().trans.SetParent(PlayerContainer);
             Teams[(int)team].Last().gameObject.name = string.Join("_", new string[]
@@ -178,7 +177,6 @@ public class Spawner : MonoBehaviour
         Teams[(int)player.selfTeam].Add(player);
         TeamsDeads[(int)player.selfTeam].Remove(player);
     }
-
 
     public void NotifyPcCaptured(PCBehavior behavior)
     {
@@ -260,6 +258,8 @@ public class Spawner : MonoBehaviour
         TeamsDeads[(int)deadplayer.selfTeam].Add(deadplayer);
         Teams[(int)deadplayer.selfTeam].Remove(deadplayer);
         StartCoroutine(deadplayer.WaitForRespawn());
+
+        TicketUpdate(deadplayer.selfTeam, tickets[(int)deadplayer.selfTeam]);
     }
 
     public Team GetTeamWithMostTickets()
@@ -277,5 +277,10 @@ public class Spawner : MonoBehaviour
         }
 
         return (Team)team;
+    }
+
+    public void SetupTicketUpdateAction(Action<Team, int> newaction)
+    {
+        TicketUpdate = newaction;
     }
 }
