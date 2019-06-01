@@ -237,6 +237,12 @@ public class PlayerAI : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// This function is called once this instance of player
+    /// dies, it will wait a certain amount of time until it call
+    /// the spawner singleton to respawn again.
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator WaitForRespawn()
     {
         yield return new WaitForSeconds(GameManager.Instance.TimeBeforeRespawn);

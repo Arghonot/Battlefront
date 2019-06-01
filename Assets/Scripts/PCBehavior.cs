@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PCBehavior : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class PCBehavior : MonoBehaviour
 
     void CheckConquer()
     {
+        Team conqueringTeam;
         bool areAllPlayerNearbySameTeam = true;
         Collider[] colliders = Physics.OverlapSphere(trans.position, PCRange, PCManager.Instance.maskForPlayer);
 
@@ -47,7 +49,8 @@ public class PCBehavior : MonoBehaviour
         }
 
         // no need to keep adding conquering points if it's already conquered by the same guys
-        if (Spawner.Instance.TeamFromString(colliders[0].tag) == ControlledBy)
+        //if (Spawner.Instance.TeamFromString(colliders[0].tag) == ControlledBy)
+        if (colliders[0].tag == ControlledBy.ToString())
         {
             return;
         }
@@ -64,7 +67,12 @@ public class PCBehavior : MonoBehaviour
         if (areAllPlayerNearbySameTeam)
         {
             ConquerPoints += (colliders.Length * Time.deltaTime);
-            conqueringBy = Spawner.Instance.TeamFromString(colliders[0].tag);
+            //conqueringBy = Spawner.Instance.TeamFromString(colliders[0].tag);
+            if (Enum.TryParse(colliders[0].tag, out conqueringTeam))
+            {
+                conqueringBy = conqueringTeam;
+            }
+
         }
     }
 }

@@ -32,6 +32,9 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    #region UNITY API
+
+
     private void Start()
     {
         InitGame();
@@ -45,37 +48,13 @@ public class Spawner : MonoBehaviour
 
     }
 
-    void SetTeamObjective(Team team)
-    {
-        for (int i = 0; i < Teams[(int)team].Count; i++)
-        {
-            Teams[(int)team][i].ChoosePCTarget();
-        }
-    }
+    #endregion
 
-    void DispatchTeams()
-    {
-        DispatchTeam(Team.Blue);
-        DispatchTeam(Team.Red);
-    }
+    #region GAME INSTANCE INIT
 
-    // deprecated
-    void DispatchTeam(Team team)
-    {
-        PCBehavior mainPC = PCManager.Instance.GetTeamsPC(team);
-
-        if (mainPC == null)
-        {
-            Debug.LogError("No PC was found for the " + team + " team");
-            return;
-        }
-
-        for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
-        {
-            Teams[(int)team][i].DispatchPlayer(mainPC);
-        }
-    }
-
+    /// <summary>
+    /// This class create the two teams and setup their players.
+    /// </summary>
     void InitGame()
     {
         tickets = new List<int>();
@@ -122,16 +101,48 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void ReassignPlayer()
+    /// <summary>
+    /// This function setup the function to call whenever 
+    /// the tickets cunt for a team change.
+    /// </summary>
+    /// <param name="newaction">The action to be executed.</param>
+    public void SetupTicketUpdateAction(Action<Team, int> newaction)
     {
-        if (GameManager.Instance.IsGameRunning)
-        {
-            ReassignPlayerFromTeam(Team.Blue);
-            ReassignPlayerFromTeam(Team.Red);
+        TicketUpdate = newaction;
+    }
+    #endregion
 
-            CheckIfAnyTeamRanOutOfTickets();
+    #region GAME ROUND INIT
+
+    // Should only be used to restart a round / game
+    void DispatchTeam(Team team)
+    {
+        PCBehavior mainPC = PCManager.Instance.GetTeamsPC(team);
+
+        if (mainPC == null)
+        {
+            Debug.LogError("No PC was found for the " + team + " team");
+            return;
+        }
+
+        for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
+        {
+            Teams[(int)team][i].DispatchPlayer(mainPC);
         }
     }
+
+    /// <summary>
+    /// This function is called to dispatch all the teams that exists.
+    /// </summary>
+    void DispatchTeams()
+    {
+        DispatchTeam(Team.Blue);
+        DispatchTeam(Team.Red);
+    }
+
+    #endregion
+
+    #region RUNTIME FUNCTIONS
 
     void CheckIfAnyTeamRanOutOfTickets()
     {
@@ -145,23 +156,11 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // NOTE for now the spawner get to choose the spawn pc, perhaps this should change ?
-    void ReassignPlayerFromTeam(Team team)
-    {
-        if (tickets[(int)team] > 0)
-        {
-            if (TeamsDeads[(int)team].Count > 0)
-            {                   
-                TeamsDeads[(int)team][0].SetNewPosition(TeamsDeads[(int)team][0].PCTarget.trans.position);
-                TeamsDeads[(int)team][0].gameObject.SetActive(true);
-                TeamsDeads[(int)team][0].DispatchPlayer(PCManager.Instance.GetRandomPC(team));
-                tickets[(int)team] -= 1;
-                Teams[(int)team].Add(TeamsDeads[(int)team][0]);
-                TeamsDeads[(int)team].RemoveAt(0);
-            }
-        }
-    }
-
+    /// <summary>
+    /// This function respawn a single player after it died and waited 
+    /// for a certain amount of time.
+    /// </summary>
+    /// <param name="player">The player we have to respawn.</param>
     public void ReassingSinglePlayer(PlayerAI player)
     {
         PCBehavior spawnPC = PCManager.Instance.GetRandomPC(player.selfTeam);
@@ -178,6 +177,11 @@ public class Spawner : MonoBehaviour
         TeamsDeads[(int)player.selfTeam].Remove(player);
     }
 
+    /// <summary>
+    /// Everytime a PC is captured, this function will be triggered.
+    /// It will iterate through all the players to notify them about it.
+    /// </summary>
+    /// <param name="behavior">The PC that just changed team.</param>
     public void NotifyPcCaptured(PCBehavior behavior)
     {
         for (int i = 0; i < Teams.Count; i++)
@@ -189,34 +193,12 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    public int GetMaxAmountTeam()
-    {
-        return (int)Team.None - 1;
-    }
-
-    public Team TeamFromString(string name)
-    {
-        if (name == "Blue")
-            return Team.Blue;
-        if (name == "Red")
-            return Team.Red;
-        if (name == "Yellow")
-            return Team.Yellow;
-        return Team.None;
-    }
-
-    public Color GetColorFromTeam(Team team)
-    {
-        if (team == Team.Blue)
-            return Color.blue;
-        if (team == Team.Red)
-            return Color.red;
-        if (team == Team.Yellow)
-            return Color.yellow;
-        return Color.white;
-    }
-
-    // TODO change this to add all the position of all the players of the enemies teams
+    /// <summary>
+    /// This function is called by AIs that want to know the position
+    /// of all enemies units.
+    /// </summary>
+    /// <param name="team">the player own team</param>
+    /// <returns>All the enemies position if any.</returns>
     public Vector3[] GetEnemiesPositions(Team team)
     {
         // The team argument of this function is the team of the ai that sent the request
@@ -225,19 +207,27 @@ public class Spawner : MonoBehaviour
         else
             team = Team.Blue;
 
-        Vector3[] Array = new Vector3[Teams[(int)team].Count];
+        return Teams[(int)team].Select(x => x.trans.position).ToArray();
+        //Vector3[] Array = new Vector3[Teams[(int)team].Count](Teams[(int)team]);
 
-        for (int i = 0; i < Teams[(int)team].Count; i++)
-        {
-            if (Teams[(int)team][i] != null)
-            {
-                Array[i] = Teams[(int)team][i].transform.position;
-            }
-        }
+        //for (int i = 0; i < Teams[(int)team].Count; i++)
+        //{
+        //    if (Teams[(int)team][i] != null)
+        //    {
+        //        Array[i] = Teams[(int)team][i].transform.position;
+        //    }
+        //}
 
-        return Array;
+        //return Array;
     }
 
+    /// <summary>
+    /// This function return the complete transform of a selected
+    /// enemy player.
+    /// </summary>
+    /// <param name="index">The player's index.</param>
+    /// <param name="team">The team of the selected player.</param>
+    /// <returns></returns>
     public Transform GetPlayerTransformFromIndex(int index, Team team)
     {
         if (team == Team.Blue)
@@ -262,6 +252,17 @@ public class Spawner : MonoBehaviour
         TicketUpdate(deadplayer.selfTeam, tickets[(int)deadplayer.selfTeam]);
     }
 
+    public Color GetColorFromTeam(Team team)
+    {
+        if (team == Team.Blue)
+            return Color.blue;
+        if (team == Team.Red)
+            return Color.red;
+        if (team == Team.Yellow)
+            return Color.yellow;
+        return Color.white;
+    }
+
     public Team GetTeamWithMostTickets()
     {
         int teamtickets = -1;
@@ -279,8 +280,51 @@ public class Spawner : MonoBehaviour
         return (Team)team;
     }
 
-    public void SetupTicketUpdateAction(Action<Team, int> newaction)
+
+    #endregion
+
+    #region LEGACY CODE
+
+    // NOTE for now the spawner get to choose the spawn pc, perhaps this should change ?
+    void ReassignPlayerFromTeam(Team team)
     {
-        TicketUpdate = newaction;
+        if (tickets[(int)team] > 0)
+        {
+            if (TeamsDeads[(int)team].Count > 0)
+            {
+                TeamsDeads[(int)team][0].SetNewPosition(TeamsDeads[(int)team][0].PCTarget.trans.position);
+                TeamsDeads[(int)team][0].gameObject.SetActive(true);
+                TeamsDeads[(int)team][0].DispatchPlayer(PCManager.Instance.GetRandomPC(team));
+                tickets[(int)team] -= 1;
+                Teams[(int)team].Add(TeamsDeads[(int)team][0]);
+                TeamsDeads[(int)team].RemoveAt(0);
+            }
+        }
     }
+
+    public int GetMaxAmountTeam()
+    {
+        return (int)Team.None - 1;
+    }
+
+    public Team TeamFromString(string name)
+    {
+        if (name == "Blue")
+            return Team.Blue;
+        if (name == "Red")
+            return Team.Red;
+        if (name == "Yellow")
+            return Team.Yellow;
+        return Team.None;
+    }
+
+    void SetTeamObjective(Team team)
+    {
+        for (int i = 0; i < Teams[(int)team].Count; i++)
+        {
+            Teams[(int)team][i].ChoosePCTarget();
+        }
+    }
+
+    #endregion
 }
