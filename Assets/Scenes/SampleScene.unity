@@ -25392,13 +25392,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d516068ab9b3646938763467b61c66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerofthegame: 
-  score: 0
   IsGameRunning: 0
   IsTeamKillAllowed: 1
   TimeBeforeRespawn: 10
   PlayerPerTeam: 16
   ticketsPerTeam: 50
+  AmountOfRounds: 2
+  TimeBetweenRounds: 10
 --- !u!4 &781233013
 Transform:
   m_ObjectHideFlags: 0

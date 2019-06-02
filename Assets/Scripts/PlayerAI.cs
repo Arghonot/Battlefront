@@ -137,6 +137,8 @@ public class PlayerAI : MonoBehaviour
         healthpoint = SoldierClassManager.Instance.GetRightHealth(OwnClass);
         agent.speed = SoldierClassManager.Instance.GetRightSpeed(OwnClass);
         selector.target = null;
+        this.enabled = true;
+        selector.enabled = true;
     }
 
     void SetupSpawnPosition(PCBehavior pc)

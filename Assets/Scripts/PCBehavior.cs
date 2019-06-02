@@ -75,4 +75,16 @@ public class PCBehavior : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// This function is supposed to be
+    /// called when a round is starting.
+    /// </summary>
+    public void ForceReinit(Team team)
+    {
+        ControlledBy = team;
+        halo.color = Spawner.Instance.GetColorFromTeam(ControlledBy);//Color.white;
+        ConquerPoints = 0;
+        conqueringBy = Team.None;
+    }
 }

@@ -8,6 +8,8 @@ public class PCManager : MonoBehaviour
     public int PointsToConquer;
     public LayerMask maskForPlayer;
 
+    List<Team> TeamsAtStartup;
+
     private static PCManager instance = null;
     public static PCManager Instance
     {
@@ -17,6 +19,13 @@ public class PCManager : MonoBehaviour
                 instance = FindObjectOfType<PCManager>();
             return instance;
         }
+    }
+
+    private void Start()
+    {
+        TeamsAtStartup = PCs.Select(x => x.ControlledBy).ToList();
+
+        GameManager.Instance.RegisterForInitActions(ResetPCs, -1, "[PCMANAGER] -PC manager reseted.");
     }
 
     public PCBehavior GetTeamsPC(Team team)
@@ -105,5 +114,13 @@ public class PCManager : MonoBehaviour
     public void NotifyPCChanged(PCBehavior behavior)
     {
         Spawner.Instance.NotifyPcCaptured(behavior);
+    }
+
+    void ResetPCs()
+    {
+        for (int i = 0; i < PCs.Count; i++)
+        {
+            PCs[i].ForceReinit(TeamsAtStartup[i]);
+        }
     }
 }

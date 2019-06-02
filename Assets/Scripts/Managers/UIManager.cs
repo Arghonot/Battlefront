@@ -23,19 +23,30 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        ResetUI();
+
+        Spawner.Instance.SetupTicketUpdateAction(UpdateTeamTickets);
+
+        GameManager.Instance.RegisterForInitActions(ResetUI, 1, "[UIMANAGER] -I disabled and ticket count reset");
+    }
+
+    /// <summary>
+    /// This function reset all the tickets at the
+    /// start of a new round.
+    /// </summary>
+    void ResetUI()
+    {
         for (int i = 0; i < Textes.Length; i++)
         {
             Textes[i].gameObject.SetActive(false);
         }
 
-        Spawner.Instance.SetupTicketUpdateAction(UpdateTeamTickets);
         TicketsSlider[0].maxValue = GameManager.Instance.ticketsPerTeam;
         TicketsSlider[1].maxValue = GameManager.Instance.ticketsPerTeam;
         TicketsSlider[0].value = GameManager.Instance.ticketsPerTeam;
         TicketsSlider[1].value = GameManager.Instance.ticketsPerTeam;
         TicketsCount[0].text = GameManager.Instance.ticketsPerTeam.ToString();
         TicketsCount[1].text = GameManager.Instance.ticketsPerTeam.ToString();
-
     }
 
     private void Update()

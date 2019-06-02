@@ -39,6 +39,7 @@ public class Spawner : MonoBehaviour
     {
         InitGame();
         DispatchTeams();
+        GameManager.Instance.RegisterForInitActions(ResetForRound, 0, "[SPAWNER] -reset teams");
     }
 
     private void Update()
@@ -113,6 +114,20 @@ public class Spawner : MonoBehaviour
     #endregion
 
     #region GAME ROUND INIT
+
+    void ResetForRound()
+    {
+        ResetTeamsTickets();
+        DispatchTeams();
+    }
+
+    void ResetTeamsTickets()
+    {
+        for (int i = 0; i < tickets.Count; i++)
+        {
+            tickets[i] = GameManager.Instance.ticketsPerTeam;
+        }
+    }
 
     // Should only be used to restart a round / game
     void DispatchTeam(Team team)
