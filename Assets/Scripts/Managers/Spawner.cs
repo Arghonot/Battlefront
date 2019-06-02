@@ -118,7 +118,29 @@ public class Spawner : MonoBehaviour
     void ResetForRound()
     {
         ResetTeamsTickets();
+        RefillTeam();
         DispatchTeams();
+    }
+
+    void    RefillTeam()
+    {
+        // We stop their 'wait for respawn' coroutine
+        for (int i = 0; i < TeamsDeads[(int)Team.Blue].Count; i++)
+        {
+            TeamsDeads[(int)Team.Blue][i].StopAllCoroutines();
+        }
+        for (int i = 0; i < TeamsDeads[(int)Team.Red].Count; i++)
+        {
+            TeamsDeads[(int)Team.Red][i].StopAllCoroutines();
+        }
+
+        // We refill the teams with the deadplayers
+        Teams[(int)Team.Blue].AddRange(TeamsDeads[(int)Team.Blue]);
+        Teams[(int)Team.Red].AddRange(TeamsDeads[(int)Team.Red]);
+
+        // We empty these lists
+        TeamsDeads[(int)Team.Red] = new List<PlayerAI>();
+        TeamsDeads[(int)Team.Blue] = new List<PlayerAI>();
     }
 
     void ResetTeamsTickets()
