@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
         });
 
         RoundInitActions = RoundInitActions.OrderBy(x => x.weight).ToList();
-        print(RoundInitActions.Count);
     }
 
     #endregion

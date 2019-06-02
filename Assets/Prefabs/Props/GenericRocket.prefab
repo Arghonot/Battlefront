@@ -129,7 +129,7 @@ MonoBehaviour:
   ExplosionRadius: 6
   ExplosionForce: 1.5
   ExplosionDamage: 300
-  DisabilityTime: 2
+  DisabilityTime: 1
   explosion: {fileID: 93641667957001401, guid: d55955c3c0468fe478e03dcf466c5aa3, type: 3}
   mask:
     serializedVersion: 2

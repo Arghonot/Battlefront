@@ -54,7 +54,6 @@ public class UIManager : MonoBehaviour
     {
         if (!GameManager.Instance.IsGameRunning)
         {
-            print((int)Spawner.Instance.GetTeamWithMostTickets());
             Textes[(int)Spawner.Instance.GetTeamWithMostTickets()].gameObject.SetActive(true);
         }
     }

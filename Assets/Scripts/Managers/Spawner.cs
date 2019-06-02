@@ -119,7 +119,19 @@ public class Spawner : MonoBehaviour
     {
         ResetTeamsTickets();
         RefillTeam();
+        //ReInitPlayerInstance();
         DispatchTeams();
+    }
+
+    void ReInitPlayerInstance()
+    {
+        for (int i = 0; i < Teams.Count; i++)
+        {
+            for (int x = 0; x < Teams[i].Count; x++)
+            {
+                Teams[i][x].agent.enabled = true;
+            }
+        }
     }
 
     void    RefillTeam()
@@ -151,23 +163,6 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // Should only be used to restart a round / game
-    void DispatchTeam(Team team)
-    {
-        PCBehavior mainPC = PCManager.Instance.GetTeamsPC(team);
-
-        if (mainPC == null)
-        {
-            Debug.LogError("No PC was found for the " + team + " team");
-            return;
-        }
-
-        for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
-        {
-            Teams[(int)team][i].DispatchPlayer(mainPC);
-        }
-    }
-
     /// <summary>
     /// This function is called to dispatch all the teams that exists.
     /// </summary>
@@ -175,6 +170,38 @@ public class Spawner : MonoBehaviour
     {
         DispatchTeam(Team.Blue);
         DispatchTeam(Team.Red);
+    }
+
+    // Should only be used to restart a round / game
+    void DispatchTeam(Team team)
+    {
+        PCBehavior mainPC;
+
+
+        for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
+        {
+            mainPC = PCManager.Instance.GetRandomPC(team);
+
+            if (mainPC == null)
+            {
+                Debug.LogError("No PC was found for the " + team + " team");
+                return;
+            }
+
+            Teams[(int)team][i].DispatchPlayer(mainPC);
+        }
+        //PCBehavior mainPC = PCManager.Instance.GetRandomPC(team);
+
+        //if (mainPC == null)
+        //{
+        //    Debug.LogError("No PC was found for the " + team + " team");
+        //    return;
+        //}
+
+        //for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
+        //{
+        //    Teams[(int)team][i].DispatchPlayer(mainPC);
+        //}
     }
 
     #endregion
@@ -206,8 +233,9 @@ public class Spawner : MonoBehaviour
         if (spawnPC == null)
             return;
 
-        //player.SetNewPosition(PCManager.Instance.GetRandomPC(player.selfTeam).trans.position);
         player.gameObject.SetActive(true);
+
+        //player.SetNewPosition(PCManager.Instance.GetRandomPC(player.selfTeam).trans.position);
         player.DispatchPlayer(spawnPC);
         //tickets[(int)player.selfTeam] -= 1;
         Teams[(int)player.selfTeam].Add(player);

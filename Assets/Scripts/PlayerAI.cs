@@ -127,6 +127,8 @@ public class PlayerAI : MonoBehaviour
 
     public void DispatchPlayer(PCBehavior pc)
     {
+        IsAlive = true;
+
         SetupSpawnPosition(pc);
         ChoosePCTarget();
         ResetOwnStat();
@@ -139,6 +141,12 @@ public class PlayerAI : MonoBehaviour
         selector.target = null;
         this.enabled = true;
         selector.enabled = true;
+        // We enable it's agent back
+        body.isKinematic = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.enabled = true;
+        selector.shouldHandleEnemies = true;
     }
 
     void SetupSpawnPosition(PCBehavior pc)
@@ -150,7 +158,7 @@ public class PlayerAI : MonoBehaviour
 
     public void NotifyPCCaptured(PCBehavior behavior)
     {
-        if (behavior == PCTarget)
+        if (behavior == PCTarget && IsAlive)
         {
             ChoosePCTarget();
         }
@@ -186,9 +194,14 @@ public class PlayerAI : MonoBehaviour
 
         // just in case the explosion animation is still running
         StopAllExplosionAnimation();
+        gameObject.SetActive(true);
 
-        // We set target  to some place around the pc (but still inside)
-        agent.SetDestination(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
+        // just another security check
+        if (agent.isOnNavMesh)
+        {
+            // We set target  to some place around the pc (but still inside)
+            agent.SetDestination(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
+        }
 
     }
 
@@ -263,11 +276,6 @@ public class PlayerAI : MonoBehaviour
 
     public void TakeExplosiveDamage(float amount, string bulletowner, float disabilityTime)
     {
-        if (bulletowner.Contains(selfTeam.ToString()))
-        {
-            print("Took TK");
-        }
-
         healthpoint -= amount;
 
         StopAllExplosionAnimation();
@@ -284,6 +292,7 @@ public class PlayerAI : MonoBehaviour
 
     void Die(string bulletowner)
     {
+        IsAlive = false;
         Spawner.Instance.NotifyDeath(this);
         PointsManager.Instance.AddKillPoints(bulletowner);
     }

@@ -30,13 +30,20 @@ public class PCManager : MonoBehaviour
 
     public PCBehavior GetTeamsPC(Team team)
     {
-        for (int i = 0; i < PCs.Count; i++)
-        {
-            if (PCs[i].ControlledBy == team)
-                return PCs[i];
-        }
+        return GetRandomPC(team);
+        var pcs = PCs.Where(x => x.ControlledBy == team);
 
-        return null;
+        print(pcs.Count());
+
+        return pcs.ElementAt(Random.Range(0, pcs.Count() - 1));
+
+        //for (int i = 0; i < PCs.Count; i++)
+        //{
+        //    if (PCs[i].ControlledBy == team)
+        //        return PCs[i];
+        //}
+
+        //return null;
     }
 
     public PCBehavior    GetClosestPC(Vector3 position, Team team)
@@ -70,11 +77,14 @@ public class PCManager : MonoBehaviour
     public PCBehavior GetRandomPC(Team team)
     {
         PCBehavior[] pcs = PCs.Where(x => x.ControlledBy == team).ToArray();
+        int index = Random.Range(0, pcs.Length);
+
+        print(index + " " + pcs.Length);
 
         if (pcs.Length == 0)
             return null;
 
-        return pcs[Random.Range(0, pcs.Length)];
+        return pcs[index];
     }
 
     PCBehavior GetFirstNeutralEnemyPC(PCBehavior behavior, Team team)
