@@ -257,8 +257,7 @@ public class PlayerAI : MonoBehaviour
 
         if (healthpoint <= 0)
         {
-            Spawner.Instance.NotifyDeath(this);
-            PointsManager.Instance.AddKillPoints(bulletowner);
+            Die(bulletowner);
         }
     }
 
@@ -275,12 +274,17 @@ public class PlayerAI : MonoBehaviour
 
         if (healthpoint <= 0)
         {
-            Spawner.Instance.NotifyDeath(this);
-            PointsManager.Instance.AddKillPoints(bulletowner);
+            Die(bulletowner);
         }
         else if (agent.enabled)
         {
             StartCoroutine(DisablePlayerMovement(disabilityTime));
         }
+    }
+
+    void Die(string bulletowner)
+    {
+        Spawner.Instance.NotifyDeath(this);
+        PointsManager.Instance.AddKillPoints(bulletowner);
     }
 }

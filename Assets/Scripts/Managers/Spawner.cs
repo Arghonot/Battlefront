@@ -187,7 +187,7 @@ public class Spawner : MonoBehaviour
         //player.SetNewPosition(PCManager.Instance.GetRandomPC(player.selfTeam).trans.position);
         player.gameObject.SetActive(true);
         player.DispatchPlayer(spawnPC);
-        tickets[(int)player.selfTeam] -= 1;
+        //tickets[(int)player.selfTeam] -= 1;
         Teams[(int)player.selfTeam].Add(player);
         TeamsDeads[(int)player.selfTeam].Remove(player);
     }
@@ -264,6 +264,8 @@ public class Spawner : MonoBehaviour
         Teams[(int)deadplayer.selfTeam].Remove(deadplayer);
         StartCoroutine(deadplayer.WaitForRespawn());
 
+        tickets[(int)deadplayer.selfTeam] -= 1;
+
         TicketUpdate(deadplayer.selfTeam, tickets[(int)deadplayer.selfTeam]);
     }
 
@@ -310,7 +312,6 @@ public class Spawner : MonoBehaviour
                 TeamsDeads[(int)team][0].SetNewPosition(TeamsDeads[(int)team][0].PCTarget.trans.position);
                 TeamsDeads[(int)team][0].gameObject.SetActive(true);
                 TeamsDeads[(int)team][0].DispatchPlayer(PCManager.Instance.GetRandomPC(team));
-                tickets[(int)team] -= 1;
                 Teams[(int)team].Add(TeamsDeads[(int)team][0]);
                 TeamsDeads[(int)team].RemoveAt(0);
             }
