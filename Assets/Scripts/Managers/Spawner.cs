@@ -11,13 +11,22 @@ public enum Team
     None
 }
 
+[System.Serializable]
+public class DeadPlayerSlot
+{
+    public PlayerAI player;
+    public float TimeSinceDeath;
+}
+
 public class Spawner : MonoBehaviour
 {
     public GameObject PlayerPrefab;
     public Transform PlayerContainer;
     public Transform DeadStorage;
     public List<List<PlayerAI>> Teams;
-    public List<List<PlayerAI>> TeamsDeads;
+//    public List<List<PlayerAI>> TeamsDeads;
+    public List<DeadPlayerSlot> DeadPlayers;
+
     List<int> tickets;
     Action<Team, int> TicketUpdate;
 
@@ -46,7 +55,10 @@ public class Spawner : MonoBehaviour
     {
         //ReassignPlayer();
         CheckIfAnyTeamRanOutOfTickets();
-
+        if (GameManager.Instance.IsGameRunning)
+        {
+            UpdateDeadPlayersTimeCount();
+        }
     }
 
     #endregion
@@ -63,10 +75,7 @@ public class Spawner : MonoBehaviour
         tickets.Add(GameManager.Instance.ticketsPerTeam);
 
         Teams = new List<List<PlayerAI>>();
-        TeamsDeads = new List<List<PlayerAI>>();
-
-        TeamsDeads.Add(new List<PlayerAI>());
-        TeamsDeads.Add(new List<PlayerAI>());
+        DeadPlayers = new List<DeadPlayerSlot>();
 
         Teams.Add(new List<PlayerAI>());
         Teams.Add(new List<PlayerAI>());
@@ -136,23 +145,14 @@ public class Spawner : MonoBehaviour
 
     void    RefillTeam()
     {
-        // We stop their 'wait for respawn' coroutine
-        for (int i = 0; i < TeamsDeads[(int)Team.Blue].Count; i++)
-        {
-            TeamsDeads[(int)Team.Blue][i].StopAllCoroutines();
-        }
-        for (int i = 0; i < TeamsDeads[(int)Team.Red].Count; i++)
-        {
-            TeamsDeads[(int)Team.Red][i].StopAllCoroutines();
-        }
-
+        //// We refill the teams with the deadplayers
+        //Teams[(int)Team.Blue].AddRange(TeamsDeads[(int)Team.Blue]);
+        //Teams[(int)Team.Red].AddRange(TeamsDeads[(int)Team.Red]);
+        
         // We refill the teams with the deadplayers
-        Teams[(int)Team.Blue].AddRange(TeamsDeads[(int)Team.Blue]);
-        Teams[(int)Team.Red].AddRange(TeamsDeads[(int)Team.Red]);
-
-        // We empty these lists
-        TeamsDeads[(int)Team.Red] = new List<PlayerAI>();
-        TeamsDeads[(int)Team.Blue] = new List<PlayerAI>();
+        Teams[(int)Team.Blue].AddRange(DeadPlayers.Where(x => x.player.selfTeam == Team.Blue).Select(x => x.player));
+        Teams[(int)Team.Red].AddRange(DeadPlayers.Where(x => x.player.selfTeam == Team.Red).Select(x => x.player));
+        DeadPlayers = new List<DeadPlayerSlot>();
     }
 
     void ResetTeamsTickets()
@@ -208,6 +208,24 @@ public class Spawner : MonoBehaviour
 
     #region RUNTIME FUNCTIONS
 
+    /// <summary>
+    /// This function is to be called at each frame in order to
+    /// keep a good track at their death time.
+    /// It also reassign a deadplayer when it is time.
+    /// </summary>
+    void UpdateDeadPlayersTimeCount()
+    {
+        for (int i = 0; i < DeadPlayers.Count; i++)
+        {
+            DeadPlayers[i].TimeSinceDeath += Time.deltaTime;
+
+            if (DeadPlayers[i].TimeSinceDeath > GameManager.Instance.TimeBeforeRespawn)
+            {
+                ReassingSinglePlayer(DeadPlayers[i].player);
+            }
+        }
+    }
+
     void CheckIfAnyTeamRanOutOfTickets()
     {
         if (tickets[(int)Team.Blue] <= 0)
@@ -239,7 +257,8 @@ public class Spawner : MonoBehaviour
         player.DispatchPlayer(spawnPC);
         //tickets[(int)player.selfTeam] -= 1;
         Teams[(int)player.selfTeam].Add(player);
-        TeamsDeads[(int)player.selfTeam].Remove(player);
+        DeadPlayers.Remove(DeadPlayers.Where(x => x.player == player).First());
+        //TeamsDeads[(int)player.selfTeam].Remove(player);
     }
 
     /// <summary>
@@ -310,9 +329,15 @@ public class Spawner : MonoBehaviour
     {
         deadplayer.gameObject.SetActive(false);
         deadplayer.trans.position = DeadStorage.position;
-        TeamsDeads[(int)deadplayer.selfTeam].Add(deadplayer);
+        DeadPlayers.Add(new DeadPlayerSlot()
+        {
+            player = deadplayer,
+            TimeSinceDeath = 0f
+        });
+//        TeamsDeads[(int)deadplayer.selfTeam].Add(deadplayer);
         Teams[(int)deadplayer.selfTeam].Remove(deadplayer);
-        StartCoroutine(deadplayer.WaitForRespawn());
+
+        //StartCoroutine(deadplayer.WaitForRespawn());
 
         tickets[(int)deadplayer.selfTeam] -= 1;
 
@@ -352,21 +377,21 @@ public class Spawner : MonoBehaviour
 
     #region LEGACY CODE
 
-    // NOTE for now the spawner get to choose the spawn pc, perhaps this should change ?
-    void ReassignPlayerFromTeam(Team team)
-    {
-        if (tickets[(int)team] > 0)
-        {
-            if (TeamsDeads[(int)team].Count > 0)
-            {
-                TeamsDeads[(int)team][0].SetNewPosition(TeamsDeads[(int)team][0].PCTarget.trans.position);
-                TeamsDeads[(int)team][0].gameObject.SetActive(true);
-                TeamsDeads[(int)team][0].DispatchPlayer(PCManager.Instance.GetRandomPC(team));
-                Teams[(int)team].Add(TeamsDeads[(int)team][0]);
-                TeamsDeads[(int)team].RemoveAt(0);
-            }
-        }
-    }
+    //// NOTE for now the spawner get to choose the spawn pc, perhaps this should change ?
+    //void ReassignPlayerFromTeam(Team team)
+    //{
+    //    if (tickets[(int)team] > 0)
+    //    {
+    //        if (TeamsDeads[(int)team].Count > 0)
+    //        {
+    //            TeamsDeads[(int)team][0].SetNewPosition(TeamsDeads[(int)team][0].PCTarget.trans.position);
+    //            TeamsDeads[(int)team][0].gameObject.SetActive(true);
+    //            TeamsDeads[(int)team][0].DispatchPlayer(PCManager.Instance.GetRandomPC(team));
+    //            Teams[(int)team].Add(TeamsDeads[(int)team][0]);
+    //            TeamsDeads[(int)team].RemoveAt(0);
+    //        }
+    //    }
+    //}
 
     public int GetMaxAmountTeam()
     {

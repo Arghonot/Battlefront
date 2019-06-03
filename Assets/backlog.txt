@@ -1,5 +1,5 @@
-if pc is being contested, no spawn on it
+[FEATURE] if pc is being contested, no spawn on it
 	- then change the player respawn, now it is called by the player after a coroutine, which would never respawn if no pc is found.
-Solve the player staring at the void for no reason bug (all his scripts are disabled).
-Solve grenade launcher nullreference exception.
-Solve the shotgun pillets orientation bug
+[FIXES] Solve the player staring at the void for no reason bug (all his scripts are disabled).
+[FIXES] Solve grenade launcher nullreference exception.
+[FIXES] Solve the bug where the player is spawned on a weird zone when a new round start
