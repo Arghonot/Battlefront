@@ -17,4 +17,4 @@ MonoBehaviour:
   Speed: 5
   VisionAngle: 0.4
   VisionDistance: 10
-  HealthPoints: 100
+  HealthPoints: 200

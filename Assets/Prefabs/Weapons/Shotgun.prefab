@@ -96,10 +96,10 @@ MonoBehaviour:
   mussle: {fileID: 1033741483}
   canShoot: 0
   loadingTime: 1
-  bulletVelocity: 30
+  bulletVelocity: 20
   rotationSpeed: 4
   AmountOfBullets: 5
-  Angle: 30
+  Angle: 10
 --- !u!1 &1632894876324278022
 GameObject:
   m_ObjectHideFlags: 0

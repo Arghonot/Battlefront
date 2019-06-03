@@ -25,13 +25,14 @@ public class ShotGun : GenericGun
 
         for (int i = 0; i < AmountOfBullets; i++)
         {
-            currentangle = -Angle + (anglemultiplier * i);
+            currentangle = (-Angle + (anglemultiplier * i)) * (Mathf.PI /180f);
             var bullet = Instantiate(projectile).GetComponent<GenericProjectile>();
             bullet.Init();
 
-            bullet.trans.position = mussle.position + new Vector3(Mathf.Cos(currentangle), 0f, Mathf.Sin(currentangle));
-            bullet.trans.eulerAngles = bullet.trans.position - mussle.transform.position;
-            bullet.body.velocity = mussle.forward * bulletVelocity;
+            bullet.trans.position = mussle.position + (Mathf.Sin(currentangle) * mussle.right) + (Mathf.Cos(currentangle) * mussle.forward);
+            bullet.trans.LookAt(bullet.trans.position + bullet.trans.position - mussle.transform.position);
+            //bullet.trans.eulerAngles = bullet.trans.position - mussle.transform.position;
+            bullet.body.velocity = bullet.trans.forward * bulletVelocity;
             bullet.gameObject.tag = transform.parent.tag;
             bullet.owner = transform.parent.name;
 

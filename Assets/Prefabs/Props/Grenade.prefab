@@ -141,7 +141,7 @@ MonoBehaviour:
   damage: 0
   TimeToExplode: 2
   ExplosionRadius: 4
-  ExplosionForce: 1
+  ExplosionForce: 2
   ExplosionDamage: 200
   DisabilityTime: 2
   explosion: {fileID: 93641667957001401, guid: d55955c3c0468fe478e03dcf466c5aa3, type: 3}
