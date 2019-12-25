@@ -20,7 +20,8 @@ public class DeadPlayerSlot
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject PlayerPrefab;
+    public GameObject BluePrefab;
+    public GameObject RedPrefab;
     public Transform PlayerContainer;
     public Transform DeadStorage;
     public List<List<PlayerAI>> Teams;
@@ -88,15 +89,17 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
         {
-            Teams[(int)team].Add(Instantiate(PlayerPrefab).GetComponent<PlayerAI>());
 
-            Teams[(int)team].Last().Init(team,
-                (SoldierType)UnityEngine.Random.Range(
-                    0,
-                    Convert.ToInt32(
-                        Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max())));
+            // TODO CHANGE THIS
+            Teams[(int)team].Add(Instantiate(team == Team.Blue ? BluePrefab : RedPrefab).GetComponent<PlayerAI>());
 
-            //Teams[(int)team].Last().Init(team, SoldierType.RocketLauncher);
+            Teams[(int)team].Last().Init(team, SoldierType.Assault);
+
+            //Teams[(int)team].Last().Init(team,
+            //     (SoldierType)UnityEngine.Random.Range(
+            //         0,
+            //         Convert.ToInt32(
+            //             Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max())));
 
             Teams[(int)team].Last().trans.SetParent(PlayerContainer);
             Teams[(int)team].Last().gameObject.name = string.Join("_", new string[]
@@ -261,21 +264,6 @@ public class Spawner : MonoBehaviour
         //TeamsDeads[(int)player.selfTeam].Remove(player);
     }
 
-    /// <summary>
-    /// Everytime a PC is captured, this function will be triggered.
-    /// It will iterate through all the players to notify them about it.
-    /// </summary>
-    /// <param name="behavior">The PC that just changed team.</param>
-    public void NotifyPcCaptured(PCBehavior behavior)
-    {
-        for (int i = 0; i < Teams.Count; i++)
-        {
-            for (int x = 0; x < Teams[i].Count; x++)
-            {
-                Teams[i][x].NotifyPCCaptured(behavior);
-            }
-        }
-    }
 
     /// <summary>
     /// This function is called by AIs that want to know the position
@@ -292,17 +280,15 @@ public class Spawner : MonoBehaviour
             team = Team.Blue;
 
         return Teams[(int)team].Select(x => x.trans.position).ToArray();
-        //Vector3[] Array = new Vector3[Teams[(int)team].Count](Teams[(int)team]);
+    }
 
-        //for (int i = 0; i < Teams[(int)team].Count; i++)
-        //{
-        //    if (Teams[(int)team][i] != null)
-        //    {
-        //        Array[i] = Teams[(int)team][i].transform.position;
-        //    }
-        //}
-
-        //return Array;
+    public List<Transform>  getEnemiesInRange(Team team, Vector3 position, float requestRange)
+    {
+        return Teams[team == Team.Blue ? 1 : 0].
+            Select(x => x.transform).
+            Where(x => Vector3.Distance(
+                x.transform.position, position) < requestRange).
+            ToList();
     }
 
     /// <summary>
@@ -409,13 +395,10 @@ public class Spawner : MonoBehaviour
         return Team.None;
     }
 
-    void SetTeamObjective(Team team)
-    {
-        for (int i = 0; i < Teams[(int)team].Count; i++)
-        {
-            Teams[(int)team][i].ChoosePCTarget();
-        }
-    }
+
+    #endregion
+
+    #region LEGACY
 
     #endregion
 }

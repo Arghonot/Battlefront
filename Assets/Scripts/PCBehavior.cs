@@ -31,7 +31,6 @@ public class PCBehavior : MonoBehaviour
             ConquerPoints = 0;
             halo.color = Spawner.Instance.GetColorFromTeam(conqueringBy);
             ControlledBy = conqueringBy;
-            PCManager.Instance.NotifyPCChanged(this);
             conqueringBy = Team.None;
 
         }

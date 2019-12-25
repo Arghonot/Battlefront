@@ -1,0 +1,3 @@
+[submodule "Assets/Scripts/BT"]
+	path = Assets/Scripts/BT
+	url = https://github.com/Arghonot/My_CustomBehaviorTree.git

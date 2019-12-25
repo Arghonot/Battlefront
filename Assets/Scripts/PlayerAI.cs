@@ -12,76 +12,65 @@ public enum AIMode
 public class PlayerAI : MonoBehaviour
 {
     public SoldierType OwnClass;
-    TargetSelector selector;
     public Transform trans;
-    /// <summary>
-    /// The PC the player want to capture.
-    /// </summary>
-    public PCBehavior PCTarget;
-    /// <summary>
-    /// The pc the player would go to in order to investigate for when
-    /// all enemies PC are captured already.
-    /// </summary>
-    public PCBehavior WanderTarget;
     public AIMode mode;
     public Team selfTeam;
     public bool IsAlive;
-    public Transform canon;
+    public GenericGun gun;
 
     float healthpoint = 100f;
-
+    public float ViewCone;
+    public float GunRange;
+    public float FollowDistance;
     public NavMeshAgent agent;
     Rigidbody body;
 
+    Animator _anim;
+    Vector2 smoothDeltaPosition = Vector2.zero;
+    Vector2 velocity = Vector2.zero;
+
+    BT.GenericDictionary gd = new BT.GenericDictionary();
+    public bool ShallDebug;
+
+    #region UNITY API
+
     private void Update()
     {
-        CheckPCRules();
+        gd.Set<bool>("ShallDebug", ShallDebug);
+
+        Vector3 worldDeltaPosition = agent.nextPosition - transform.position;
+
+        // Map 'worldDeltaPosition' to local space
+        float dx = Vector3.Dot(transform.right, worldDeltaPosition);
+        float dy = Vector3.Dot(transform.forward, worldDeltaPosition);
+        Vector2 deltaPosition = new Vector2(dx, dy);
+
+        // Low-pass filter the deltaMove
+        float smooth = Mathf.Min(1.0f, Time.deltaTime / 0.15f);
+        smoothDeltaPosition = Vector2.Lerp(smoothDeltaPosition, deltaPosition, smooth);
+
+        // Update velocity if time advances
+        if (Time.deltaTime > 1e-5f)
+            velocity = smoothDeltaPosition / Time.deltaTime;
+
+        bool shouldMove = velocity.magnitude > 0.5f && agent.remainingDistance > agent.radius;
+
+        // Update animation parameters
+        //_anim.SetBool("move", shouldMove);
+
+        //_anim.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
+        //_anim.SetFloat("VelX", velocity.x);
+        //_anim.SetFloat("VelY", velocity.y);
     }
 
-    /// <summary>
-    /// This function check if the pc we are trying to capture is already on our team.
-    /// it also check if the game should go on.
-    /// </summary>
-    void CheckPCRules()
+    void OnAnimatorMove()
     {
-        // If the game is over there is no need to proceed;
-        if (!GameManager.Instance.IsGameRunning)
-        {
-            DisableSelf();
-
-            return;
-        }
-
-        if (mode == AIMode.CapturingEnemiesPC)
-        {
-            if (PCTarget == null)
-            {
-                SetMode(AIMode.Wandering);
-                return;
-            }
-            if (PCTarget.ControlledBy == selfTeam)
-            {
-                ChoosePCTarget();
-            }
-        }
-        else
-        {
-            float dist = agent.remainingDistance;
-
-            if (dist != Mathf.Infinity && agent.pathStatus == NavMeshPathStatus.PathComplete && agent.remainingDistance == 0)
-            {
-                //Arrived.
-                ChoosePCTarget();
-            }
-        }
+        // Update position to agent position
+        transform.position = agent.nextPosition;
     }
+    #endregion
 
-    void DisableSelf()
-    {
-        agent.enabled = false;
-        selector.enabled = false;
-        this.enabled = false;
-    }
+    #region INIT
 
     /// <summary>
     /// This is the function called when the player is first instantiated.
@@ -92,25 +81,68 @@ public class PlayerAI : MonoBehaviour
     public void Init(Team team, SoldierType specialtie)
     {
         agent = GetComponent<NavMeshAgent>();
-        selector = GetComponent<TargetSelector>();
         body = GetComponent<Rigidbody>();
+        _anim = GetComponent<Animator>();
         // setup it's own color
-        GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
+        //GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
         body.isKinematic = true;
-
-        if (specialtie == SoldierType.Sniper)
-        {
-            selector.VisionDistance *= 5f;
-        }
 
         OwnClass = specialtie;
         selfTeam = team;
+
+        print(team + "  " + selfTeam);
         trans = transform;
         IsAlive = true;
 
-        selector.Init();
-        // it's only the beginning of the game so we will capture.
-        SetMode(AIMode.CapturingEnemiesPC);
+        SetGDValues();
+
+        BTExecutor.Instance.RegisterContext(gd);
+    }
+
+    void SetGDValues()
+    {
+        gd.Set<bool>("Alive", true);
+        gd.Set<NavMeshAgent>("agent", agent);
+        gd.Set<Team>("SelfTeam", selfTeam);
+        gd.Set<Transform>("self", transform);
+        gd.Set<float>("GunRange", GunRange);
+        gd.Set<float>("FollowDistance", FollowDistance);
+        gd.Set<float>("VisionAngle", ViewCone);
+
+        /// Class values
+        gd.Set<float>("VisionAngle", SoldierClassManager.Instance.GetRightVisionAngle(OwnClass));
+        gd.Set<float>("VisionDistance", SoldierClassManager.Instance.GetRightVisionDistance(OwnClass));
+        gd.Set<WeaponType>("WeaponType", SoldierClassManager.Instance.GetRightWeaponForClass(OwnClass));
+        gd.Set<float>("Speed", SoldierClassManager.Instance.GetRightSpeed(OwnClass));
+        gd.Set<float>("MaxHealthPoints", SoldierClassManager.Instance.GetRightHealth(OwnClass));
+        gd.Set<GenericGun>("Gun", gun);
+
+        ViewCone = gd.Get<float>("VisionAngle");
+    }
+
+    #endregion
+
+    #region SPAWN
+
+    public void DispatchPlayer(PCBehavior pc)
+    {
+        IsAlive = true;
+        gd.Set<bool>("Alive", true);
+
+        SetupSpawnPosition(pc);
+        ResetOwnStat();
+    }
+
+    void ResetOwnStat()
+    {
+        healthpoint = SoldierClassManager.Instance.GetRightHealth(OwnClass);
+        agent.speed = SoldierClassManager.Instance.GetRightSpeed(OwnClass);
+        this.enabled = true;
+        // We enable it's agent back
+        body.isKinematic = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.enabled = true;
     }
 
     public void SetNewPosition(Vector3 newpos)
@@ -125,30 +157,6 @@ public class PlayerAI : MonoBehaviour
         agent.Warp(newpos);
     }
 
-    public void DispatchPlayer(PCBehavior pc)
-    {
-        IsAlive = true;
-
-        SetupSpawnPosition(pc);
-        ChoosePCTarget();
-        ResetOwnStat();
-    }
-
-    void ResetOwnStat()
-    {
-        healthpoint = SoldierClassManager.Instance.GetRightHealth(OwnClass);
-        agent.speed = SoldierClassManager.Instance.GetRightSpeed(OwnClass);
-        selector.target = null;
-        this.enabled = true;
-        selector.enabled = true;
-        // We enable it's agent back
-        body.isKinematic = true;
-        agent.updatePosition = true;
-        agent.updateRotation = true;
-        agent.enabled = true;
-        selector.shouldHandleEnemies = true;
-    }
-
     void SetupSpawnPosition(PCBehavior pc)
     {
         Vector2 randV2 = Random.insideUnitCircle * pc.PCRange;
@@ -156,113 +164,9 @@ public class PlayerAI : MonoBehaviour
         SetNewPosition(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
     }
 
-    public void NotifyPCCaptured(PCBehavior behavior)
-    {
-        if (behavior == PCTarget && IsAlive)
-        {
-            ChoosePCTarget();
-        }
-    }
+    #endregion
 
-    // TODO figure out how to clear the use of StopAllExplosionAnimation
-    // because we need to stop the explosion animation but also we need to get
-    // a new target
-    /// <summary>
-    /// This function decide which enemy PC this AI want to attach.
-    /// </summary>
-    public void ChoosePCTarget()
-    {
-        PCTarget = PCManager.Instance.GetClosestNextPC(trans.position, selfTeam);
-        // if it is null all the pcs have been captured.
-        if (PCTarget == null)
-        {
-            SetMode(AIMode.Wandering);
-        }
-        else
-        {
-            // if an enemy pc has been found we want to start going there
-            SetMode(AIMode.CapturingEnemiesPC);
-            SetDestinationTargetForPC(PCTarget);
-        }
-
-    }
-
-    void SetDestinationTargetForPC(PCBehavior pc)
-    {
-
-        Vector2 randV2 = Random.insideUnitCircle * pc.PCRange;
-
-        // just in case the explosion animation is still running
-        StopAllExplosionAnimation();
-        gameObject.SetActive(true);
-
-        // just another security check
-        if (agent.isOnNavMesh)
-        {
-            // We set target  to some place around the pc (but still inside)
-            agent.SetDestination(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
-        }
-
-    }
-
-    void SetMode(AIMode newmode)
-    {
-        if (newmode == AIMode.Wandering)
-        {
-            WanderTarget = PCManager.Instance.GetAlreadyControlledPC(selfTeam);
-            SetDestinationTargetForPC(WanderTarget);
-            mode = AIMode.Wandering;
-        }
-        else
-        {
-            mode = AIMode.CapturingEnemiesPC;
-        }
-    }
-
-    void StopAllExplosionAnimation()
-    {
-        StopAllCoroutines();
-        // We enable it's agent back
-        body.isKinematic = true;
-        agent.updatePosition = true;
-        agent.updateRotation = true;
-        agent.enabled = true;
-        selector.shouldHandleEnemies = true;
-    }
-
-    IEnumerator DisablePlayerMovement(float disabilityTime)
-    {
-        // We disable it's agent
-        agent.isStopped = true;
-        agent.updatePosition = false;
-        agent.updateRotation = false;
-        agent.enabled = false;
-        body.isKinematic = false;
-        selector.shouldHandleEnemies = false;
-
-        yield return new WaitForSeconds(disabilityTime);
-
-        // We enable it's agent back
-        body.isKinematic = true;
-        agent.updatePosition = true;
-        agent.updateRotation = true;
-        agent.enabled = true;
-        selector.shouldHandleEnemies = true;
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// This function is called once this instance of player
-    /// dies, it will wait a certain amount of time until it call
-    /// the spawner singleton to respawn again.
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerator WaitForRespawn()
-    {
-        yield return new WaitForSeconds(GameManager.Instance.TimeBeforeRespawn);
-        Spawner.Instance.ReassingSinglePlayer(this);
-    }
+    #region DAMAGES
 
     public void TakeDamage(float amount, string bulletowner)
     {
@@ -290,10 +194,66 @@ public class PlayerAI : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region DIE
+
     void Die(string bulletowner)
     {
+        gd.Set<bool>("Alive", false);
         IsAlive = false;
         Spawner.Instance.NotifyDeath(this);
+        print(bulletowner);
         PointsManager.Instance.AddKillPoints(bulletowner);
     }
+
+    void DisableSelf()
+    {
+        agent.enabled = false;
+        this.enabled = false;
+    }
+
+    void StopAllExplosionAnimation()
+    {
+        StopAllCoroutines();
+        // We enable it's agent back
+        body.isKinematic = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.enabled = true;
+    }
+
+    IEnumerator DisablePlayerMovement(float disabilityTime)
+    {
+        // We disable it's agent
+        agent.isStopped = true;
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        agent.enabled = false;
+        body.isKinematic = false;
+
+        yield return new WaitForSeconds(disabilityTime);
+
+        // We enable it's agent back
+        body.isKinematic = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+        agent.enabled = true;
+
+        yield return null;
+    }
+
+    /// <summary>
+    /// This function is called once this instance of player
+    /// dies, it will wait a certain amount of time until it call
+    /// the spawner singleton to respawn again.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator WaitForRespawn()
+    {
+        yield return new WaitForSeconds(GameManager.Instance.TimeBeforeRespawn);
+        Spawner.Instance.ReassingSinglePlayer(this);
+    }
+
+    #endregion
 }

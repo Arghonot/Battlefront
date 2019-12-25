@@ -79,19 +79,71 @@ public class PCManager : MonoBehaviour
         PCBehavior[] pcs = PCs.Where(x => x.ControlledBy == team).ToArray();
         int index = Random.Range(0, pcs.Length);
 
-        print(index + " " + pcs.Length);
-
         if (pcs.Length == 0)
-            return null;
+        {
+            // else return a neutral pc
+            if (team != Team.None)
+            {
+                return GetFullRandomPC();
+            }
+            // else one of it's own team
+            else
+            {
+                return GetRandomPC(team == Team.Blue ? Team.Red : Team.Blue);
+            }
+        }
 
         return pcs[index];
     }
 
-    PCBehavior GetFirstNeutralEnemyPC(PCBehavior behavior, Team team)
+    public PCBehavior GetFullRandomPC()
     {
-        List<PCBehavior> unconqueredPC = PCs.Where(c => c.ControlledBy != team).ToList();
+        int index = Random.Range(0, PCs.Count);
 
-        return unconqueredPC[Random.Range(0, unconqueredPC.Count - 1)];
+        if (PCs.Count == 0)
+        {
+            return null;
+        }
+
+        return PCs[index];
+    }
+
+    public PCBehavior GetFirstNeutralEnemyPC(Vector3 playerposition, Team team, bool shalldebugactions = false)
+    {
+        float dist = float.MaxValue;
+        int index = -1;
+        var SelfPCs = PCs.Where(x => x.ControlledBy == team);
+
+        if (shalldebugactions)
+        {
+            print(SelfPCs.Count() + "    " + team);
+        }
+
+        for (int i = 0; i < PCs.Count; i++)
+        {
+            if (!SelfPCs.Contains(PCs[i]))
+            {
+                float currentdist = Vector3.Distance(
+                    playerposition,
+                    PCs[i].transform.position);
+                if (currentdist < dist)
+                {
+                    dist = currentdist;
+                    index = i;
+                }
+            }
+        }
+
+        if (index > -1)
+        {
+            return PCs[index];
+        }
+
+        return GetFullRandomPC();
+
+        //List<PCBehavior> unconqueredPC = PCs.Where(c => c.ControlledBy != team).ToList();
+
+        //return unconqueredPC[Random.Range(0, unconqueredPC.Count - 1)];
     }
 
     // Get the closest which is not from this team
@@ -121,11 +173,6 @@ public class PCManager : MonoBehaviour
         return PCsFound[Random.Range(0, PCsFound.Count())];
     }
 
-    public void NotifyPCChanged(PCBehavior behavior)
-    {
-        Spawner.Instance.NotifyPcCaptured(behavior);
-    }
-
     void ResetPCs()
     {
         for (int i = 0; i < PCs.Count; i++)
@@ -133,4 +180,14 @@ public class PCManager : MonoBehaviour
             PCs[i].ForceReinit(TeamsAtStartup[i]);
         }
     }
+
+    public void NotifyPCChanged(PCBehavior behavior)
+    {
+        //Spawner.Instance.NotifyPcCaptured(behavior);
+    }
+
+    #region LEGACY
+
+
+    #endregion
 }

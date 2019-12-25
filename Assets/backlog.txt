@@ -1,3 +1,0 @@
-[FEATURE] if pc is being contested, no spawn on it
-	- then change the player respawn, now it is called by the player after a coroutine, which would never respawn if no pc is found.
-[FIXES] Solve grenade launcher nullreference exception.

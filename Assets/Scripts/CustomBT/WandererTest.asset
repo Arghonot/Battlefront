@@ -1,0 +1,432 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07af90aaf49f1c74d8986eaa124906dd, type: 3}
+  m_Name: WandererTest
+  m_EditorClassIdentifier: 
+  nodes:
+  - {fileID: 114211584132704656}
+  - {fileID: 114682045361794476}
+  - {fileID: 114839937386702590}
+  - {fileID: 114085070345759294}
+  - {fileID: 114258687368110938}
+  - {fileID: 114302578969236986}
+  - {fileID: 114860007368105618}
+  - {fileID: 114309788320487622}
+  - {fileID: 114711631824795872}
+--- !u!114 &114085070345759294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e45b11baef6f54181014169e32d689, type: 3}
+  m_Name: Shoot At Target
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -216, y: -136}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114085070345759294}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114085070345759294}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114309788320487622}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+--- !u!114 &114211584132704656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2c978b50f9c886489308aaa2568ee49, type: 3}
+  m_Name: BT Root
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 664, y: -280}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114211584132704656}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outPort
+        node: {fileID: 114711631824795872}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114211584132704656}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+--- !u!114 &114258687368110938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b055f7a18beb0a14eb7b0a326766d2b9, type: 3}
+  m_Name: Is Close
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -216, y: -280}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114258687368110938}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114258687368110938}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114309788320487622}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  DistanceSource: GunRange
+  ObjectA: self
+  ObjectB: CurrentTarget
+--- !u!114 &114302578969236986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b1884dd50b182e40af3d45a53ffde45, type: 3}
+  m_Name: Inverter
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -232, y: -552}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114302578969236986}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outPort
+        node: {fileID: 114682045361794476}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114302578969236986}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114860007368105618}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+--- !u!114 &114309788320487622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50bbf1a9c3cf9ac4f9535bc3e736826c, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 56, y: -200}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114309788320487622}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outPort
+        node: {fileID: 114258687368110938}
+        reroutePoints: []
+      - fieldName: outPort
+        node: {fileID: 114085070345759294}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114309788320487622}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114711631824795872}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  DebugName: 
+--- !u!114 &114682045361794476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8f0226941baf3444ae1c289ad5aa3f3, type: 3}
+  m_Name: Has Target
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -456, y: -552}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114682045361794476}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114682045361794476}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114302578969236986}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+--- !u!114 &114711631824795872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50bbf1a9c3cf9ac4f9535bc3e736826c, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 328, y: -328}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114711631824795872}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outPort
+        node: {fileID: 114860007368105618}
+        reroutePoints: []
+      - fieldName: outPort
+        node: {fileID: 114309788320487622}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114711631824795872}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114211584132704656}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  DebugName: 
+--- !u!114 &114839937386702590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5012a1ce0553d394e8acf8aefc69d7ab, type: 3}
+  m_Name: Select Target
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -232, y: -456}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114839937386702590}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114839937386702590}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114860007368105618}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  mask:
+    serializedVersion: 2
+    m_Bits: 1536
+--- !u!114 &114860007368105618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50bbf1a9c3cf9ac4f9535bc3e736826c, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: 88, y: -520}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114860007368105618}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outPort
+        node: {fileID: 114302578969236986}
+        reroutePoints: []
+      - fieldName: outPort
+        node: {fileID: 114839937386702590}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114860007368105618}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114711631824795872}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  DebugName: 

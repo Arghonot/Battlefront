@@ -27,6 +27,7 @@ public class PointsManager : MonoBehaviour
 
     public void RegisterPlayerForScore(string name)
     {
+        print("name" + name);
         if (pointsPerPlayer == null)
             pointsPerPlayer = new Dictionary<string, float>();
 
@@ -35,6 +36,11 @@ public class PointsManager : MonoBehaviour
 
     public void AddKillPoints(string name)
     {
+        if (!pointsPerPlayer.ContainsKey(name))
+        {
+            return;
+        }
+
         pointsPerPlayer[name] += pointsPerKill;
     }
 
