@@ -7,6 +7,8 @@ namespace BT.CustomLeaves
 {
     public class HasTarget : BTNode
     {
+        public string _name;
+
         public override BTState Run()
         {
             Transform target = AIcontext.Get<Transform>("Target");
@@ -16,11 +18,43 @@ namespace BT.CustomLeaves
                 Debug.Log(target == null ? "HasTarget -> no" : ("HasTarget -> yes " + target.name));
             }
 
-            if (target == null ||
-                !CheckDistance(target) ||
-                !IsInConeOfSight(target) ||
-                !CanBeSeen(target))
+            //        if (target == null ||
+            //!Spawner.Instance.isAlive(target) ||
+            //!CheckDistance(target) ||
+            //!IsInConeOfSight(target) ||
+            //!CanBeSeen(target))
+            //        {
+            //            AIcontext.Set<Transform>("Target", null);
+            //            return BTState.Failure;
+            //        }
+            if (target == null)
             {
+                if (AIcontext.Get<Transform>("self").name == _name)
+                {
+                    Debug.Log("HasTarget == null");
+                }
+
+                AIcontext.Set<Transform>("Target", null);
+                return BTState.Failure;
+            }
+            if (!Spawner.Instance.isAlive(target))
+            {
+                AIcontext.Set<Transform>("Target", null);
+                return BTState.Failure;
+            }
+            if (!CheckDistance(target))
+            {
+                AIcontext.Set<Transform>("Target", null);
+                return BTState.Failure;
+            }
+            if (!IsInConeOfSight(target))
+            {
+                AIcontext.Set<Transform>("Target", null);
+                return BTState.Failure;
+            }
+            if (!CanBeSeen(target))
+            {
+                AIcontext.Set<Transform>("Target", null);
                 return BTState.Failure;
             }
 
@@ -39,7 +73,10 @@ namespace BT.CustomLeaves
             {
                 return true;
             }
-
+            if (AIcontext.Get<Transform>("self").name == _name)
+            {
+                Debug.Log("IsInConeOfSight");
+            }
             return false;
         }
 
@@ -57,7 +94,10 @@ namespace BT.CustomLeaves
                     return true;
                 }
             }
-
+            if (AIcontext.Get<Transform>("self").name == _name)
+            {
+                Debug.Log("CanBeSeen");
+            }
             return false;
         }
 
@@ -65,11 +105,14 @@ namespace BT.CustomLeaves
         {
             if (Vector3.Distance(
                 AIcontext.Get<Transform>("self").position,
-                target.position) > AIcontext.Get<float>(""))
+                target.position) > AIcontext.Get<float>("VisionDistance"))
             {
                 return false;
             }
-
+            if (AIcontext.Get<Transform>("self").name == _name)
+            {
+                Debug.Log("CheckDistance");
+            }
             return true;
         }
     }

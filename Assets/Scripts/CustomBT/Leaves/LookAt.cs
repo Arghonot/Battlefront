@@ -8,9 +8,15 @@ namespace BT.CustomLeaves
     public class LookAt : BTNode
     {
         public string Target;
+        public string _name;
 
         public override BTState Run()
         {
+            if (AIcontext.Get<Transform>("self").name == _name)
+            {
+                Debug.Log(AIcontext.Get<Transform>(Target).name);
+            }
+
             Transform target = AIcontext.Get<Transform>(Target);
             Transform trans = AIcontext.Get<Transform>("self");
 

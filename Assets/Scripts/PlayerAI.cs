@@ -11,6 +11,8 @@ public enum AIMode
 
 public class PlayerAI : MonoBehaviour
 {
+    public Transform target;
+
     public SoldierType OwnClass;
     public Transform trans;
     public AIMode mode;
@@ -20,11 +22,16 @@ public class PlayerAI : MonoBehaviour
 
     float healthpoint = 100f;
     public float ViewCone;
+    public float AimCone;
     public float GunRange;
     public float FollowDistance;
     public NavMeshAgent agent;
     Rigidbody body;
 
+
+    public Transform spine;
+    public Vector3 Offset;
+    Quaternion initialRotation;
     Animator _anim;
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
@@ -34,8 +41,25 @@ public class PlayerAI : MonoBehaviour
 
     #region UNITY API
 
+    private void Start()
+    {
+        var offset = spine.eulerAngles - Offset;
+
+
+        initialRotation = spine.rotation;
+        //initialRotation = Quaternion.Euler(
+        //    offset.x,
+        //    offset.y,
+        //    offset.z);
+    }
+
     private void Update()
     {
+        if (gd.Get<Transform>("Target") != null)
+        {
+            target = gd.Get<Transform>("Target");
+        }
+
         gd.Set<bool>("ShallDebug", ShallDebug);
 
         Vector3 worldDeltaPosition = agent.nextPosition - transform.position;
@@ -58,9 +82,30 @@ public class PlayerAI : MonoBehaviour
         // Update animation parameters
         //_anim.SetBool("move", shouldMove);
 
-        //_anim.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
-        //_anim.SetFloat("VelX", velocity.x);
-        //_anim.SetFloat("VelY", velocity.y);
+        _anim.SetFloat("Speed", agent.velocity.magnitude / agent.speed);
+        _anim.SetFloat("VelX", velocity.x);
+        _anim.SetFloat("VelY", velocity.y);
+    }
+
+    private void LateUpdate()
+    {
+        if (gd.Get<Transform>("Target") == null)
+        {
+            return;
+        }
+
+        var lookRotation = Quaternion.LookRotation(target.position - spine.position);
+        spine.rotation = lookRotation * Quaternion.Euler(
+            (initialRotation.eulerAngles - Offset).x,
+            (initialRotation.eulerAngles - Offset).y,
+            (initialRotation.eulerAngles - Offset).z);
+
+        //// spine rotation to target in order to start aiming
+        //spine.rotation =
+        //    Quaternion.LookRotation(
+        //        gd.Get<Transform>("Target").position -
+        //        spine.position) *
+        //    initialRotation;
     }
 
     void OnAnimatorMove()
@@ -68,6 +113,7 @@ public class PlayerAI : MonoBehaviour
         // Update position to agent position
         transform.position = agent.nextPosition;
     }
+
     #endregion
 
     #region INIT
@@ -82,15 +128,13 @@ public class PlayerAI : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         body = GetComponent<Rigidbody>();
-        _anim = GetComponent<Animator>();
+        _anim = GetComponentInChildren<Animator>();
         // setup it's own color
         //GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
         body.isKinematic = true;
 
         OwnClass = specialtie;
         selfTeam = team;
-
-        print(team + "  " + selfTeam);
         trans = transform;
         IsAlive = true;
 
@@ -111,6 +155,7 @@ public class PlayerAI : MonoBehaviour
 
         /// Class values
         gd.Set<float>("VisionAngle", SoldierClassManager.Instance.GetRightVisionAngle(OwnClass));
+        gd.Set<float>("AimCone", 0.99f);
         gd.Set<float>("VisionDistance", SoldierClassManager.Instance.GetRightVisionDistance(OwnClass));
         gd.Set<WeaponType>("WeaponType", SoldierClassManager.Instance.GetRightWeaponForClass(OwnClass));
         gd.Set<float>("Speed", SoldierClassManager.Instance.GetRightSpeed(OwnClass));
@@ -203,7 +248,6 @@ public class PlayerAI : MonoBehaviour
         gd.Set<bool>("Alive", false);
         IsAlive = false;
         Spawner.Instance.NotifyDeath(this);
-        print(bulletowner);
         PointsManager.Instance.AddKillPoints(bulletowner);
     }
 
@@ -254,6 +298,16 @@ public class PlayerAI : MonoBehaviour
         yield return new WaitForSeconds(GameManager.Instance.TimeBeforeRespawn);
         Spawner.Instance.ReassingSinglePlayer(this);
     }
+
+    #endregion
+
+    #region DEBUG
+
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = selfTeam == Team.Blue ? Color.blue : Color.red;
+    //    Gizmos.DrawSphere(gd.Get<Vector3>("pathTarget"), 1f);
+    //}
 
     #endregion
 }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   MainWeapon: 0
-  Speed: 3.5
-  VisionAngle: 0.8
-  VisionDistance: 20
-  HealthPoints: 200
+  Speed: 5
+  VisionAngle: 0.4
+  VisionDistance: 40
+  HealthPoints: 50

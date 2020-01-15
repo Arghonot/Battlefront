@@ -358,6 +358,16 @@ public class Spawner : MonoBehaviour
         return (Team)team;
     }
 
+    public bool isAlive(Transform player)
+    {
+        for (int i = 0; i < DeadPlayers.Count; i++)
+        {
+            if (DeadPlayers[i].player.name == player.name)
+                return false;
+        }
+
+        return true;
+    }
 
     #endregion
 
@@ -394,7 +404,6 @@ public class Spawner : MonoBehaviour
             return Team.Yellow;
         return Team.None;
     }
-
 
     #endregion
 

@@ -7,6 +7,8 @@ namespace BT.CustomLeaves
 {
     public class SelectTarget : BTNode
     {
+        public string _name;
+
         public LayerMask mask;
 
         public override BTState Run()
@@ -22,7 +24,7 @@ namespace BT.CustomLeaves
         bool EvaluateTargets(List<Transform> enemies)
         {
 
-            if (AIcontext.Get<bool>("ShallDebug"))
+            if (AIcontext.Get<Transform>("self").name == _name)
             {
                 Debug.Log((enemies == null || enemies.Count == 0) ?
                     "SelectTarget -> null or 0 enemies found" :
@@ -30,7 +32,7 @@ namespace BT.CustomLeaves
             }
 
             EvalueateInConeOfSight(ref enemies);
-            if (AIcontext.Get<bool>("ShallDebug"))
+            if (AIcontext.Get<Transform>("self").name == _name)
             {
                 Debug.Log(enemies.Count == 0 ?
                     "EvalueateInConeOfSight -> no enemies were in cone of sight" :
@@ -38,7 +40,7 @@ namespace BT.CustomLeaves
             }
 
             EvaluateSeables(ref enemies);
-            if (AIcontext.Get<bool>("ShallDebug"))
+            if (AIcontext.Get<Transform>("self").name == _name)
             {
                 Debug.Log((enemies == null || enemies.Count == 0) ?
                     "EvaluateSeables -> null or 0 enemies were seable" :
@@ -48,8 +50,8 @@ namespace BT.CustomLeaves
             {
                 AIcontext.Set<Transform>(
                     "Target",
-                    enemies[Random.Range(0, enemies.Count)]);
-                if (AIcontext.Get<bool>("ShallDebug"))
+                    GetClosest(enemies));
+                if (AIcontext.Get<Transform>("self").name == _name)
                 {
                     Debug.Log("EvaluateSeables -> Choose : " + AIcontext.Get<Transform>("Target").name);
                 }
@@ -58,6 +60,27 @@ namespace BT.CustomLeaves
             }
 
             return false;
+        }
+
+        Transform GetClosest(List<Transform> enemies)
+        {
+            Vector3 pos = AIcontext.Get<Transform>("self").position;
+            int index = 0;
+            float dist = float.MaxValue;
+            float tmpDist = 0f;
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                tmpDist = Vector3.Distance(pos, enemies[i].position);
+                if (tmpDist < dist)
+
+                {
+                    dist = tmpDist;
+                    index = i;
+                }
+            }
+
+            return enemies[index];
         }
 
         void EvaluateSeables(ref List<Transform> enemies)
@@ -104,6 +127,11 @@ namespace BT.CustomLeaves
                 AIcontext.Get<Transform>("self").position,
                 enemy.position - AIcontext.Get<Transform>("self").position);
             RaycastHit hit = new RaycastHit();
+
+            if (AIcontext.Get<Transform>("self").name == _name)
+            {
+                Debug.Log("test");
+            }
 
             if (Physics.Raycast(ray, out hit))
             {

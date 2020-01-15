@@ -31,8 +31,17 @@ namespace BT.CustomLeaves
             // just another security check
             if (AIcontext.Get<NavMeshAgent>("agent").isOnNavMesh)
             {
-                // We set target  to some place around the pc (but still inside)
-                return pc.trans.position + new Vector3(randV2.x, 1f, randV2.y);
+                AIcontext.Set<PCBehavior>("PcTarget", pc);
+
+                if (pc == null)
+                {
+                    return AIcontext.Get<Transform>("self").position + new Vector3(randV2.x, 1f, randV2.y);
+                }
+                else
+                {
+                    // We set target  to some place around the pc (but still inside)
+                    return pc.transform.position + new Vector3(randV2.x, 1f, randV2.y);
+                }
             }
 
             return pc.trans.position;

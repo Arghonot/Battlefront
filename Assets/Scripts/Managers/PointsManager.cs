@@ -27,7 +27,6 @@ public class PointsManager : MonoBehaviour
 
     public void RegisterPlayerForScore(string name)
     {
-        print("name" + name);
         if (pointsPerPlayer == null)
             pointsPerPlayer = new Dictionary<string, float>();
 

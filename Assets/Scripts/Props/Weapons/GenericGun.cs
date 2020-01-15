@@ -44,7 +44,7 @@ public class GenericGun : MonoBehaviour
         body.Init();
 
         body.transform.position = mussle.position;
-        body.transform.rotation = transform.rotation;
+        body.transform.rotation = mussle.rotation;
         body.body.velocity = mussle.forward * bulletVelocity;
         body.gameObject.tag = parent.tag;
         body.owner = transform.parent.name;

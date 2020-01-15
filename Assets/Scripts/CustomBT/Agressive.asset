@@ -27,6 +27,8 @@ MonoBehaviour:
   - {fileID: 114595080133309560}
   - {fileID: 114932239922699706}
   - {fileID: 114842515662882162}
+  - {fileID: 114765997385171818}
+  - {fileID: 114298817083377756}
 --- !u!114 &114025335076513082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,7 +42,7 @@ MonoBehaviour:
   m_Name: Is Close
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -40, y: -88}
+  position: {x: -40, y: -120}
   ports:
     keys:
     - inPort
@@ -121,6 +123,55 @@ MonoBehaviour:
   inPort: 0
   outPort: 0
   DebugName: ' A'
+--- !u!114 &114298817083377756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50bbf1a9c3cf9ac4f9535bc3e736826c, type: 3}
+  m_Name: Sequence
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -248, y: -216}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114298817083377756}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: outPort
+        node: {fileID: 114765997385171818}
+        reroutePoints: []
+      - fieldName: outPort
+        node: {fileID: 114921584546338706}
+        reroutePoints: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114298817083377756}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114660106329004856}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  DebugName: 
 --- !u!114 &114407295845350478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +227,7 @@ MonoBehaviour:
   m_Name: Is Close
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -248, y: -552}
+  position: {x: -248, y: -536}
   ports:
     keys:
     - inPort
@@ -294,6 +345,7 @@ MonoBehaviour:
       _dynamic: 0
   inPort: 0
   outPort: 0
+  _name: 
   mask:
     serializedVersion: 2
     m_Bits: 1536
@@ -340,6 +392,7 @@ MonoBehaviour:
   inPort: 0
   outPort: 0
   Target: Target
+  _name: 
 --- !u!114 &114595080133309560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,7 +406,7 @@ MonoBehaviour:
   m_Name: Selector
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 488, y: -216}
+  position: {x: 504, y: -216}
   ports:
     keys:
     - inPort
@@ -422,7 +475,7 @@ MonoBehaviour:
         node: {fileID: 114553812297608984}
         reroutePoints: []
       - fieldName: outPort
-        node: {fileID: 114921584546338706}
+        node: {fileID: 114298817083377756}
         reroutePoints: []
       _direction: 0
       _connectionType: 0
@@ -442,7 +495,51 @@ MonoBehaviour:
       _dynamic: 0
   inPort: 0
   outPort: 0
-  DebugName: C
+  DebugName: 
+--- !u!114 &114765997385171818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c8b9d52f327d8548a6f061889d061f6, type: 3}
+  m_Name: Is In Cone Of Sight
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -536, y: -248}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114765997385171818}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114765997385171818}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114298817083377756}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
+  ConeOfSight: AimCone
+  TargetName: Target
 --- !u!114 &114790327236446942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -547,7 +644,7 @@ MonoBehaviour:
   m_Name: Shoot At Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: -248, y: -216}
+  position: {x: -536, y: -136}
   ports:
     keys:
     - inPort
@@ -568,7 +665,7 @@ MonoBehaviour:
         PublicKeyToken=null
       connections:
       - fieldName: inPort
-        node: {fileID: 114660106329004856}
+        node: {fileID: 114298817083377756}
         reroutePoints: []
       _direction: 1
       _connectionType: 0
@@ -666,3 +763,4 @@ MonoBehaviour:
       _dynamic: 0
   inPort: 0
   outPort: 0
+  _name: 
