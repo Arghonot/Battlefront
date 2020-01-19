@@ -99,14 +99,19 @@ MonoBehaviour:
   Classes:
   - Name: Assault
     specs: {fileID: 11400000, guid: e33ed4efe403f19478bd248f64426311, type: 2}
+    Prefab: {fileID: 0}
   - Name: Grenadier
     specs: {fileID: 11400000, guid: 030de374fe2c2cc43a353c7c0d0afd44, type: 2}
+    Prefab: {fileID: 0}
   - Name: Sniper
     specs: {fileID: 11400000, guid: 6476877c886d8414b92caeadbe1165ea, type: 2}
+    Prefab: {fileID: 0}
   - Name: Melee
     specs: {fileID: 11400000, guid: 6c3ef9d27af65254785c5b5ead797cd3, type: 2}
+    Prefab: {fileID: 0}
   - Name: RocketLauncher
     specs: {fileID: 11400000, guid: 7a3a8a394940b9343b787dfd797fc4f4, type: 2}
+    Prefab: {fileID: 0}
 --- !u!1 &7009888632428375005
 GameObject:
   m_ObjectHideFlags: 0
@@ -195,12 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e7395feed6e63d48862c6421d5605b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PCs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  PCs: []
   PointsToConquer: 10
   maskForPlayer:
     serializedVersion: 2
@@ -279,7 +279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f9f37a93341bc5468720193e23ec744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerPrefab: {fileID: 3539157719637507578, guid: 2b592beb82b15be46a77a5b8e07b1b70,
+  BluePrefab: {fileID: 574147660190033688, guid: 6b1a12e0b65b34741aa7180d6b46d974,
+    type: 3}
+  RedPrefab: {fileID: 7057103864088983309, guid: d4b910c6e26563c49ae97b8da6369521,
     type: 3}
   PlayerContainer: {fileID: 0}
   DeadStorage: {fileID: 7009888632751970463}
@@ -393,9 +395,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsGameRunning: 0
   IsTeamKillAllowed: 1
-  TimeBeforeRespawn: 10
+  TimeBeforeRespawn: 2
   PlayerPerTeam: 16
-  ticketsPerTeam: 25
+  ticketsPerTeam: 999
   AmountOfRounds: 10
   TimeBetweenRounds: 10
 --- !u!1 &7944420564491297853
@@ -441,4 +443,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b237f330fe57ee34a90f2cfbc111f8d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  graph: {fileID: 11400000, guid: f02079fc39dc95540aaa6c4a881a136f, type: 2}
+  graph: {fileID: 0}

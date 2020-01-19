@@ -1062,15 +1062,21 @@ MonoBehaviour:
   target: {fileID: 0}
   OwnClass: 0
   trans: {fileID: 0}
-  mode: 0
   selfTeam: 0
   IsAlive: 0
   gun: {fileID: 8759581544985725315}
   ViewCone: 0.45
+  AimCone: 0
   GunRange: 10
   FollowDistance: 15
   agent: {fileID: 4565113312617530188}
-  ShallDebug: 0
+  spine: {fileID: 19079049414601540}
+  Offset: {x: 0, y: 0, z: 0}
+  DebugArgs:
+    DebugBT: 0
+    DebugDestination: 0
+    DebugRayEnemy: 0
+    Enemy: {fileID: 0}
 --- !u!54 &4565113312617530190
 Rigidbody:
   m_ObjectHideFlags: 0

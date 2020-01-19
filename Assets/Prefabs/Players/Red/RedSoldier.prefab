@@ -1150,9 +1150,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 2.4529762
+  m_Height: 2.1651483
   m_Direction: 1
-  m_Center: {x: 0, y: -0.9698458, z: 0}
+  m_Center: {x: 0, y: -1.1137598, z: 0}
 --- !u!195 &7057103864088983310
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1190,18 +1190,21 @@ MonoBehaviour:
   target: {fileID: 0}
   OwnClass: 0
   trans: {fileID: 0}
-  mode: 0
   selfTeam: 0
   IsAlive: 0
   gun: {fileID: 8918336832360282680}
   ViewCone: 0.45
-  AimCone: 0
+  AimCone: 0.2
   GunRange: 10
   FollowDistance: 15
   agent: {fileID: 7057103864088983310}
   spine: {fileID: 6777881903916618948}
   Offset: {x: 0, y: -45, z: 25}
-  ShallDebug: 0
+  DebugArgs:
+    DebugBT: 0
+    DebugDestination: 0
+    DebugRayEnemy: 0
+    Enemy: {fileID: 0}
 --- !u!54 &7057103864088983308
 Rigidbody:
   m_ObjectHideFlags: 0

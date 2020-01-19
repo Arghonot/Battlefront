@@ -32,9 +32,12 @@ namespace BT.CustomLeaves
                 target.position -
                 AIcontext.Get<Transform>("self").position;
 
+            // we use the gun instead of player's transform in case of slope
+            // in this case the player might look at target perfectly but the elevation
+            // will make him consider it is not seing it properly
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                AIcontext.Get<Transform>("self").forward);
+                AIcontext.Get<GenericGun>("Gun").mussle.forward);
 
             if (seingvalue - visionAngle > 0)
             {

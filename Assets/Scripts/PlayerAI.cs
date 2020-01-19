@@ -9,13 +9,26 @@ public enum AIMode
     Wandering
 }
 
+/// <summary>
+/// Use this class for debug public arguments in order to avoid to make PlayerAI dirty.
+/// </summary>
+[System.Serializable]
+public class DebugArguments
+{
+    public bool DebugBT;
+
+    public bool DebugDestination;
+
+    public bool DebugRayEnemy;
+    public GameObject Enemy;
+}
+
 public class PlayerAI : MonoBehaviour
 {
     public Transform target;
 
     public SoldierType OwnClass;
     public Transform trans;
-    public AIMode mode;
     public Team selfTeam;
     public bool IsAlive;
     public GenericGun gun;
@@ -28,7 +41,7 @@ public class PlayerAI : MonoBehaviour
     public NavMeshAgent agent;
     Rigidbody body;
 
-
+    float TimeSinceLerp;
     public Transform spine;
     public Vector3 Offset;
     Quaternion initialRotation;
@@ -37,7 +50,8 @@ public class PlayerAI : MonoBehaviour
     Vector2 velocity = Vector2.zero;
 
     BT.GenericDictionary gd = new BT.GenericDictionary();
-    public bool ShallDebug;
+
+    public DebugArguments DebugArgs;
 
     #region UNITY API
 
@@ -45,12 +59,7 @@ public class PlayerAI : MonoBehaviour
     {
         var offset = spine.eulerAngles - Offset;
 
-
         initialRotation = spine.rotation;
-        //initialRotation = Quaternion.Euler(
-        //    offset.x,
-        //    offset.y,
-        //    offset.z);
     }
 
     private void Update()
@@ -58,9 +67,10 @@ public class PlayerAI : MonoBehaviour
         if (gd.Get<Transform>("Target") != null)
         {
             target = gd.Get<Transform>("Target");
+            DebugArgs.Enemy = target.gameObject;
         }
 
-        gd.Set<bool>("ShallDebug", ShallDebug);
+        gd.Set<bool>("ShallDebug", DebugArgs.DebugBT);
 
         Vector3 worldDeltaPosition = agent.nextPosition - transform.position;
 
@@ -91,21 +101,29 @@ public class PlayerAI : MonoBehaviour
     {
         if (gd.Get<Transform>("Target") == null)
         {
+            TimeSinceLerp = 0f;
+            //SpineRotation(Quaternion.LookRotation(Vector3.zero));
             return;
         }
 
+        TimeSinceLerp += Time.deltaTime;
         var lookRotation = Quaternion.LookRotation(target.position - spine.position);
+
+        SpineRotation(lookRotation);
+    }
+
+    void SpineRotation(Quaternion lookRotation)
+    {
+        // We do want to have a smooth spine rotation
+        lookRotation = Quaternion.Lerp(
+            spine.rotation,
+            lookRotation,
+            TimeSinceLerp);
+
         spine.rotation = lookRotation * Quaternion.Euler(
             (initialRotation.eulerAngles - Offset).x,
             (initialRotation.eulerAngles - Offset).y,
             (initialRotation.eulerAngles - Offset).z);
-
-        //// spine rotation to target in order to start aiming
-        //spine.rotation =
-        //    Quaternion.LookRotation(
-        //        gd.Get<Transform>("Target").position -
-        //        spine.position) *
-        //    initialRotation;
     }
 
     void OnAnimatorMove()
@@ -303,11 +321,29 @@ public class PlayerAI : MonoBehaviour
 
     #region DEBUG
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = selfTeam == Team.Blue ? Color.blue : Color.red;
-    //    Gizmos.DrawSphere(gd.Get<Vector3>("pathTarget"), 1f);
-    //}
+    private void OnDrawGizmos()
+    {
+        if (DebugArgs.DebugDestination)
+        {
+            DebugDestination();
+        }
+        if (DebugArgs.DebugRayEnemy)
+        {
+            DebugRayEnemy();
+        }
+    }
+
+    void DebugRayEnemy()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, DebugArgs.Enemy.transform.position);
+    }
+
+    void    DebugDestination()
+    {
+        Gizmos.color = selfTeam == Team.Blue ? Color.blue : Color.red;
+        Gizmos.DrawSphere(gd.Get<Vector3>("pathTarget"), 1f);
+    }
 
     #endregion
 }

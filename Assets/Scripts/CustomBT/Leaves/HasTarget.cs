@@ -8,6 +8,7 @@ namespace BT.CustomLeaves
     public class HasTarget : BTNode
     {
         public string _name;
+        public LayerMask mask;
 
         public override BTState Run()
         {
@@ -91,7 +92,15 @@ namespace BT.CustomLeaves
             {
                 if (hit.collider.tag == "Red" || hit.collider.tag == "Blue")
                 {
-                    return true;
+                    if (hit.collider.name == enemy.name ||
+                        hit.collider.tag == enemy.tag)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
             }
             if (AIcontext.Get<Transform>("self").name == _name)

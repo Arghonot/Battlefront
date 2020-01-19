@@ -15,6 +15,6 @@ MonoBehaviour:
   type: 0
   MainWeapon: 0
   Speed: 5
-  VisionAngle: 0.4
-  VisionDistance: 40
+  VisionAngle: 0.2
+  VisionDistance: 80
   HealthPoints: 50
