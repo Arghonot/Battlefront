@@ -9,9 +9,9 @@ namespace BT.CustomLeaves
     {
         public override BTState Run()
         {
-            if (AIcontext.Get<GenericGun>("Gun").canShoot)
+            if (AIcontext.Get<Gun>("Gun").canShoot)
             {
-                AIcontext.Get<GenericGun>("Gun").Shoot();
+                AIcontext.Get<Gun>("Gun").Shoot();
             }
 
             return BTState.Success;

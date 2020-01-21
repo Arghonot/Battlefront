@@ -88,7 +88,7 @@ MonoBehaviour:
   trans: {fileID: 0}
   selfTeam: 0
   IsAlive: 0
-  gun: {fileID: 8593284049279511952}
+  gun: {fileID: 3503757277418482080}
   ViewCone: 0.45
   AimCone: 0.2
   GunRange: 10
@@ -2778,7 +2778,7 @@ GameObject:
   - component: {fileID: 8593284049279315024}
   - component: {fileID: 8593284049280658480}
   - component: {fileID: 8593284049281313246}
-  - component: {fileID: 8593284049279511952}
+  - component: {fileID: 3503757277418482080}
   m_Layer: 0
   m_Name: weapon_assault_rifle_A
   m_TagString: Untagged
@@ -2846,7 +2846,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &8593284049279511952
+--- !u!114 &3503757277418482080
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2855,16 +2855,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8593284049279640412}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51441e5fd58730e4084fa2c2953f6eb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 368906faeee99084fbd80da65b48641b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1943961613, guid: 53ed61b1e499ddb44b3b87a8c3bcf449, type: 3}
   mussle: {fileID: 8593284048040140989}
-  parent: {fileID: 8593284049279363680}
-  canShoot: 0
+  projectile: {fileID: 1333824870595492205, guid: 53ed61b1e499ddb44b3b87a8c3bcf449,
+    type: 3}
+  bulletVelocity: 50
   loadingTime: 1
-  bulletVelocity: 15
-  rotationSpeed: 5
 --- !u!1 &8593284049279640602
 GameObject:
   m_ObjectHideFlags: 0

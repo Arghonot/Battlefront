@@ -37,7 +37,7 @@ namespace BT.CustomLeaves
             // will make him consider it is not seing it properly
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                AIcontext.Get<GenericGun>("Gun").mussle.forward);
+                AIcontext.Get<Gun>("Gun").mussle.forward);
 
             if (seingvalue - visionAngle > 0)
             {

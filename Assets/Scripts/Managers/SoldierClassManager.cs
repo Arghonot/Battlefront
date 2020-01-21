@@ -29,7 +29,7 @@ public class SoldierClass
     /// This will define all this class features.
     /// </summary>
     public SoldierClassEditor specs;
-    public GameManager Prefab;
+    public GameObject Prefab;
 }
 
 public class SoldierClassManager : MonoBehaviour

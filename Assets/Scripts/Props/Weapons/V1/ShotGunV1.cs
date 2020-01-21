@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShotGun : GenericGun
+public class ShotGunV1 : GenericGun
 {
     public float AmountOfBullets;
     public float Angle;

@@ -229,6 +229,11 @@ PrefabInstance:
       propertyPath: TicketsCount.Array.data[0]
       value: 
       objectReference: {fileID: 322610337}
+    - target: {fileID: 7009888633344184364, guid: 9d3f71eaa36333148a396626ff8fa4b3,
+        type: 3}
+      propertyPath: TimeBeforeRespawn
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4808500893379002168, guid: 9d3f71eaa36333148a396626ff8fa4b3,
         type: 3}
       propertyPath: graph

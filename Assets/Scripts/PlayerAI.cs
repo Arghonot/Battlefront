@@ -31,7 +31,7 @@ public class PlayerAI : MonoBehaviour
     public Transform trans;
     public Team selfTeam;
     public bool IsAlive;
-    public GenericGun gun;
+    public Gun gun;
 
     float healthpoint = 100f;
     public float ViewCone;
@@ -178,7 +178,7 @@ public class PlayerAI : MonoBehaviour
         gd.Set<WeaponType>("WeaponType", SoldierClassManager.Instance.GetRightWeaponForClass(OwnClass));
         gd.Set<float>("Speed", SoldierClassManager.Instance.GetRightSpeed(OwnClass));
         gd.Set<float>("MaxHealthPoints", SoldierClassManager.Instance.GetRightHealth(OwnClass));
-        gd.Set<GenericGun>("Gun", gun);
+        gd.Set<Gun>("Gun", gun);
 
         ViewCone = gd.Get<float>("VisionAngle");
     }
