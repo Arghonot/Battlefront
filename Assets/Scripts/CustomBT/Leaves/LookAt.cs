@@ -27,7 +27,7 @@ namespace BT.CustomLeaves
 
             var targetPoint = target.position;
             var targetRotation = Quaternion.LookRotation(targetPoint - trans.position, Vector3.up);
-            trans.rotation = Quaternion.Slerp(trans.rotation, targetRotation, Time.deltaTime * 2.0f);
+            trans.rotation = Quaternion.Slerp(trans.rotation, targetRotation, Time.deltaTime);
 
             return BTState.Success;
         }

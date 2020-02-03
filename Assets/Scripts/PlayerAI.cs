@@ -21,29 +21,27 @@ public class DebugArguments
 
     public bool DebugRayEnemy;
     public GameObject Enemy;
+
+    public bool DebugMussle;
+    public bool DebugCanSee;
 }
 
 public class PlayerAI : MonoBehaviour
 {
+    public float RemainingHealthPoints;
     public Transform target;
 
     public SoldierType OwnClass;
     public Transform trans;
     public Team selfTeam;
     public bool IsAlive;
-    public Gun gun;
 
-    float healthpoint = 100f;
-    public float ViewCone;
-    public float AimCone;
-    public float GunRange;
-    public float FollowDistance;
     public NavMeshAgent agent;
     Rigidbody body;
 
     float TimeSinceLerp;
     public Transform spine;
-    public Vector3 Offset;
+    Vector3 Offset = new Vector3(0f, -45f, 25f);
     Quaternion initialRotation;
     Animator _anim;
     Vector2 smoothDeltaPosition = Vector2.zero;
@@ -57,6 +55,7 @@ public class PlayerAI : MonoBehaviour
 
     private void Start()
     {
+        Debug.Break();
         var offset = spine.eulerAngles - Offset;
 
         initialRotation = spine.rotation;
@@ -64,6 +63,8 @@ public class PlayerAI : MonoBehaviour
 
     private void Update()
     {
+        SetDebugVals();
+         
         if (gd.Get<Transform>("Target") != null)
         {
             target = gd.Get<Transform>("Target");
@@ -157,30 +158,36 @@ public class PlayerAI : MonoBehaviour
         IsAlive = true;
 
         SetGDValues();
+        InitGun();
 
         BTExecutor.Instance.RegisterContext(gd);
     }
 
+    void InitGun()
+    {
+        gd.Get<Gun>("Gun").Initialize(SoldierClassManager.Instance.GetClassSpecs(OwnClass).profile);
+    }
+
     void SetGDValues()
     {
+        SoldierClassEditor specs = SoldierClassManager.Instance.GetClassSpecs(OwnClass);
+
         gd.Set<bool>("Alive", true);
         gd.Set<NavMeshAgent>("agent", agent);
         gd.Set<Team>("SelfTeam", selfTeam);
         gd.Set<Transform>("self", transform);
-        gd.Set<float>("GunRange", GunRange);
-        gd.Set<float>("FollowDistance", FollowDistance);
-        gd.Set<float>("VisionAngle", ViewCone);
+        gd.Set<float>("GunRange", specs.profile.DistanceOfSight); // use actual gun range
+        gd.Set<float>("FollowDistance", specs.followDistance); // soldier's
+        gd.Set<float>("VisionAngle", specs.ViewCone); // soldier's
 
         /// Class values
-        gd.Set<float>("VisionAngle", SoldierClassManager.Instance.GetRightVisionAngle(OwnClass));
-        gd.Set<float>("AimCone", 0.99f);
-        gd.Set<float>("VisionDistance", SoldierClassManager.Instance.GetRightVisionDistance(OwnClass));
-        gd.Set<WeaponType>("WeaponType", SoldierClassManager.Instance.GetRightWeaponForClass(OwnClass));
-        gd.Set<float>("Speed", SoldierClassManager.Instance.GetRightSpeed(OwnClass));
-        gd.Set<float>("MaxHealthPoints", SoldierClassManager.Instance.GetRightHealth(OwnClass));
-        gd.Set<Gun>("Gun", gun);
-
-        ViewCone = gd.Get<float>("VisionAngle");
+        gd.Set<float>("VisionAngle", specs.ViewCone);
+        gd.Set<float>("AimCone", specs.profile.ConeOfSight); // gun's
+        gd.Set<float>("VisionDistance", specs.VisionDistance);
+        gd.Set<WeaponType>("WeaponType", specs.MainWeapon);
+        gd.Set<float>("Speed", specs.Speed);
+        gd.Set<float>("MaxHealthPoints", specs.HealthPoints);
+        gd.Set<Gun>("Gun", GetComponentInChildren<Gun>());
     }
 
     #endregion
@@ -198,7 +205,7 @@ public class PlayerAI : MonoBehaviour
 
     void ResetOwnStat()
     {
-        healthpoint = SoldierClassManager.Instance.GetRightHealth(OwnClass);
+        RemainingHealthPoints = SoldierClassManager.Instance.GetRightHealth(OwnClass);
         agent.speed = SoldierClassManager.Instance.GetRightSpeed(OwnClass);
         this.enabled = true;
         // We enable it's agent back
@@ -206,6 +213,8 @@ public class PlayerAI : MonoBehaviour
         agent.updatePosition = true;
         agent.updateRotation = true;
         agent.enabled = true;
+
+        gd.Set<bool>("isStunned", false);
     }
 
     public void SetNewPosition(Vector3 newpos)
@@ -233,9 +242,9 @@ public class PlayerAI : MonoBehaviour
 
     public void TakeDamage(float amount, string bulletowner)
     {
-        healthpoint -= amount;
+        RemainingHealthPoints -= amount;
 
-        if (healthpoint <= 0)
+        if (RemainingHealthPoints <= 0)
         {
             Die(bulletowner);
         }
@@ -243,11 +252,11 @@ public class PlayerAI : MonoBehaviour
 
     public void TakeExplosiveDamage(float amount, string bulletowner, float disabilityTime)
     {
-        healthpoint -= amount;
+        RemainingHealthPoints -= amount;
 
         StopAllExplosionAnimation();
 
-        if (healthpoint <= 0)
+        if (RemainingHealthPoints <= 0)
         {
             Die(bulletowner);
         }
@@ -287,6 +296,8 @@ public class PlayerAI : MonoBehaviour
 
     IEnumerator DisablePlayerMovement(float disabilityTime)
     {
+        gd.Set<Transform>("Target", null);
+        gd.Set<bool>("isStunned", true);
         // We disable it's agent
         agent.isStopped = true;
         agent.updatePosition = false;
@@ -301,6 +312,7 @@ public class PlayerAI : MonoBehaviour
         agent.updatePosition = true;
         agent.updateRotation = true;
         agent.enabled = true;
+        gd.Set<bool>("isStunned", false);
 
         yield return null;
     }
@@ -320,6 +332,13 @@ public class PlayerAI : MonoBehaviour
     #endregion
 
     #region DEBUG
+
+    void SetDebugVals()
+    {
+        //Debug
+        gd.Set<bool>("DebugMussle", DebugArgs.DebugMussle);
+        gd.Set<bool>("DebugCanSee", DebugArgs.DebugCanSee);
+    }
 
     private void OnDrawGizmos()
     {

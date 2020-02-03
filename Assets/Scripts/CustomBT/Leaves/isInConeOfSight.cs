@@ -39,6 +39,11 @@ namespace BT.CustomLeaves
                 directiontotarget.normalized,
                 AIcontext.Get<Gun>("Gun").mussle.forward);
 
+            if (AIcontext.Get<bool>("DebugMussle"))
+            {
+                Debug.Log(seingvalue);
+            }
+
             if (seingvalue - visionAngle > 0)
             {
                 return true;

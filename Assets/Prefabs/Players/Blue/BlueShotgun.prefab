@@ -116,15 +116,21 @@ MonoBehaviour:
   target: {fileID: 0}
   OwnClass: 0
   trans: {fileID: 0}
-  mode: 0
   selfTeam: 0
   IsAlive: 0
-  gun: {fileID: 8233121054963068750}
+  gun: {fileID: 5353592058782586370}
   ViewCone: 0.45
+  AimCone: 0
   GunRange: 10
   FollowDistance: 15
   agent: {fileID: 4409013260577861197}
-  ShallDebug: 0
+  spine: {fileID: 8927600577824168519}
+  Offset: {x: 0, y: 0, z: 0}
+  DebugArgs:
+    DebugBT: 0
+    DebugDestination: 0
+    DebugRayEnemy: 0
+    Enemy: {fileID: 0}
 --- !u!54 &4409013260577861199
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -141,7 +147,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8233121054963068750
+--- !u!114 &5353592058782586370
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,19 +156,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7607560274482319335}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5b64c964463ce4b8c23298bb6ad754, type: 3}
+  m_Script: {fileID: 11500000, guid: c10e9e87db2bb2a4bb8bf6566b255ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1018924814902779492, guid: 6b222802a494fe349bbd053c1f430e11,
-    type: 3}
   mussle: {fileID: 1963483725715716610}
-  parent: {fileID: 4409013260577861195}
+  projectile: {fileID: 227497815109345000, guid: 6b222802a494fe349bbd053c1f430e11,
+    type: 3}
+  bulletVelocity: 0
+  loadingTime: 0
   canShoot: 0
-  loadingTime: 1
-  bulletVelocity: 50
-  rotationSpeed: 0
-  AmountOfBullets: 4
-  Angle: 45
+  AmountOfBullets: 5
+  Angle: 4
 --- !u!1 &8927600577824437773
 GameObject:
   m_ObjectHideFlags: 0
@@ -186,7 +190,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8927600577824437773}
-  m_LocalRotation: {x: 0.66463345, y: 0.041310567, z: 0.74514234, w: 0.036316104}
+  m_LocalRotation: {x: 0.6646334, y: 0.041310567, z: 0.7451423, w: 0.036316104}
   m_LocalPosition: {x: -0.5700798, y: 0.0006140371, z: -0.12735397}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
   m_Children:
@@ -2744,7 +2748,7 @@ Animator:
   m_GameObject: {fileID: 8927600577824613111}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 317bd1d2b778cf0448b311d615661b6e, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 653e65fb4b5417e4b8458fdcdb4c5709, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1

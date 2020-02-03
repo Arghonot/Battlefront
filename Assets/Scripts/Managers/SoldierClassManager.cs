@@ -29,7 +29,8 @@ public class SoldierClass
     /// This will define all this class features.
     /// </summary>
     public SoldierClassEditor specs;
-    public GameObject Prefab;
+    public GameObject RedPrefab;
+    public GameObject BluePrefab;
 }
 
 public class SoldierClassManager : MonoBehaviour
@@ -45,6 +46,16 @@ public class SoldierClassManager : MonoBehaviour
                 instance = FindObjectOfType<SoldierClassManager>();
             return instance;
         }
+    }
+
+    public GameObject   GetPrefab(Team team, SoldierType type)
+    {
+        return team == Team.Blue ? Classes[(int)type].BluePrefab : Classes[(int)type].RedPrefab;
+    }
+
+    public SoldierClassEditor   GetClassSpecs(SoldierType type)
+    {
+        return Classes[(int)type].specs;
     }
 
     /// <summary>
@@ -84,7 +95,7 @@ public class SoldierClassManager : MonoBehaviour
     /// <returns>The vision angle that this class should be equiped with.</returns>
     public float GetRightVisionAngle(SoldierType soldierclass)
     {
-        return Classes.Where(x => x.specs.type == soldierclass).First().specs.VisionAngle;
+        return Classes.Where(x => x.specs.type == soldierclass).First().specs.ViewCone;
     }
 
     /// <summary>

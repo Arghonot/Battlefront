@@ -282,7 +282,7 @@ Animator:
   m_GameObject: {fileID: 19079049414833954}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 317bd1d2b778cf0448b311d615661b6e, type: 3}
-  m_Controller: {fileID: 9100000, guid: b9351c6314853094198eab36d09aedda, type: 2}
+  m_Controller: {fileID: 9100000, guid: 653e65fb4b5417e4b8458fdcdb4c5709, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -472,7 +472,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 19079049414833972}
-  m_LocalRotation: {x: 0.6646334, y: 0.04131057, z: 0.7451423, w: 0.036316108}
+  m_LocalRotation: {x: 0.6646334, y: 0.041310575, z: 0.7451423, w: 0.03631611}
   m_LocalPosition: {x: -0.5700798, y: 0.0006140371, z: -0.12735397}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
   m_Children:
@@ -1064,14 +1064,13 @@ MonoBehaviour:
   trans: {fileID: 0}
   selfTeam: 0
   IsAlive: 0
-  gun: {fileID: 8759581544985725315}
+  gun: {fileID: 8328590159493632360}
   ViewCone: 0.45
   AimCone: 0
   GunRange: 10
   FollowDistance: 15
   agent: {fileID: 4565113312617530188}
   spine: {fileID: 19079049414601540}
-  Offset: {x: 0, y: 0, z: 0}
   DebugArgs:
     DebugBT: 0
     DebugDestination: 0
@@ -1123,7 +1122,7 @@ Transform:
   m_Father: {fileID: 8759581544986120960}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 180}
---- !u!114 &8759581544985725315
+--- !u!114 &8328590159493632360
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1132,19 +1131,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8759581544985693984}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc5b64c964463ce4b8c23298bb6ad754, type: 3}
+  m_Script: {fileID: 11500000, guid: c10e9e87db2bb2a4bb8bf6566b255ee6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 5371587482188278544, guid: dd8ff4782feffb8408fa08086d44947a,
-    type: 3}
   mussle: {fileID: 8759581544234902146}
-  parent: {fileID: 4565113312617530186}
-  canShoot: 0
-  loadingTime: 0
+  projectile: {fileID: 227497815109345000, guid: 6b222802a494fe349bbd053c1f430e11,
+    type: 3}
   bulletVelocity: 0
-  rotationSpeed: 0
-  AmountOfBullets: 0
-  Angle: 0
+  loadingTime: 0
+  canShoot: 0
+  AmountOfBullets: 5
+  Angle: 4
 --- !u!1001 &8759581544985725312
 PrefabInstance:
   m_ObjectHideFlags: 0

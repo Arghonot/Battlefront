@@ -9,7 +9,7 @@ public class ShotgunV2 : Gun
 
     public override bool Shoot()
     {
-        if (canShoot)
+        if (!canShoot)
         {
             return false;
         }

@@ -29,6 +29,7 @@ MonoBehaviour:
   - {fileID: 114842515662882162}
   - {fileID: 114765997385171818}
   - {fileID: 114298817083377756}
+  - {fileID: 114581822493464666}
 --- !u!114 &114025335076513082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,6 +394,48 @@ MonoBehaviour:
   outPort: 0
   Target: Target
   _name: 
+--- !u!114 &114581822493464666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bd8027dafabc3e43b92dc63c0cdbb1e, type: 3}
+  m_Name: Can See
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000}
+  position: {x: -248, y: -616}
+  ports:
+    keys:
+    - inPort
+    - outPort
+    values:
+    - _fieldName: inPort
+      _node: {fileID: 114581822493464666}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections: []
+      _direction: 0
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+    - _fieldName: outPort
+      _node: {fileID: 114581822493464666}
+      _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+        PublicKeyToken=null
+      connections:
+      - fieldName: inPort
+        node: {fileID: 114660106329004856}
+        reroutePoints: []
+      _direction: 1
+      _connectionType: 0
+      _typeConstraint: 0
+      _dynamic: 0
+  inPort: 0
+  outPort: 0
 --- !u!114 &114595080133309560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,6 +508,9 @@ MonoBehaviour:
       _typeQualifiedName: BT.BTState, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
         PublicKeyToken=null
       connections:
+      - fieldName: outPort
+        node: {fileID: 114581822493464666}
+        reroutePoints: []
       - fieldName: outPort
         node: {fileID: 114461846175485218}
         reroutePoints: []
@@ -734,7 +780,7 @@ MonoBehaviour:
   m_Name: Has Target
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 216, y: -600}
+  position: {x: 216, y: -616}
   ports:
     keys:
     - inPort
@@ -764,3 +810,6 @@ MonoBehaviour:
   inPort: 0
   outPort: 0
   _name: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 0

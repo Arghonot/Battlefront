@@ -20,8 +20,8 @@ public class DeadPlayerSlot
 
 public class Spawner : MonoBehaviour
 {
-    public GameObject BluePrefab;
-    public GameObject RedPrefab;
+    //public GameObject BluePrefab;
+    //public GameObject RedPrefab;
     public Transform PlayerContainer;
     public Transform DeadStorage;
     public List<List<PlayerAI>> Teams;
@@ -89,17 +89,23 @@ public class Spawner : MonoBehaviour
     {
         for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
         {
+            var SoldierClass = (SoldierType)UnityEngine.Random.Range(
+                     0,
+                     Convert.ToInt32(
+                         Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max()));
 
-            // TODO CHANGE THIS
-            Teams[(int)team].Add(Instantiate(team == Team.Blue ? BluePrefab : RedPrefab).GetComponent<PlayerAI>());
+            //var SoldierClass = SoldierType.RocketLauncher;
+
+            Teams[(int)team].Add(
+                Instantiate(
+                        SoldierClassManager.Instance.GetPrefab(
+                            team,
+                            SoldierClass)).
+                                GetComponent<PlayerAI>());
 
             //Teams[(int)team].Last().Init(team, SoldierType.Assault);
 
-            Teams[(int)team].Last().Init(team,
-                 (SoldierType)UnityEngine.Random.Range(
-                     0,
-                     Convert.ToInt32(
-                         Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max())));
+            Teams[(int)team].Last().Init(team, SoldierClass);
 
             Teams[(int)team].Last().trans.SetParent(PlayerContainer);
             Teams[(int)team].Last().gameObject.name = string.Join("_", new string[]
@@ -403,6 +409,31 @@ public class Spawner : MonoBehaviour
         if (name == "Yellow")
             return Team.Yellow;
         return Team.None;
+    }
+
+    #endregion
+
+    #region DEBUG
+
+    public Vector3 GetRedPosition(int index)
+    {
+        // in case none was found
+        if (index < 0 || index > Teams[1].Count)
+        {
+            return Vector3.zero;
+        }
+        return Teams[1][index].transform.position;
+    }
+
+    public Vector3 GetBluePosition(int index)
+    {
+        // in case none was found
+        if (index < 0 || index > Teams[0].Count)
+        {
+            return Vector3.zero;
+        }
+
+        return Teams[0][index].transform.position;
     }
 
     #endregion

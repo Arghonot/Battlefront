@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5410130054132347293
+--- !u!114 &4571163013930026753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,17 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 346209713738209980}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51441e5fd58730e4084fa2c2953f6eb3, type: 3}
+  m_Script: {fileID: 11500000, guid: 368906faeee99084fbd80da65b48641b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 2851217823813087317, guid: 9f0c074d34a9c1448bee1b04391c31f9,
-    type: 3}
   mussle: {fileID: 876818352969260337}
-  parent: {fileID: 6484636971584827540}
+  projectile: {fileID: 75657275542992188, guid: 9f0c074d34a9c1448bee1b04391c31f9,
+    type: 3}
+  bulletVelocity: 0
+  loadingTime: 0
   canShoot: 0
-  loadingTime: 3
-  bulletVelocity: 50
-  rotationSpeed: 0
 --- !u!1 &1405220936969159373
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,7 +567,7 @@ Animator:
   m_GameObject: {fileID: 2248648237346569256}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 317bd1d2b778cf0448b311d615661b6e, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a85b106971017704ba90c7d31335030b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -2952,7 +2950,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2248648237346678994}
-  m_LocalRotation: {x: 0.66463345, y: 0.041310567, z: 0.74514234, w: 0.036316104}
+  m_LocalRotation: {x: 0.6646334, y: 0.041310567, z: 0.7451423, w: 0.036316104}
   m_LocalPosition: {x: -0.5700798, y: 0.0006140371, z: -0.12735397}
   m_LocalScale: {x: 1.0000001, y: 1.0000001, z: 1}
   m_Children:
@@ -3046,15 +3044,21 @@ MonoBehaviour:
   target: {fileID: 0}
   OwnClass: 0
   trans: {fileID: 0}
-  mode: 0
   selfTeam: 0
   IsAlive: 0
-  gun: {fileID: 5410130054132347293}
+  gun: {fileID: 4571163013930026753}
   ViewCone: 0.45
+  AimCone: 0
   GunRange: 10
   FollowDistance: 15
   agent: {fileID: 6484636971584827538}
-  ShallDebug: 0
+  spine: {fileID: 2248648237346931864}
+  Offset: {x: 0, y: 0, z: 0}
+  DebugArgs:
+    DebugBT: 0
+    DebugDestination: 0
+    DebugRayEnemy: 0
+    Enemy: {fileID: 0}
 --- !u!54 &6484636971584827536
 Rigidbody:
   m_ObjectHideFlags: 0

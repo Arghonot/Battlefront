@@ -11,7 +11,13 @@ public class SoldierClassEditor : ScriptableObject
     public SoldierType type;
     public WeaponType MainWeapon;
     public float Speed;
-    public float VisionAngle;
+
+    public float ViewCone;
     public float VisionDistance;
+
+    public float followDistance;
+
     public float HealthPoints;
+
+    public WeaponProfile profile;
 }

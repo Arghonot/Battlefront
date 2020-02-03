@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d67b618f722c6ec4dab5f6c8397ccef1, type: 3}
-  m_Name: Sniper
+  m_Script: {fileID: 11500000, guid: 19b47b463b79fde4fa2c1004028eefd5, type: 3}
+  m_Name: Assault
   m_EditorClassIdentifier: 
-  type: 2
-  MainWeapon: 2
-  Speed: 2
-  ViewCone: 0.45
-  VisionDistance: 50
-  followDistance: 15
-  HealthPoints: 120
-  profile: {fileID: 11400000, guid: b6e3c953cd6eb434490114750f5cc25e, type: 2}
+  DistanceOfSight: 10
+  ConeOfSight: 0.2
+  bulletVelocity: 50
+  loadingTime: 1

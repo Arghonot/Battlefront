@@ -60,9 +60,10 @@ public class Grenade : GenericProjectile
                         distance);
 
                 // we set it's explosion effect
-                colliders[i].GetComponent<Rigidbody>().AddForce(
-                    new Vector3(direction.x, 0, direction.z),
-                    ForceMode.Impulse);
+                //colliders[i].GetComponent<Rigidbody>().AddForce(
+                //    new Vector3(direction.x, 0, direction.z),
+                //    ForceMode.Impulse);
+                colliders[i].GetComponent<Rigidbody>().AddExplosionForce(ExplosionForce, transform.position, ExplosionRadius);
             }
         }
 

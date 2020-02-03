@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Gun : MonoBehaviour
+public class Gun : MonoBehaviour
 {
     public Transform mussle;
     public Transform projectile;
@@ -13,9 +13,18 @@ public abstract class Gun : MonoBehaviour
     protected float TimeSinceLastShot;
     public bool canShoot;
 
-    public abstract bool Shoot();
+    public virtual bool Shoot()
+    {
+        return true;
+    }
 
-    public virtual void Update()
+    public void Initialize(WeaponProfile profile)
+    {
+        bulletVelocity = profile.bulletVelocity;
+        loadingTime = profile.loadingTime;
+    }
+
+    public void Update()
     {
         TimeSinceLastShot += Time.deltaTime;
 
