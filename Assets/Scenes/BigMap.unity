@@ -34092,7 +34092,7 @@ PrefabInstance:
     - target: {fileID: 7009888633344184364, guid: 9d3f71eaa36333148a396626ff8fa4b3,
         type: 3}
       propertyPath: ticketsPerTeam
-      value: 200
+      value: 99999
       objectReference: {fileID: 0}
     - target: {fileID: 7009888633344184364, guid: 9d3f71eaa36333148a396626ff8fa4b3,
         type: 3}

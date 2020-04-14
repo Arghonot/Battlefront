@@ -224,6 +224,11 @@ PrefabInstance:
       propertyPath: TicketsCount.Array.data[1]
       value: 
       objectReference: {fileID: 322610338}
+    - target: {fileID: 7009888633344184364, guid: 9d3f71eaa36333148a396626ff8fa4b3,
+        type: 3}
+      propertyPath: PlayerPerTeam
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d3f71eaa36333148a396626ff8fa4b3, type: 3}
 --- !u!43 &85387324
@@ -2922,6 +2927,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PC
       objectReference: {fileID: 0}
+    - target: {fileID: 6098203053331096031, guid: 578666f2081fefc44ad768da19d8f052,
+        type: 3}
+      propertyPath: ControlledBy
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6098203053331096027, guid: 578666f2081fefc44ad768da19d8f052,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2975,11 +2985,6 @@ PrefabInstance:
     - target: {fileID: 6098203053331096027, guid: 578666f2081fefc44ad768da19d8f052,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6098203053331096031, guid: 578666f2081fefc44ad768da19d8f052,
-        type: 3}
-      propertyPath: ControlledBy
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -9250,6 +9255,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PC (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6098203053331096031, guid: 578666f2081fefc44ad768da19d8f052,
+        type: 3}
+      propertyPath: ControlledBy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6098203053331096027, guid: 578666f2081fefc44ad768da19d8f052,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -9304,11 +9314,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6098203053331096031, guid: 578666f2081fefc44ad768da19d8f052,
-        type: 3}
-      propertyPath: ControlledBy
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 578666f2081fefc44ad768da19d8f052, type: 3}

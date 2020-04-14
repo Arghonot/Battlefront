@@ -41,7 +41,7 @@ public class PlayerAI : MonoBehaviour
 
     float TimeSinceLerp;
     public Transform spine;
-    Vector3 Offset = new Vector3(0f, -45f, 25f);
+    Vector3 Offset = Vector3.zero;//new Vector3(0f, -45f, 25f);
     Quaternion initialRotation;
     Animator _anim;
     Vector2 smoothDeltaPosition = Vector2.zero;
@@ -55,9 +55,15 @@ public class PlayerAI : MonoBehaviour
 
     private void Start()
     {
-        Debug.Break();
         var offset = spine.eulerAngles - Offset;
 
+        StartCoroutine(GetInitialRotation());
+        //initialRotation = spine.rotation;
+    }
+
+    IEnumerator GetInitialRotation()
+    {
+        yield return new WaitForSeconds(2f);
         initialRotation = spine.rotation;
     }
 
@@ -103,7 +109,7 @@ public class PlayerAI : MonoBehaviour
         if (gd.Get<Transform>("Target") == null)
         {
             TimeSinceLerp = 0f;
-            //SpineRotation(Quaternion.LookRotation(Vector3.zero));
+            //SpineRotation(initialRotation);
             return;
         }
 
