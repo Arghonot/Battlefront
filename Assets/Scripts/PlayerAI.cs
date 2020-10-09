@@ -239,7 +239,7 @@ public class PlayerAI : MonoBehaviour
     {
         Vector2 randV2 = Random.insideUnitCircle * pc.PCRange;
 
-        SetNewPosition(pc.trans.position + new Vector3(randV2.x, 1f, randV2.y));
+        SetNewPosition(pc.transform.position + new Vector3(randV2.x, 1f, randV2.y));
     }
 
     #endregion

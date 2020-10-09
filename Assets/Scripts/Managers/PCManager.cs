@@ -108,7 +108,9 @@ public class PCManager : MonoBehaviour
         return PCs[index];
     }
 
-    public PCBehavior GetFirstNeutralEnemyPC(Vector3 playerposition, Team team, bool shalldebugactions = false)
+    public PCBehavior GetFirstNeutralEnemyPC(Vector3 playerposition,
+        Team team,
+        bool shalldebugactions = false)
     {
         float dist = float.MaxValue;
         int index = -1;
