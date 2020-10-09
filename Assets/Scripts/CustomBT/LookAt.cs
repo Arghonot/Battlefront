@@ -2,15 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XNode;
+using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class LookAt : BTNode
+    public class LookAt : Leaf<int>
     {
         public string Target;
         public string _name;
 
-        public override BTState Run()
+        // TODO remove ?
+        Graph.GenericDicionnary AIcontext
+        {
+            get
+            {
+                return ((DefaultGraph)graph).gd;
+            }
+        }
+
+        public override object Run()
         {
             if (AIcontext.Get<Transform>("self").name == _name)
             {
@@ -22,14 +32,16 @@ namespace BT.CustomLeaves
 
             if (target == null || trans == null)
             {
-                return BTState.Failure;
+                return 0;
             }
 
             var targetPoint = target.position;
-            var targetRotation = Quaternion.LookRotation(targetPoint - trans.position, Vector3.up);
-            trans.rotation = Quaternion.Slerp(trans.rotation, targetRotation, Time.deltaTime);
+            var targetRotation =
+                Quaternion.LookRotation(targetPoint - trans.position, Vector3.up);
+            trans.rotation =
+                Quaternion.Slerp(trans.rotation, targetRotation, Time.deltaTime);
 
-            return BTState.Success;
+            return 1;
         }
     }
 }

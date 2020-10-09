@@ -2,19 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XNode;
+using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class HasTarget : BTNode
+    public class HasTarget : Leaf<int>
     {
         public string _name;
         public LayerMask mask;
 
-        public override BTState Run()
-        {
-            Transform target = AIcontext.Get<Transform>("Target");
+        // TODO remove ?
+        Graph.GenericDicionnary AIcontext
+        { get
+            {
+                return ((DefaultGraph)graph).gd;
+            }
+        }
 
-            if (AIcontext.Get<bool>("ShallDebug"))
+        public override object Run()
+        {
+            Transform target = ((DefaultGraph)graph).gd.Get<Transform>("Target");
+
+            if (((DefaultGraph)graph).gd.Get<bool>("ShallDebug"))
             {
                 Debug.Log(target == null ? "HasTarget -> no" : ("HasTarget -> yes " + target.name));
             }
@@ -36,30 +45,30 @@ namespace BT.CustomLeaves
                 }
 
                 AIcontext.Set<Transform>("Target", null);
-                return BTState.Failure;
+                return 0;
             }
             if (!Spawner.Instance.isAlive(target))
             {
                 AIcontext.Set<Transform>("Target", null);
-                return BTState.Failure;
+                return 0;
             }
             if (!CheckDistance(target))
             {
                 AIcontext.Set<Transform>("Target", null);
-                return BTState.Failure;
+                return 0;
             }
             if (!IsInConeOfSight(target))
             {
                 AIcontext.Set<Transform>("Target", null);
-                return BTState.Failure;
+                return 0;
             }
             if (!CanBeSeen(target))
             {
                 AIcontext.Set<Transform>("Target", null);
-                return BTState.Failure;
+                return 0;
             }
 
-            return BTState.Success;
+            return 1;
         }
 
         bool IsInConeOfSight(Transform enemy)

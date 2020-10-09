@@ -2,23 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XNode;
+using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class SelectTarget : BTNode
+    public class SelectTarget : Leaf<int>
     {
         public string _name;
 
         public LayerMask mask;
 
-        public override BTState Run()
+        // TODO remove ?
+        Graph.GenericDicionnary AIcontext
+        {
+            get
+            {
+                return ((DefaultGraph)graph).gd;
+            }
+        }
+
+        public override object Run()
         {
             return EvaluateTargets(Spawner.Instance.getEnemiesInRange(
                 AIcontext.Get<Team>("SelfTeam"),
                 AIcontext.Get<Transform>("self").position,
                 AIcontext.Get<float>("VisionDistance"))) == true ?
-                BTState.Success :
-                BTState.Failure;
+                1 :
+                0;
         }
 
         bool EvaluateTargets(List<Transform> enemies)

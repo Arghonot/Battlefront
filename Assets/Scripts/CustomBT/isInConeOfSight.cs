@@ -2,44 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XNode;
+using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class isInConeOfSight : BTNode
+    public class isInConeOfSight : Leaf<int>
     {
         public string ConeOfSight;
         public string TargetName;
 
-        public override BTState Run()
+        public override object Run()
         {
             // If something wasn't set
-            if (AIcontext.Get<Transform>(TargetName) == null ||
-                AIcontext.Get<float>(ConeOfSight) == 0f)
+            if (((DefaultGraph)graph).gd.Get<Transform>(TargetName) == null ||
+                ((DefaultGraph)graph).gd.Get<float>(ConeOfSight) == 0f)
             {
-                return BTState.Failure;
+                return 0;
             }
 
             return IsInConeOfSight(
-                    AIcontext.Get<Transform>(TargetName),
-                    AIcontext.Get<float>(ConeOfSight)) ?
-                BTState.Success :
-                BTState.Failure;
+                    ((DefaultGraph)graph).gd.Get<Transform>(TargetName),
+                    ((DefaultGraph)graph).gd.Get<float>(ConeOfSight)) ?
+                1 :
+                0;
         }
 
         bool IsInConeOfSight(Transform target, float visionAngle)
         {
             Vector3 directiontotarget = 
                 target.position -
-                AIcontext.Get<Transform>("self").position;
+                ((DefaultGraph)graph).gd.Get<Transform>("self").position;
 
             // we use the gun instead of player's transform in case of slope
             // in this case the player might look at target perfectly but the elevation
             // will make him consider it is not seing it properly
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                AIcontext.Get<Gun>("Gun").mussle.forward);
+                ((DefaultGraph)graph).gd.Get<Gun>("Gun").mussle.forward);
 
-            if (AIcontext.Get<bool>("DebugMussle"))
+            if (((DefaultGraph)graph).gd.Get<bool>("DebugMussle"))
             {
                 Debug.Log(seingvalue);
             }

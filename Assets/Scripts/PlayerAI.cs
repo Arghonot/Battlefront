@@ -47,7 +47,7 @@ public class PlayerAI : MonoBehaviour
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
 
-    BT.GenericDictionary gd = new BT.GenericDictionary();
+    Graph.GenericDicionnary gd = new Graph.GenericDicionnary();
 
     public DebugArguments DebugArgs;
 

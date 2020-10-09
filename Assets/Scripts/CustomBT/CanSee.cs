@@ -1,28 +1,29 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class CanSee : BTNode
+    public class CanSee : Branch<int>
     {
-        public override BTState Run()
+        public override object Run()
         {
-            if (AIcontext.Get<bool>("DebugCanSee"))
+            if (((DefaultGraph)graph).gd.Get<bool>("DebugCanSee"))
             {
-                CanBeSeen(AIcontext.Get<Transform>("Target"));
+                CanBeSeen(((DefaultGraph)graph).gd.Get<Transform>("Target"));
             }
 
-            return CanBeSeen(AIcontext.Get<Transform>("Target")) ?
-                BTState.Success :
-                BTState.Failure;
+            return CanBeSeen(((DefaultGraph)graph).gd.Get<Transform>("Target")) ?
+                1 :
+                0;
         }
 
         bool CanBeSeen(Transform enemy)
         {
             Ray ray = new Ray(
-                AIcontext.Get<Transform>("self").position,
-                enemy.position - AIcontext.Get<Transform>("self").position);
+                ((DefaultGraph)graph).gd.Get<Transform>("self").position,
+                enemy.position - ((DefaultGraph)graph).gd.Get<Transform>("self").position);
             RaycastHit hit = new RaycastHit();
 
             if (Physics.Raycast(ray, out hit))

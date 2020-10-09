@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using XNode;
+using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class GoToConstantPosition : BTNode
+    public class GoToConstantPosition : Leaf<int>
     {
         public string RandomPositionName;
         public Vector3 positionToReach;
 
-        public override BTState Run()
+        public override object Run()
         {
-            AIcontext.Set<Vector3>(
+            ((DefaultGraph)graph).gd.Set<Vector3>(
                 RandomPositionName,
                 positionToReach);
 
-            return BTState.Success;
+            return 1;
         }
     }
 }
