@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using XNode;
 using Graph;
 
-namespace BT.CustomLeaves
+namespace BT.StandardLeaves
 {
     public class StartWalking : Leaf<int>
     {
