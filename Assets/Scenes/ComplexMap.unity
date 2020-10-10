@@ -18760,8 +18760,28 @@ PrefabInstance:
       propertyPath: PlayerPerTeam
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4808500893379002168, guid: 9d3f71eaa36333148a396626ff8fa4b3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9d3f71eaa36333148a396626ff8fa4b3, type: 3}
+--- !u!1 &1816189000 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7944420564491297853, guid: 9d3f71eaa36333148a396626ff8fa4b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1816188999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1816189001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1816189000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cfe77e3a3257b4438d24691a5eeba61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  graph: {fileID: 11400000, guid: 989e80a549d77f2498543bcb6876ede2, type: 2}
 --- !u!1 &1854481181
 GameObject:
   m_ObjectHideFlags: 0

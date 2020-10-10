@@ -71,7 +71,7 @@ public class PlayerAI : MonoBehaviour
     {
         SetDebugVals();
          
-        if (gd.Get<Transform>("Target") != null)
+        if (gd.ContainsKey("Target"))
         {
             target = gd.Get<Transform>("Target");
             DebugArgs.Enemy = target.gameObject;
@@ -106,7 +106,7 @@ public class PlayerAI : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (gd.Get<Transform>("Target") == null)
+        if (!gd.Contains("Target"))
         {
             TimeSinceLerp = 0f;
             //SpineRotation(initialRotation);
@@ -185,6 +185,7 @@ public class PlayerAI : MonoBehaviour
         gd.Set<float>("GunRange", specs.profile.DistanceOfSight); // use actual gun range
         gd.Set<float>("FollowDistance", specs.followDistance); // soldier's
         gd.Set<float>("VisionAngle", specs.ViewCone); // soldier's
+        gd.Set<Vector3>("PCTarget", Vector3.zero);
 
         /// Class values
         gd.Set<float>("VisionAngle", specs.ViewCone);

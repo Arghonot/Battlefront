@@ -5,7 +5,7 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class CanSee : Branch<int>
+    public class CanSee : Leaf<int>
     {
         public override object Run()
         {

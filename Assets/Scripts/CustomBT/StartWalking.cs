@@ -20,14 +20,14 @@ namespace BT.CustomLeaves
 
         public override object Run()
         {
-            var agent = AIcontext.Get<NavMeshAgent>("agent");
+            var agent = ((DefaultGraph)graph).gd.Get<NavMeshAgent>("agent");
 
             if (agent == null)
             {
                 Debug.Log("Couldn't find any agent");
                 return 0;
             }
-            
+
             agent.isStopped = false;
 
             return 1;
