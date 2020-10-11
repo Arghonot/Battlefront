@@ -42,7 +42,7 @@ public class PlayerAI : MonoBehaviour
     float TimeSinceLerp;
     public Transform spine;
     Vector3 Offset = Vector3.zero;//new Vector3(0f, -45f, 25f);
-    Quaternion initialRotation;
+    Quaternion InitialSpineRotation;
     Animator _anim;
     Vector2 smoothDeltaPosition = Vector2.zero;
     Vector2 velocity = Vector2.zero;
@@ -55,16 +55,16 @@ public class PlayerAI : MonoBehaviour
 
     private void Start()
     {
-        var offset = spine.eulerAngles - Offset;
+        //var offset = spine.eulerAngles - Offset;
 
-        StartCoroutine(GetInitialRotation());
+        //StartCoroutine(GetInitialRotation());
         //initialRotation = spine.rotation;
     }
 
     IEnumerator GetInitialRotation()
     {
         yield return new WaitForSeconds(2f);
-        initialRotation = spine.rotation;
+        InitialSpineRotation = spine.rotation;
     }
 
     private void Update()
@@ -104,21 +104,35 @@ public class PlayerAI : MonoBehaviour
         _anim.SetFloat("VelY", velocity.y);
     }
 
-    private void LateUpdate()
+    void OnAnimatorIK()
     {
-        if (gd.TryGet("Target") == null)
+        if (gd.Get<bool>("ikActive") == false)
         {
-            TimeSinceLerp = 0f;
-            //SpineRotation(initialRotation);
-            return;
+            _anim.SetLookAtWeight(0, 0, 0, 0, 0);
         }
-
-        TimeSinceLerp += Time.deltaTime;
-        var lookRotation = Quaternion.LookRotation(
-            gd.Get<Transform>("Target").position - spine.position);
-
-        SpineRotation(lookRotation);
+        else
+        {
+            _anim.SetLookAtWeight(1, 1, 1, 1, 1);
+            _anim.SetLookAtPosition(gd.Get<Transform>("Target").position);
+            gd.Set<bool>("ikActive", false);
+        }
     }
+
+    //private void LateUpdate()
+    //{
+    //    if (gd.TryGet("Target") == null)
+    //    {
+    //        TimeSinceLerp = 0f;
+    //        //SpineRotation(initialRotation);
+    //        return;
+    //    }
+
+    //    TimeSinceLerp += Time.deltaTime;
+    //    var lookRotation = Quaternion.LookRotation(
+    //        gd.Get<Transform>("Target").position - spine.position);
+
+    //    SpineRotation(lookRotation);
+    //}
 
     void SpineRotation(Quaternion lookRotation)
     {
@@ -129,9 +143,9 @@ public class PlayerAI : MonoBehaviour
             TimeSinceLerp);
 
         spine.rotation = lookRotation * Quaternion.Euler(
-            (initialRotation.eulerAngles - Offset).x,
-            (initialRotation.eulerAngles - Offset).y,
-            (initialRotation.eulerAngles - Offset).z);
+            (InitialSpineRotation.eulerAngles - Offset).x,
+            (InitialSpineRotation.eulerAngles - Offset).y,
+            (InitialSpineRotation.eulerAngles - Offset).z);
     }
 
     void OnAnimatorMove()

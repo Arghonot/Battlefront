@@ -6,29 +6,22 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class LookAt : Leaf<int>
+    public class LookAt : AILeaf
     {
         public string Target;
         public string _name;
 
-        // TODO remove ?
-        Graph.GenericDicionnary AIcontext
-        {
-            get
-            {
-                return ((DefaultGraph)graph).gd;
-            }
-        }
-
         public override object Run()
         {
-            if (AIcontext.Get<Transform>("self").name == _name)
+            Gd.Set<bool>("ikActive", true);
+
+            if (Gd.Get<Transform>("self").name == _name)
             {
-                Debug.Log(AIcontext.Get<Transform>(Target).name);
+                Debug.Log(Gd.Get<Transform>(Target).name);
             }
 
-            Transform target = AIcontext.Get<Transform>(Target);
-            Transform trans = AIcontext.Get<Transform>("self");
+            Transform target = Gd.Get<Transform>(Target);
+            Transform trans = Gd.Get<Transform>("self");
 
             if (target == null || trans == null)
             {

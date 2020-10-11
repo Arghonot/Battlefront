@@ -7,7 +7,7 @@ public class IKTest : MonoBehaviour
 
     protected Animator animator;
 
-    //public bool ikActive = false;
+    public bool ikActive = false;
     //public Transform rightHandObj = null;
     //public Transform lookObj = null;
 
@@ -23,14 +23,29 @@ public class IKTest : MonoBehaviour
         initialRotation = headTransform.rotation;
     }
 
-    void LateUpdate()
+    //void LateUpdate()
+    //{
+    //    var lookRotation = Quaternion.LookRotation(headTransform.position - target.position);
+    //    headTransform.rotation = lookRotation * Quaternion.Euler(
+    //        (initialRotation.eulerAngles - offset).x,
+    //        (initialRotation.eulerAngles - offset).y,
+    //        (initialRotation.eulerAngles - offset).z);
+    //}
+
+    void OnAnimatorIK()
     {
-        var lookRotation = Quaternion.LookRotation(headTransform.position - target.position);
-        headTransform.rotation = lookRotation * Quaternion.Euler(
-            (initialRotation.eulerAngles - offset).x,
-            (initialRotation.eulerAngles - offset).y,
-            (initialRotation.eulerAngles - offset).z);
+
+        if (ikActive)
+        {
+            animator.SetLookAtWeight(0, 0, 0, 0, 0);
+        }
+        else
+        {
+            animator.SetLookAtWeight(1, 1, 1, 1, 1);
+            animator.SetLookAtPosition(target.position);
+        }
     }
+
 
     ////a callback for calculating IK
     //void OnAnimatorIK()
@@ -50,7 +65,7 @@ public class IKTest : MonoBehaviour
     //                animator.SetBoneLocalRotation(
     //                    HumanBodyBones.Spine,
     //                    Quaternion.Euler(v3.x, -v3.z, v3.y));//, transform.up));
-    
+
     //                //animator.SetLookAtWeight(1);
     //                //animator.SetLookAtPosition(lookObj.position);
     //            }

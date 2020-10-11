@@ -6,22 +6,14 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class ShootAtTarget : Leaf<int>
+    public class ShootAtTarget : AILeaf
     {
-        // TODO remove ?
-        Graph.GenericDicionnary AIcontext
-        {
-            get
-            {
-                return ((DefaultGraph)graph).gd;
-            }
-        }
-
         public override object Run()
         {
-            if (AIcontext.Get<Gun>("Gun").canShoot)
+            if (Gd.Get<Gun>("Gun").canShoot)
             {
-                AIcontext.Get<Gun>("Gun").Shoot();
+                Gd.Get<Gun>("Gun").Aim(Gd.Get<Transform>("Target").position);
+                Gd.Get<Gun>("Gun").Shoot();
             }
 
             return 1;

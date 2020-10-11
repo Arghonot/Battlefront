@@ -35,6 +35,11 @@ public class Gun : MonoBehaviour
         }
     }
 
+    public void Aim(Vector3 pos)
+    {
+        mussle.LookAt(pos);
+    }
+
     public virtual float AimValue(Vector3 pos)
     {
         Vector3 directiontotarget = pos - transform.position;
