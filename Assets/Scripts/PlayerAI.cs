@@ -71,7 +71,7 @@ public class PlayerAI : MonoBehaviour
     {
         SetDebugVals();
          
-        if (gd.ContainsKey("Target"))
+        if (gd.TryGet("Target") != null)
         {
             target = gd.Get<Transform>("Target");
             DebugArgs.Enemy = target.gameObject;
@@ -106,7 +106,7 @@ public class PlayerAI : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (!gd.Contains("Target"))
+        if (gd.TryGet("Target") == null)
         {
             TimeSinceLerp = 0f;
             //SpineRotation(initialRotation);
@@ -114,7 +114,8 @@ public class PlayerAI : MonoBehaviour
         }
 
         TimeSinceLerp += Time.deltaTime;
-        var lookRotation = Quaternion.LookRotation(target.position - spine.position);
+        var lookRotation = Quaternion.LookRotation(
+            gd.Get<Transform>("Target").position - spine.position);
 
         SpineRotation(lookRotation);
     }
@@ -195,6 +196,7 @@ public class PlayerAI : MonoBehaviour
         gd.Set<float>("Speed", specs.Speed);
         gd.Set<float>("MaxHealthPoints", specs.HealthPoints);
         gd.Set<Gun>("Gun", GetComponentInChildren<Gun>());
+        gd.Set<bool>("ShallDebug", false);
     }
 
     #endregion

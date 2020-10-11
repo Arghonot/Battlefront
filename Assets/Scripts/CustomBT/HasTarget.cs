@@ -6,24 +6,16 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class HasTarget : Leaf<int>
+    public class HasTarget : AILeaf
     {
         public string _name;
         public LayerMask mask;
 
-        // TODO remove ?
-        Graph.GenericDicionnary AIcontext
-        { get
-            {
-                return ((DefaultGraph)graph).gd;
-            }
-        }
-
         public override object Run()
         {
-            Transform target = ((DefaultGraph)graph).gd.Get<Transform>("Target");
+            Transform target = Gd.TryGet("Target") as Transform;
 
-            if (((DefaultGraph)graph).gd.Get<bool>("ShallDebug"))
+            if (Gd.Get<bool>("ShallDebug"))
             {
                 Debug.Log(target == null ? "HasTarget -> no" : ("HasTarget -> yes " + target.name));
             }
@@ -39,32 +31,32 @@ namespace BT.CustomLeaves
             //        }
             if (target == null)
             {
-                if (AIcontext.Get<Transform>("self").name == _name)
+                if (Gd.Get<Transform>("self").name == _name)
                 {
                     Debug.Log("HasTarget == null");
                 }
 
-                AIcontext.Set<Transform>("Target", null);
+                Gd.Set<Transform>("Target", null);
                 return 0;
             }
             if (!Spawner.Instance.isAlive(target))
             {
-                AIcontext.Set<Transform>("Target", null);
+                Gd.Set<Transform>("Target", null);
                 return 0;
             }
             if (!CheckDistance(target))
             {
-                AIcontext.Set<Transform>("Target", null);
+                Gd.Set<Transform>("Target", null);
                 return 0;
             }
             if (!IsInConeOfSight(target))
             {
-                AIcontext.Set<Transform>("Target", null);
+                Gd.Set<Transform>("Target", null);
                 return 0;
             }
             if (!CanBeSeen(target))
             {
-                AIcontext.Set<Transform>("Target", null);
+                Gd.Set<Transform>("Target", null);
                 return 0;
             }
 
@@ -73,17 +65,17 @@ namespace BT.CustomLeaves
 
         bool IsInConeOfSight(Transform enemy)
         {
-            Vector3 directiontotarget = enemy.position - AIcontext.Get<Transform>("self").position;
+            Vector3 directiontotarget = enemy.position - Gd.Get<Transform>("self").position;
 
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                AIcontext.Get<Transform>("self").forward);
+                Gd.Get<Transform>("self").forward);
 
-            if (seingvalue - AIcontext.Get<float>("VisionAngle") > 0)
+            if (seingvalue - Gd.Get<float>("VisionAngle") > 0)
             {
                 return true;
             }
-            if (AIcontext.Get<Transform>("self").name == _name)
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log("IsInConeOfSight");
             }
@@ -93,8 +85,8 @@ namespace BT.CustomLeaves
         bool CanBeSeen(Transform enemy)
         {
             Ray ray = new Ray(
-                AIcontext.Get<Transform>("self").position,
-                enemy.position - AIcontext.Get<Transform>("self").position);
+                Gd.Get<Transform>("self").position,
+                enemy.position - Gd.Get<Transform>("self").position);
             RaycastHit hit = new RaycastHit();
 
             if (Physics.Raycast(ray, out hit))
@@ -112,7 +104,7 @@ namespace BT.CustomLeaves
                     }
                 }
             }
-            if (AIcontext.Get<Transform>("self").name == _name)
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log("CanBeSeen");
             }
@@ -122,12 +114,12 @@ namespace BT.CustomLeaves
         bool CheckDistance(Transform target)
         {
             if (Vector3.Distance(
-                AIcontext.Get<Transform>("self").position,
-                target.position) > AIcontext.Get<float>("VisionDistance"))
+                Gd.Get<Transform>("self").position,
+                target.position) > Gd.Get<float>("VisionDistance"))
             {
                 return false;
             }
-            if (AIcontext.Get<Transform>("self").name == _name)
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log("CheckDistance");
             }

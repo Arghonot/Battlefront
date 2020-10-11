@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: Sequence
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 328, y: 280}
+  position: {x: 632, y: 296}
   ports:
     keys:
     - Output
@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Name: Root Int
   m_EditorClassIdentifier: 
   graph: {fileID: 11400000}
-  position: {x: 584, y: 344}
+  position: {x: 888, y: 360}
   ports:
     keys:
     - Input
