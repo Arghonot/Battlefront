@@ -1080,7 +1080,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7909643505170199692}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -1120,6 +1120,8 @@ MonoBehaviour:
     DebugDestination: 0
     DebugRayEnemy: 0
     Enemy: {fileID: 0}
+    DebugMussle: 0
+    DebugCanSee: 0
 --- !u!54 &7909643505170199693
 Rigidbody:
   m_ObjectHideFlags: 0

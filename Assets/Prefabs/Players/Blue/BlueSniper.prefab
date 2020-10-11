@@ -86,7 +86,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2935179606178052050}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -113,24 +113,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603aea37af1d57b4da859de5233fd8e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RemainingHealthPoints: 0
   target: {fileID: 0}
   OwnClass: 0
   trans: {fileID: 0}
   selfTeam: 0
   IsAlive: 0
-  gun: {fileID: 885388799179198026}
-  ViewCone: 0.45
-  AimCone: 0
-  GunRange: 10
-  FollowDistance: 15
   agent: {fileID: 2935179606178052049}
   spine: {fileID: 7958169587902858203}
-  Offset: {x: 0, y: 0, z: 0}
   DebugArgs:
     DebugBT: 0
     DebugDestination: 0
     DebugRayEnemy: 0
     Enemy: {fileID: 0}
+    DebugMussle: 0
+    DebugCanSee: 0
 --- !u!54 &2935179606178052051
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -220,10 +217,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9588384, guid: 4b32d243d6c977349b6e937575d52bb7, type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: 73c6bee7e8d2829468055ce57967dbc1, type: 2}
     - target: {fileID: 457776, guid: 4b32d243d6c977349b6e937575d52bb7, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.6646334
@@ -232,6 +225,10 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.7451423
       objectReference: {fileID: 0}
+    - target: {fileID: 9588384, guid: 4b32d243d6c977349b6e937575d52bb7, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 73c6bee7e8d2829468055ce57967dbc1, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b32d243d6c977349b6e937575d52bb7, type: 3}
 --- !u!4 &7958169587902841789 stripped

@@ -94,16 +94,12 @@ public class Spawner : MonoBehaviour
                      Convert.ToInt32(
                          Enum.GetValues(typeof(SoldierType)).Cast<SoldierType>().Max()));
 
-            //var SoldierClass = SoldierType.RocketLauncher;
-
             Teams[(int)team].Add(
                 Instantiate(
                         SoldierClassManager.Instance.GetPrefab(
                             team,
                             SoldierClass)).
                                 GetComponent<PlayerAI>());
-
-            //Teams[(int)team].Last().Init(team, SoldierType.Assault);
 
             Teams[(int)team].Last().Init(team, SoldierClass);
 
@@ -186,7 +182,6 @@ public class Spawner : MonoBehaviour
     {
         PCBehavior mainPC;
 
-
         for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
         {
             mainPC = PCManager.Instance.GetRandomPC(team);
@@ -199,18 +194,6 @@ public class Spawner : MonoBehaviour
 
             Teams[(int)team][i].DispatchPlayer(mainPC);
         }
-        //PCBehavior mainPC = PCManager.Instance.GetRandomPC(team);
-
-        //if (mainPC == null)
-        //{
-        //    Debug.LogError("No PC was found for the " + team + " team");
-        //    return;
-        //}
-
-        //for (int i = 0; i < GameManager.Instance.PlayerPerTeam; i++)
-        //{
-        //    Teams[(int)team][i].DispatchPlayer(mainPC);
-        //}
     }
 
     #endregion
@@ -260,13 +243,13 @@ public class Spawner : MonoBehaviour
         if (spawnPC == null)
             return;
 
-        player.gameObject.SetActive(true);
 
         //player.SetNewPosition(PCManager.Instance.GetRandomPC(player.selfTeam).trans.position);
         player.DispatchPlayer(spawnPC);
         //tickets[(int)player.selfTeam] -= 1;
         Teams[(int)player.selfTeam].Add(player);
         DeadPlayers.Remove(DeadPlayers.Where(x => x.player == player).First());
+        player.gameObject.SetActive(true);
         //TeamsDeads[(int)player.selfTeam].Remove(player);
     }
 

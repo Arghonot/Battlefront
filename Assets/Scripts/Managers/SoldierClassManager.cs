@@ -14,10 +14,10 @@ public enum WeaponType
 public enum SoldierType
 {
     Assault,
-    Grenadier,
+    //Grenadier,
     Sniper,
     Melee,
-    RocketLauncher,
+    //RocketLauncher,
     Other
 }
 
@@ -85,7 +85,10 @@ public class SoldierClassManager : MonoBehaviour
     /// <returns>The amount of health that this class should be equiped with.</returns>
     public float GetRightHealth(SoldierType soldierclass)
     {
-        return Classes.Where(x => x.specs.type == soldierclass).First().specs.HealthPoints;
+        return Classes.
+            Where(x => x.specs.type == soldierclass).
+            First().
+                specs.HealthPoints;
     }
 
     /// <summary>

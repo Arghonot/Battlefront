@@ -86,7 +86,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4409013260577861198}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -113,24 +113,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 603aea37af1d57b4da859de5233fd8e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RemainingHealthPoints: 0
   target: {fileID: 0}
   OwnClass: 0
   trans: {fileID: 0}
   selfTeam: 0
   IsAlive: 0
-  gun: {fileID: 5353592058782586370}
-  ViewCone: 0.45
-  AimCone: 0
-  GunRange: 10
-  FollowDistance: 15
   agent: {fileID: 4409013260577861197}
   spine: {fileID: 8927600577824168519}
-  Offset: {x: 0, y: 0, z: 0}
   DebugArgs:
     DebugBT: 0
     DebugDestination: 0
     DebugRayEnemy: 0
     Enemy: {fileID: 0}
+    DebugMussle: 0
+    DebugCanSee: 0
 --- !u!54 &4409013260577861199
 Rigidbody:
   m_ObjectHideFlags: 0

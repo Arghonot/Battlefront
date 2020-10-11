@@ -53,14 +53,6 @@ public class PlayerAI : MonoBehaviour
 
     #region UNITY API
 
-    private void Start()
-    {
-        //var offset = spine.eulerAngles - Offset;
-
-        //StartCoroutine(GetInitialRotation());
-        //initialRotation = spine.rotation;
-    }
-
     IEnumerator GetInitialRotation()
     {
         yield return new WaitForSeconds(2f);
@@ -118,22 +110,6 @@ public class PlayerAI : MonoBehaviour
         }
     }
 
-    //private void LateUpdate()
-    //{
-    //    if (gd.TryGet("Target") == null)
-    //    {
-    //        TimeSinceLerp = 0f;
-    //        //SpineRotation(initialRotation);
-    //        return;
-    //    }
-
-    //    TimeSinceLerp += Time.deltaTime;
-    //    var lookRotation = Quaternion.LookRotation(
-    //        gd.Get<Transform>("Target").position - spine.position);
-
-    //    SpineRotation(lookRotation);
-    //}
-
     void SpineRotation(Quaternion lookRotation)
     {
         // We do want to have a smooth spine rotation
@@ -170,7 +146,6 @@ public class PlayerAI : MonoBehaviour
         body = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         // setup it's own color
-        //GetComponent<MeshRenderer>().material.color = team == Team.Blue ? Color.blue : team == Team.Red ? Color.red : Color.yellow;
         body.isKinematic = true;
 
         OwnClass = specialtie;
@@ -211,6 +186,8 @@ public class PlayerAI : MonoBehaviour
         gd.Set<float>("MaxHealthPoints", specs.HealthPoints);
         gd.Set<Gun>("Gun", GetComponentInChildren<Gun>());
         gd.Set<bool>("ShallDebug", false);
+        //HalfGunRange
+        gd.Set<float>("HalfGunRange", specs.profile.DistanceOfSight / 3f);
     }
 
     #endregion
@@ -224,6 +201,7 @@ public class PlayerAI : MonoBehaviour
 
         SetupSpawnPosition(pc);
         ResetOwnStat();
+        agent.enabled = true;
     }
 
     void ResetOwnStat()

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d67b618f722c6ec4dab5f6c8397ccef1, type: 3}
   m_Name: Melee
   m_EditorClassIdentifier: 
-  type: 3
+  type: 2
   MainWeapon: 3
   Speed: 7
   ViewCone: 0.45
