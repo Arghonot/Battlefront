@@ -291,7 +291,6 @@ MonoBehaviour:
     - Actions 1
     - Actions 2
     - Actions 3
-    - Actions 4
     values:
     - _fieldName: Output
       _node: {fileID: 114276291360371542}
@@ -363,19 +362,7 @@ MonoBehaviour:
       _connectionType: 1
       _typeConstraint: 2
       _dynamic: 1
-    - _fieldName: Actions 4
-      _node: {fileID: 114276291360371542}
-      _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
-        PublicKeyToken=b77a5c561934e089
-      connections:
-      - fieldName: Output
-        node: {fileID: 114489213666596970}
-        reroutePoints: []
-      _direction: 0
-      _connectionType: 1
-      _typeConstraint: 2
-      _dynamic: 1
-  Actions: 0000000000000000000000000000000000000000
+  Actions: 00000000000000000000000000000000
 --- !u!114 &114294409784441498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,10 +553,7 @@ MonoBehaviour:
       _node: {fileID: 114489213666596970}
       _typeQualifiedName: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
         PublicKeyToken=b77a5c561934e089
-      connections:
-      - fieldName: Actions 4
-        node: {fileID: 114276291360371542}
-        reroutePoints: []
+      connections: []
       _direction: 1
       _connectionType: 0
       _typeConstraint: 2

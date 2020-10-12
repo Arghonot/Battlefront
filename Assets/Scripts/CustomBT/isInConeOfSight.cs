@@ -38,7 +38,7 @@ namespace BT.CustomLeaves
             // will make him consider it is not seing it properly
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                ((DefaultGraph)graph).gd.Get<Gun>("Gun").mussle.forward);
+                ((DefaultGraph)graph).gd.Get<Gun>("Gun").sight.forward);
 
             if (((DefaultGraph)graph).gd.Get<bool>("DebugMussle"))
             {

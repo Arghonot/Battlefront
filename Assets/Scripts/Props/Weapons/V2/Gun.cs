@@ -5,6 +5,7 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public Transform mussle;
+    public Transform sight;
     public Transform projectile;
 
     public float bulletVelocity;

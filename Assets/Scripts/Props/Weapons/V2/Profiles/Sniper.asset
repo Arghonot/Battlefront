@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Sniper
   m_EditorClassIdentifier: 
   DistanceOfSight: 40
-  ConeOfSight: 0.2
+  ConeOfSight: 0.001
   bulletVelocity: 50
   loadingTime: 1

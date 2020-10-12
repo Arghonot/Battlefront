@@ -15,8 +15,8 @@ public enum SoldierType
 {
     Assault,
     //Grenadier,
-    Sniper,
     Melee,
+    Sniper,
     //RocketLauncher,
     Other
 }

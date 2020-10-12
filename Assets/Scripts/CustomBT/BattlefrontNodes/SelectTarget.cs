@@ -6,27 +6,18 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class SelectTarget : Leaf<int>
+    public class SelectTarget : AILeaf
     {
         public string _name;
 
         public LayerMask mask;
 
-        // TODO remove ?
-        Graph.GenericDicionnary AIcontext
-        {
-            get
-            {
-                return ((DefaultGraph)graph).gd;
-            }
-        }
-
         public override object Run()
         {
             return EvaluateTargets(Spawner.Instance.getEnemiesInRange(
-                AIcontext.Get<Team>("SelfTeam"),
-                AIcontext.Get<Transform>("self").position,
-                AIcontext.Get<float>("VisionDistance"))) == true ?
+                Gd.Get<Team>("SelfTeam"),
+                Gd.Get<Transform>("self").position,
+                Gd.Get<float>("VisionDistance"))) == true ?
                 1 :
                 0;
         }
@@ -34,15 +25,15 @@ namespace BT.CustomLeaves
         bool EvaluateTargets(List<Transform> enemies)
         {
 
-            if (AIcontext.Get<Transform>("self").name == _name)
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log((enemies == null || enemies.Count == 0) ?
                     "SelectTarget -> null or 0 enemies found" :
                     ("SelectTarget -> found : " + enemies.Count + " enemies"));
             }
 
-            EvalueateInConeOfSight(ref enemies);
-            if (AIcontext.Get<Transform>("self").name == _name)
+            EvaluateIsInConeOfSight(ref enemies);
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log(enemies.Count == 0 ?
                     "EvalueateInConeOfSight -> no enemies were in cone of sight" :
@@ -50,7 +41,7 @@ namespace BT.CustomLeaves
             }
 
             EvaluateSeables(ref enemies);
-            if (AIcontext.Get<Transform>("self").name == _name)
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log((enemies == null || enemies.Count == 0) ?
                     "EvaluateSeables -> null or 0 enemies were seable" :
@@ -58,12 +49,12 @@ namespace BT.CustomLeaves
             }
             if (enemies.Count > 0)
             {
-                AIcontext.Set<Transform>(
+                Gd.Set<Transform>(
                     "Target",
                     GetClosest(enemies));
-                if (AIcontext.Get<Transform>("self").name == _name)
+                if (Gd.Get<Transform>("self").name == _name)
                 {
-                    Debug.Log("EvaluateSeables -> Choose : " + AIcontext.Get<Transform>("Target").name);
+                    Debug.Log("EvaluateSeables -> Choose : " + Gd.Get<Transform>("Target").name);
                 }
 
                 return true;
@@ -74,7 +65,7 @@ namespace BT.CustomLeaves
 
         Transform GetClosest(List<Transform> enemies)
         {
-            Vector3 pos = AIcontext.Get<Transform>("self").position;
+            Vector3 pos = Gd.Get<Transform>("self").position;
             int index = 0;
             float dist = float.MaxValue;
             float tmpDist = 0f;
@@ -104,7 +95,7 @@ namespace BT.CustomLeaves
             }
         }
 
-        void EvalueateInConeOfSight(ref List<Transform> enemies)
+        void EvaluateIsInConeOfSight(ref List<Transform> enemies)
         {
             for (int i = enemies.Count - 1; i >= 0; i--)
             {
@@ -117,13 +108,13 @@ namespace BT.CustomLeaves
 
         bool IsInConeOfSight(Transform enemy)
         {
-            Vector3 directiontotarget = enemy.position - AIcontext.Get<Transform>("self").position;
+            Vector3 directiontotarget = enemy.position - Gd.Get<Transform>("self").position;
 
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                AIcontext.Get<Transform>("self").forward);
+                Gd.Get<Transform>("self").forward);
 
-            if (seingvalue - AIcontext.Get<float>("VisionAngle") > 0)
+            if (seingvalue - Gd.Get<float>("VisionAngle") > 0)
             {
                 return true;
             }
@@ -134,11 +125,11 @@ namespace BT.CustomLeaves
         bool CanBeSeen(Transform enemy)
         {
             Ray ray = new Ray(
-                AIcontext.Get<Transform>("self").position,
-                enemy.position - AIcontext.Get<Transform>("self").position);
+                Gd.Get<Transform>("self").position,
+                enemy.position - Gd.Get<Transform>("self").position);
             RaycastHit hit = new RaycastHit();
 
-            if (AIcontext.Get<Transform>("self").name == _name)
+            if (Gd.Get<Transform>("self").name == _name)
             {
                 Debug.Log("test");
             }

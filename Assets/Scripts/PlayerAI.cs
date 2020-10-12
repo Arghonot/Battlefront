@@ -37,7 +37,7 @@ public class PlayerAI : MonoBehaviour
     public bool IsAlive;
 
     public NavMeshAgent agent;
-    Rigidbody body;
+    //Rigidbody body;
 
     float TimeSinceLerp;
     public Transform spine;
@@ -143,10 +143,10 @@ public class PlayerAI : MonoBehaviour
     public void Init(Team team, SoldierType specialtie)
     {
         agent = GetComponent<NavMeshAgent>();
-        body = GetComponent<Rigidbody>();
+        //body = GetComponent<Rigidbody>();
         _anim = GetComponentInChildren<Animator>();
         // setup it's own color
-        body.isKinematic = true;
+        //body.isKinematic = true;
 
         OwnClass = specialtie;
         selfTeam = team;
@@ -210,7 +210,7 @@ public class PlayerAI : MonoBehaviour
         agent.speed = SoldierClassManager.Instance.GetRightSpeed(OwnClass);
         this.enabled = true;
         // We enable it's agent back
-        body.isKinematic = true;
+        //body.isKinematic = true;
         agent.updatePosition = true;
         agent.updateRotation = true;
         agent.enabled = true;
@@ -289,7 +289,7 @@ public class PlayerAI : MonoBehaviour
     {
         StopAllCoroutines();
         // We enable it's agent back
-        body.isKinematic = true;
+        //body.isKinematic = true;
         agent.updatePosition = true;
         agent.updateRotation = true;
         agent.enabled = true;
@@ -304,12 +304,12 @@ public class PlayerAI : MonoBehaviour
         agent.updatePosition = false;
         agent.updateRotation = false;
         agent.enabled = false;
-        body.isKinematic = false;
+        //body.isKinematic = false;
 
         yield return new WaitForSeconds(disabilityTime);
 
         // We enable it's agent back
-        body.isKinematic = true;
+        //body.isKinematic = true;
         agent.updatePosition = true;
         agent.updateRotation = true;
         agent.enabled = true;
