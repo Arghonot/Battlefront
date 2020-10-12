@@ -5,16 +5,16 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class CanSee : Leaf<int>
+    public class CanSee : AILeaf
     {
         public override object Run()
         {
-            if (((DefaultGraph)graph).gd.Get<bool>("DebugCanSee"))
+            if (Gd.Get<bool>("DebugCanSee"))
             {
-                CanBeSeen(((DefaultGraph)graph).gd.Get<Transform>("Target"));
+                CanBeSeen(Gd.Get<Transform>("Target"));
             }
 
-            return CanBeSeen(((DefaultGraph)graph).gd.Get<Transform>("Target")) ?
+            return CanBeSeen(Gd.Get<Transform>("Target")) ?
                 1 :
                 0;
         }
@@ -22,8 +22,8 @@ namespace BT.CustomLeaves
         bool CanBeSeen(Transform enemy)
         {
             Ray ray = new Ray(
-                ((DefaultGraph)graph).gd.Get<Transform>("self").position,
-                enemy.position - ((DefaultGraph)graph).gd.Get<Transform>("self").position);
+                Gd.Get<Transform>("self").position,
+                enemy.position - Gd.Get<Transform>("self").position);
             RaycastHit hit = new RaycastHit();
 
             if (Physics.Raycast(ray, out hit))

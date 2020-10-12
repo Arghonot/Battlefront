@@ -108,6 +108,20 @@ public class PCManager : MonoBehaviour
         return PCs[index];
     }
 
+    public PCBehavior GetRandomNeutralEnemyPC(
+        Vector3 playerposition,
+        Team team)
+    {
+        var otherPCs = PCs.Where(x => x.ControlledBy != team);
+
+        if (otherPCs.Count() > 0)
+        {
+            return otherPCs.ElementAt(Random.Range(0, otherPCs.Count()));
+        }
+
+        return GetFullRandomPC();
+    }
+
     public PCBehavior GetFirstNeutralEnemyPC(Vector3 playerposition,
         Team team,
         bool shalldebugactions = false)

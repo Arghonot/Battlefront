@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 namespace BT.CustomLeaves
 {
-    public class GetRandomPC : Leaf<int>
+    public class GetRandomPC : AILeaf
     {
         public string AreaToUse;
         public string RandomPositionName;
@@ -18,10 +18,9 @@ namespace BT.CustomLeaves
             ((DefaultGraph)graph).gd.Set<Vector3>(
                 RandomPositionName,
                 GetRandomTargetCloseToPc(
-                    PCManager.Instance.GetFirstNeutralEnemyPC(
-                        ((DefaultGraph)graph).gd.Get<Transform>("self").position,
-                        ((DefaultGraph)graph).gd.Get<Team>("SelfTeam"),
-                        ((DefaultGraph)graph).gd.Get<bool>("ShallDebug"))));
+                    PCManager.Instance.GetRandomNeutralEnemyPC(
+                        Gd.Get<Transform>("self").position,
+                        Gd.Get<Team>("SelfTeam"))));
 
             return 1;
         }
@@ -30,20 +29,20 @@ namespace BT.CustomLeaves
         {
             if (pc == null)
             {
-                Debug.Log(((DefaultGraph)graph).gd.Get<Team>("SelfTeam"));
+                Debug.Log(Gd.Get<Team>("SelfTeam"));
             }
 
             Vector2 randV2 = UnityEngine.Random.insideUnitCircle * pc.PCRange;
 
             // just another security check
-            if (((DefaultGraph)graph).gd.Get<NavMeshAgent>("agent").isOnNavMesh)
+            if (Gd.Get<NavMeshAgent>("agent").isOnNavMesh)
             {
-                ((DefaultGraph)graph).gd.Set<PCBehavior>("PcTarget", pc);
+                Gd.Set<PCBehavior>("PcTarget", pc);
 
                 if (pc == null)
                 {
                     return
-                        ((DefaultGraph)graph).gd.Get<Transform>("self").position +
+                        Gd.Get<Transform>("self").position +
                         new Vector3(randV2.x, 1f, randV2.y);
                 }
                 else

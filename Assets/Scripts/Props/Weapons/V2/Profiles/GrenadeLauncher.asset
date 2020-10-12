@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GrenadeLauncher
   m_EditorClassIdentifier: 
   DistanceOfSight: 10
-  ConeOfSight: 0.2
+  ConeOfSight: 0.6
   bulletVelocity: 20
   loadingTime: 1

@@ -7,20 +7,11 @@ using Graph;
 
 namespace BT.StandardLeaves
 {
-    public class StartWalking : Leaf<int>
+    public class StartWalking : AILeaf
     {
-        // TODO remove ?
-        Graph.GenericDicionnary AIcontext
-        {
-            get
-            {
-                return ((DefaultGraph)graph).gd;
-            }
-        }
-
         public override object Run()
         {
-            var agent = ((DefaultGraph)graph).gd.Get<NavMeshAgent>("agent");
+            var agent = Gd.Get<NavMeshAgent>("agent");
 
             if (agent == null)
             {

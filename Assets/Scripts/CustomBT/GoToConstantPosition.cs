@@ -6,14 +6,14 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class GoToConstantPosition : Leaf<int>
+    public class GoToConstantPosition : AILeaf
     {
         public string RandomPositionName;
         public Vector3 positionToReach;
 
         public override object Run()
         {
-            ((DefaultGraph)graph).gd.Set<Vector3>(
+            Gd.Set<Vector3>(
                 RandomPositionName,
                 positionToReach);
 

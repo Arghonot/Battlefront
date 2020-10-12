@@ -5,13 +5,13 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class HasTargetPC : Leaf<int>
+    public class HasTargetPC : AILeaf
     {
         public string RandomPositionName;
 
         public override object Run()
         {
-            if (((DefaultGraph)graph).gd.Get<Vector3>(
+            if (Gd.Get<Vector3>(
                     RandomPositionName) != Vector3.zero)
             {
                 return 1;

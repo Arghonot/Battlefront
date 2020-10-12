@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Assault
   m_EditorClassIdentifier: 
   DistanceOfSight: 10
-  ConeOfSight: 0.2
+  ConeOfSight: 0.85
   bulletVelocity: 50
   loadingTime: 1

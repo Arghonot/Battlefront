@@ -6,7 +6,7 @@ using Graph;
 
 namespace BT.CustomLeaves
 {
-    public class isInConeOfSight : Leaf<int>
+    public class isInConeOfSight : AILeaf
     {
         public string ConeOfSight;
         public string TargetName;
@@ -14,15 +14,15 @@ namespace BT.CustomLeaves
         public override object Run()
         {
             // If something wasn't set
-            if (((DefaultGraph)graph).gd.Get<Transform>(TargetName) == null ||
-                ((DefaultGraph)graph).gd.Get<float>(ConeOfSight) == 0f)
+            if (Gd.Get<Transform>(TargetName) == null ||
+                Gd.Get<float>(ConeOfSight) == 0f)
             {
                 return 0;
             }
 
             return IsInConeOfSight(
-                    ((DefaultGraph)graph).gd.Get<Transform>(TargetName),
-                    ((DefaultGraph)graph).gd.Get<float>(ConeOfSight)) ?
+                    Gd.Get<Transform>(TargetName),
+                    Gd.Get<float>(ConeOfSight)) ?
                 1 :
                 0;
         }
@@ -31,16 +31,16 @@ namespace BT.CustomLeaves
         {
             Vector3 directiontotarget = 
                 target.position -
-                ((DefaultGraph)graph).gd.Get<Transform>("self").position;
+                Gd.Get<Transform>("self").position;
 
             // we use the gun instead of player's transform in case of slope
             // in this case the player might look at target perfectly but the elevation
             // will make him consider it is not seing it properly
             float seingvalue = Vector3.Dot(
                 directiontotarget.normalized,
-                ((DefaultGraph)graph).gd.Get<Gun>("Gun").sight.forward);
+                Gd.Get<Gun>("Gun").sight.forward);
 
-            if (((DefaultGraph)graph).gd.Get<bool>("DebugMussle"))
+            if (Gd.Get<bool>("DebugMussle"))
             {
                 Debug.Log(seingvalue);
             }
