@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 0
   MainWeapon: 0
   Speed: 5
-  ViewCone: 0.45
+  ViewCone: 180
   VisionDistance: 40
   followDistance: 15
   HealthPoints: 50

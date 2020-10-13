@@ -40,7 +40,8 @@ public class GenericGun : MonoBehaviour
             return;
         }
 
-        var body = Instantiate(projectile).GetComponent<GenericProjectile>();
+        var body = AssetManager.Instance.Get<GenericBullet>("GenericBullet");
+         // Instantiate(projectile).GetComponent<GenericProjectile>();
         body.Init();
 
         body.transform.position = mussle.position;

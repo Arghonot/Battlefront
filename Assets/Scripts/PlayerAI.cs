@@ -168,18 +168,22 @@ public class PlayerAI : MonoBehaviour
     {
         SoldierClassEditor specs = SoldierClassManager.Instance.GetClassSpecs(OwnClass);
 
+        var ViewCone =  1f - ((specs.ViewCone / 2f) / 90f);
+        var AimCone = 1f - ((specs.profile.ConeOfSight / 2f) / 90f);
+
         gd.Set<bool>("Alive", true);
         gd.Set<NavMeshAgent>("agent", agent);
         gd.Set<Team>("SelfTeam", selfTeam);
         gd.Set<Transform>("self", transform);
         gd.Set<float>("GunRange", specs.profile.DistanceOfSight); // use actual gun range
         gd.Set<float>("FollowDistance", specs.followDistance); // soldier's
-        gd.Set<float>("VisionAngle", specs.ViewCone); // soldier's
+        //gd.Set<float>("VisionAngle", specs.ViewCone); // soldier's
+        gd.Set<float>("VisionAngle", ViewCone); // soldier's
         gd.Set<Vector3>("PCTarget", Vector3.zero);
 
         /// Class values
-        gd.Set<float>("VisionAngle", specs.ViewCone);
-        gd.Set<float>("AimCone", specs.profile.ConeOfSight); // gun's
+        //gd.Set<float>("AimCone", specs.profile.ConeOfSight); // gun's
+        gd.Set<float>("AimCone", AimCone); // gun's
         gd.Set<float>("VisionDistance", specs.VisionDistance);
         gd.Set<WeaponType>("WeaponType", specs.MainWeapon);
         gd.Set<float>("Speed", specs.Speed);

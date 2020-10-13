@@ -21,7 +21,10 @@ public class GrenadeGun : MonoBehaviour
 
         if (shouldShootGrenade)
         {
-            var body = Instantiate(grenade).GetComponent<Rigidbody>();
+            // TODO store rb in Grenade so we don't do a getcomponent.
+            var body = AssetManager.Instance.Get<Grenade>("Grenade").
+                GetComponent<Rigidbody>();
+                //Instantiate(grenade).GetComponent<Rigidbody>();
             body.transform.position = transform.position;
             body.velocity = transform.forward * grenadeVelocity;
 

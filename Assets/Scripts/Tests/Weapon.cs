@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// LEGACY
+/// </summary>
 public class Weapon : MonoBehaviour
 {
     public GameObject Bullet;
@@ -16,7 +19,7 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         timeSinceLastShot -= Time.deltaTime;
-        
+
         if (timeSinceLastShot < 0 || canShoot)
         {
             timeSinceLastShot = loadingTime;

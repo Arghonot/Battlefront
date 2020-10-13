@@ -459,4 +459,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 529079558}
-  cos: 0
+  cos: 0.85

@@ -20,7 +20,8 @@ public class ShotgunV2 : Gun
         for (int i = 0; i < AmountOfBullets; i++)
         {
             currentangle = (-Angle + (anglemultiplier * i)) * (Mathf.PI / 180f);
-            var bullet = Instantiate(projectile).GetComponent<GenericProjectile>();
+            var bullet = AssetManager.Instance.Get<GenericBullet>("GenericBullet");
+                //Instantiate(projectile).GetComponent<GenericProjectile>();
             bullet.Init();
 
             bullet.trans.position = mussle.position + (Mathf.Sin(currentangle) * mussle.right) + (Mathf.Cos(currentangle) * mussle.forward);

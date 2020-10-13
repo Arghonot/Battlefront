@@ -10,10 +10,12 @@ public class GenericBullet : GenericProjectile
 {
     private void Update()
     {
-        lifetime -= Time.deltaTime;
-        if (lifetime < 0)
+        CurrentLifetime -= Time.deltaTime;
+
+        if (CurrentLifetime < 0)
         {
-            Destroy(gameObject);
+            setDirty();
+            //Destroy(gameObject);
             //            gameObject.SetActive(false);
         }
     }
@@ -29,6 +31,7 @@ public class GenericBullet : GenericProjectile
             }
         }
 
-        Destroy(gameObject);
+        setDirty();
+        //Destroy(gameObject);
     }
 }
