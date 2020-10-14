@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 418315347410264197}
   - component: {fileID: 418315347410264194}
   - component: {fileID: 418315347410264195}
-  - component: {fileID: 208213725551431120}
   m_Layer: 0
   m_Name: BlueGrenadeLauncher
   m_TagString: Untagged
@@ -98,22 +97,6 @@ MonoBehaviour:
     Enemy: {fileID: 0}
     DebugMussle: 0
     DebugCanSee: 0
---- !u!208 &208213725551431120
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 418315347410264193}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: -1.3, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1 &2039390500166272095
 GameObject:
   m_ObjectHideFlags: 0
@@ -3160,15 +3143,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57f433ea5dbe48a48aa97c0667835f71, type: 3}
---- !u!4 &6682359114551247705 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400000, guid: 57f433ea5dbe48a48aa97c0667835f71,
-    type: 3}
-  m_PrefabInstance: {fileID: 6682359114551384537}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6682359114551287673 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 100000, guid: 57f433ea5dbe48a48aa97c0667835f71,
+    type: 3}
+  m_PrefabInstance: {fileID: 6682359114551384537}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6682359114551247705 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: 57f433ea5dbe48a48aa97c0667835f71,
     type: 3}
   m_PrefabInstance: {fileID: 6682359114551384537}
   m_PrefabAsset: {fileID: 0}

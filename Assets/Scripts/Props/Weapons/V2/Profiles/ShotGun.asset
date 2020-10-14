@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ShotGun
   m_EditorClassIdentifier: 
   DistanceOfSight: 10
-  ConeOfSight: 90
+  ConeOfSight: 10
   bulletVelocity: 50
   loadingTime: 1

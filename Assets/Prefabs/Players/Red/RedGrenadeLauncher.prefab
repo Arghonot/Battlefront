@@ -1067,7 +1067,6 @@ GameObject:
   - component: {fileID: 7909643505170199688}
   - component: {fileID: 7909643505170199695}
   - component: {fileID: 7909643505170199694}
-  - component: {fileID: 208523592741180744}
   m_Layer: 0
   m_Name: RedGrenadeLauncher
   m_TagString: Untagged
@@ -1153,22 +1152,6 @@ MonoBehaviour:
     Enemy: {fileID: 0}
     DebugMussle: 0
     DebugCanSee: 0
---- !u!208 &208523592741180744
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7909643505170199692}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 0
-  m_Center: {x: 0, y: -1.3, z: 0}
-  m_TimeToStationary: 0.5
 --- !u!1001 &3102542004938550049
 PrefabInstance:
   m_ObjectHideFlags: 0

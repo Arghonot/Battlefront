@@ -7,6 +7,10 @@ namespace BT.StandardLeaves
 {
     public class HasDestination : AILeaf
     {
+        //[Input(ShowBackingValue.Always, ConnectionType.Override, TypeConstraint.Strict)]
+        //public NavMeshAgent agent;
+
+        //[Input(ShowBackingValue.Always, ConnectionType.Override, TypeConstraint.Strict)]
         public string DestinationPath;
 
         public override object Run()
