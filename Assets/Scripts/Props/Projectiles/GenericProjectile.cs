@@ -16,6 +16,8 @@ public class GenericProjectile : PoolableObject
     public Rigidbody body;
     public float damage;
 
+    bool isInit = false;
+
     private void OnEnable()
     {
         //Debug.Log(CurrentLifetime + "   " + lifetime);
@@ -24,7 +26,15 @@ public class GenericProjectile : PoolableObject
 
     public void Init()
     {
-        trans = transform;
-        body = GetComponent<Rigidbody>();
+        if (!isInit)
+        {
+            trans = transform;
+            body = GetComponent<Rigidbody>();
+            isInit = true;
+        }
+        body.angularVelocity = Vector3.zero;
+        body.velocity = Vector3.zero;
+        transform.rotation = Quaternion.identity;
+        gameObject.SetActive(true);
     }
 }
